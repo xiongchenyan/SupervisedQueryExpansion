@@ -12,7 +12,7 @@ from CandidateTermGeneration import *
 class CandidateTermFromSERPC(CandidateTermGenerationC):
     
     def Init(self):
-        super(CandidateTermFromSERPC,self).Init()
+        super(self).Init()
         self.CashDir = ""
         self.NumOfSERPDoc = 20
         self.MinFilterCnt = 3
