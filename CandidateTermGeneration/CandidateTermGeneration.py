@@ -23,7 +23,7 @@ class CandidateTermGenerationC(object):
     
     def __init__(self,ConfIn = ""):
         self.Init()
-        if "" != self.ConfIn:
+        if "" != ConfIn:
             self.SetConf(ConfIn)
         return
     
