@@ -59,7 +59,7 @@ class TrainingDataFromSERPC(object):
         print "q [%s] get [%d] candidate term" %(query,len(lTerm))
         print json.dumps(lTerm,indent=1)
         
-        for term in lExpTerm:
+        for term in lTerm:
             ExpTerm = ExpTermC()
             ExpTerm.qid = qid
             ExpTerm.query = query
