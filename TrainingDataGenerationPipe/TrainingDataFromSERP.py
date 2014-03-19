@@ -32,8 +32,8 @@ class TrainingDataFromSERPC(object):
     
     
     def SetConf(self,ConfIn):
-        print "conf:\ntotalserpnum 1000\ntotalserpnum\ncashdir\nminfiltercnt 3"
-        print "newtermweight 0.01\nusebinaryscore 0\nnumofserpdoc 20\nbgdocnum 100"
+        print "conf:\ntotalserpnum 1000\ncashdir\nminfiltercnt 3"
+        print "newtermweight 0.01\nusebinaryscore 0\nnumofserpdoc 20\nbgdocnum 100\nctf"
         
         
         self.CandidateTermGetter.SetConf(ConfIn)

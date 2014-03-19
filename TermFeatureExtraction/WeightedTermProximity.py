@@ -12,7 +12,7 @@ class WeightedTermProximityC(FeatureFromSERPC):
         
         
     def __init__(self,ConfIn = ""):
-        super(WeightedTermProximityC,self).__init__(self,ConfIn)
+        super(WeightedTermProximityC,self).__init__(ConfIn)
         self.Init()
         
         

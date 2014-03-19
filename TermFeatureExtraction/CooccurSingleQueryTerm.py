@@ -14,7 +14,7 @@ class CooccurSingleQueryTermC(FeatureFromSERPC):
         self.UWSize = 12
         
     def __init__(self,ConfIn = ""):
-        super(CooccurSingleQueryTermC,self).__init__(self,ConfIn)
+        super(CooccurSingleQueryTermC,self).__init__(ConfIn)
         self.Init()
         
         
