@@ -27,7 +27,7 @@ class TermDistributionSERPC(FeatureFromSERPC):
         TFCnt = self.DistCnt(ExpTerm, lPSFLm)
         ExpTerm.hFeature['TermDistPSF'] = float(TFCnt) / float(TotalLen)
         
-        TotalLen = self.TotalLen(lBgLm)
+        TotalLen = self.TotalLen(lBgDoc)
         TFCnt = self.DistCnt(ExpTerm, lBgLm)
         ExpTerm.hFeature['TermDistCorp'] = float(TFCnt) / float(TotalLen)        
         return True         
