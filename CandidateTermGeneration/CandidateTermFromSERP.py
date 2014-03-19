@@ -19,7 +19,7 @@ class CandidateTermFromSERPC(CandidateTermGenerationC):
         return
     
     def SetConf(self,ConfIn):
-        super(CandidateTermFromSERPC,self).SetConf(self,ConfIn)
+        super(CandidateTermFromSERPC,self).SetConf(ConfIn)
         print "sub classes's set conf called successfully"
         conf = cxConf(ConfIn)
         self.CashDir = conf.GetConf("cashdir")

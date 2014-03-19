@@ -18,7 +18,7 @@ class CandidateTermGenerationC(object):
     def Init(self):
         return
     
-    def SetConf(self):
+    def SetConf(self,ConfIn):
         return
     
     def __init__(self,ConfIn = ""):
