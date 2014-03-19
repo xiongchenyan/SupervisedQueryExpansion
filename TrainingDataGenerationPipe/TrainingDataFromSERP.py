@@ -17,7 +17,7 @@ from CandidateTermGeneration.CandidateTermFromSERP import *
 from TermLabel.SingleTermPerformance import *
 from TermFeatureExtraction.SERPFeatureExtractFull import *
 
-
+import json
 
 class TrainingDataFromSERPC(object):
     
@@ -55,6 +55,10 @@ class TrainingDataFromSERPC(object):
         lDoc = ReadPackedIndriRes(self.CashDir + '/' + query,self.TotalDocToRead)
         lExpTerm = []
         lTerm = self.CandidateTermGetter.Process(query, lDoc)
+        
+        print "q [%s] get [%d] candidate term" %(query,len(lTerm))
+        print json.dumps(lTerm,indent=1)
+        
         for term in lExpTerm:
             ExpTerm = ExpTermC()
             ExpTerm.qid = qid
