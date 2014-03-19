@@ -33,6 +33,8 @@ class CandidateTermFromSERPC(CandidateTermGenerationC):
     def ExtractFromDoc(self,doc):
         hTerm = {}
         for term in doc.GetContent().split():
+            if '[oov]' == term.lower():
+                continue
             if not term in hTerm:
                 hTerm[term] = 0
             hTerm[term] += 1

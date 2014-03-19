@@ -29,7 +29,7 @@ class WeightedTermProximityC(FeatureFromSERPC):
         MinDist = self.MaxDocLen(lDoc)
         for doc in lDoc:
             vCol = doc.GetContent().split()
-            mid = MinDist(vCol,qterm,term)
+            mid = MinDistance(vCol,qterm,term)
             if -1 == mid:
                 continue
             MinDist = min(mid,MinDist)

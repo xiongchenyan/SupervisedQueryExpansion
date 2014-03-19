@@ -53,9 +53,16 @@ class SERPFeatureExtractFullC:
             
             
     def Process(self,lExpTerm,lDoc):
+        print "extracting term distribution features"
         self.TermDist.ExtractForQuery(lExpTerm, lDoc)
+        print "extracting single query corelation features"
         self.CoorSingle.ExtractForQuery(lExpTerm, lDoc)
+        print "extracting pair query term corelation features"
         self.CoorPair.ExtractForQuery(lExpTerm, lDoc)
+        print "extracting weight term proximity features"
         self.WTermProx.ExtractForQuery(lExpTerm,lDoc)
+        print "extracting doc frequency with q term features"
         self.DocFreqForCoor.ExtractForQuery(lExpTerm, lDoc)
+        if len(lExpTerm) > 0:
+            print "feature extraction for q [%s] finished" %(lExpTerm[0].query)
         return True
