@@ -39,10 +39,10 @@ class CandidateTermFromSERPC(CandidateTermGenerationC):
         return hTerm
     
     def FilterTerm(self,hTerm):
-        hRes = dict(hTerm)
-        for item in hRes:
-            if hRes[item] <= self.MinFilterCnt:
-                del hRes[item]
+        hRes = {}
+        for item in hTerm:
+            if hTerm[item] > self.MinFilterCnt:
+                hRes[item] = hTerm[item]
         return hRes
     
     def Process(self,query,lDoc = []):
