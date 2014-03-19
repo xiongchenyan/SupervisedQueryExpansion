@@ -32,7 +32,7 @@ from AdhocEva.AdhocEva import *
 from ExpansionReranker.LinearCombiner import QExpLinearCombinerC
 
 
-class SingleTermPerformanceC:
+class SingleTermPerformanceC(object):
     
     def Init(self):
         self.IndriResDir = ""

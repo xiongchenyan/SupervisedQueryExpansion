@@ -19,7 +19,7 @@ from TermFeatureExtraction.SERPFeatureExtractFull import *
 
 
 
-class TrainingDataFromSERPC:
+class TrainingDataFromSERPC(object):
     
     def Init(self):
         self.OutFormat = 'normal' #or svm?

@@ -14,7 +14,7 @@ class CooccurPairQueryTermC(FeatureFromSERPC):
         
         
     def __init__(self,ConfIn = ""):
-        super(self).__init__(ConfIn)
+        super(CooccurPairQueryTermC,self).__init__(self,ConfIn)
         self.Init()
         
     

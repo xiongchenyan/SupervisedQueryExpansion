@@ -13,7 +13,7 @@ import math
 from cxBase.base import *
 from IndriRelate.IndriPackedRes import *
 from base.ExpTerm import *
-class FeatureFromSERPC:
+class FeatureFromSERPC(object):
     def Init(self):
         self.CashDir = ""
         self.TotalSERPNum = 1000

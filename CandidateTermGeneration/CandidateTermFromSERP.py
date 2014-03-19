@@ -12,14 +12,15 @@ from CandidateTermGeneration import *
 class CandidateTermFromSERPC(CandidateTermGenerationC):
     
     def Init(self):
-        super(self).Init()
+        super(CandidateTermFromSERPC,self).Init(self)
         self.CashDir = ""
         self.NumOfSERPDoc = 20
         self.MinFilterCnt = 3
         return
     
     def SetConf(self,ConfIn):
-        super(self).SetConf()
+        super(CandidateTermFromSERPC,self).SetConf(self,ConfIn)
+        print "sub classes's set conf called successfully"
         conf = cxConf(ConfIn)
         self.CashDir = conf.GetConf("cashdir")
         self.NumOfSERPDoc = int(conf.GetConf('numofserpdoc'))

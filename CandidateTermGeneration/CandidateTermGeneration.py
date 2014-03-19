@@ -13,7 +13,7 @@ site.addsitedir('/bos/usr0/cx/PyCode/QueryExpansion')
 from base.ExpTerm import *
 from IndriRelate.IndriPackedRes import *
 from cxBase.base import *
-class CandidateTermGenerationC:
+class CandidateTermGenerationC(object):
     
     def Init(self):
         return
