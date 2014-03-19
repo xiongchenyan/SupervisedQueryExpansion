@@ -56,10 +56,10 @@ class SingleTermPerformanceC:
         self.Evaluator.SetConf(ConfIn)
         
         conf = cxConf(ConfIn)
-        self.IndriResDir = conf.GetConf('indriresdir')
+        self.IndriResDir = conf.GetConf('cashdir')
         self.NewTermW = float(conf.GetConf('newtermweight'))
         self.EvaDepth = self.Evaluator.Depth 
-        self.UseBinaryScore = bool(conf.GetConf('usebinaryscore'))
+        self.UseBinaryScore = bool(int(conf.GetConf('usebinaryscore')))
         
         
     def EvaluaterPerTerm(self,qid,query,term,lDoc):

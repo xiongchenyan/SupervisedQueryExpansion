@@ -9,7 +9,7 @@ from TrainingDataFromSERP import *
 import sys
 
 if 2 != len(sys.argv):
-    print "1 para conf:"
+    print "1 para conf:\nin\nout"
     sys.exit()
     
     
