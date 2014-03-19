@@ -5,6 +5,7 @@
 	<projects>
 		<project>cxPyLib</project>
 		<project>Geektools</project>
+		<project>LibSVMReference</project>
 		<project>QueryExpansion</project>
 	</projects>
 	<buildSpec>
