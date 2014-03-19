@@ -19,7 +19,7 @@ class CandidateTermFromSERPC(CandidateTermGenerationC):
         return
     
     def SetConf(self,ConfIn):
-        super(CandidateTermFromSERPC,self).SetConf()
+        super(self).SetConf()
         conf = cxConf(ConfIn)
         self.CashDir = conf.GetConf("cashdir")
         self.NumOfSERPDoc = int(conf.GetConf('numofserpdoc'))
