@@ -20,4 +20,4 @@ OutName = conf.GetConf('out')
 
 Pipe.Process(InName, OutName)
 
-print "done"
+print "finished"
