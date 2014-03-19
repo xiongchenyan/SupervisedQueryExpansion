@@ -71,7 +71,7 @@ class FeatureFromSERPC(object):
     def ProtectedLogFeatureValue(self,lExpTerm):
         for i in range(len(lExpTerm)):
             for feature in lExpTerm[i].hFeature:
-                lExpTerm[i].hFeature[feature] = ProtectedLog(lExpTerm[i].Feature[feature])
+                lExpTerm[i].hFeature[feature] = ProtectedLog(lExpTerm[i].hFeature[feature])
         return True
         
         
