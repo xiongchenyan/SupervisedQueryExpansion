@@ -25,7 +25,7 @@ for line in open(sys.argv[1]):
     ExpTerm = ExpTermC(line)
     lScore.append(ExpTerm.score)
 
-lBin = BinValue(lScore,BinNum)
+lBin = BinValue(lScore,BinNum,0.1)
 out = open(sys.argv[2],'w')
 for res in lBin:
     print >>out,"%d\t%d" %(res[0],res[1])
