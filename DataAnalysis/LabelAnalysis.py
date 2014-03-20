@@ -24,7 +24,8 @@ for line in open(sys.argv[1]):
     line = line.strip()
     ExpTerm = ExpTermC(line)
     lScore.append(ExpTerm.score)
-    
+
+print "read score:\n%s" %(json.dumps(lScore,indent=1))    
 lBin = BinValue(lScore,BinNum)
 
 out = open(sys.argv[2],'w')
