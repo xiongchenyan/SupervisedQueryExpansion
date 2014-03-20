@@ -47,7 +47,8 @@ class FeatureFromSERPC(object):
         lPSFDoc,lBgDoc = self.ReadDoc(lExpTerm[0].query,lDoc)
         
         for ExpTerm in lExpTerm:
-            self.ExtractForTerm(ExpTerm, lPSFDoc, lBgDoc)      
+            self.ExtractForTerm(ExpTerm, lPSFDoc, lBgDoc)   
+        self.SetZeroFeatureValueToMin(lExpTerm)   
         self.ProtectedLogFeatureValue(lExpTerm)  
         MinMaxFeatureNormalize(lExpTerm)        
         return True
@@ -67,6 +68,24 @@ class FeatureFromSERPC(object):
             cnt += doc.GetLen()
         return cnt
     
+    def SetZeroFeatureValueToMin(self,lExpTerm):
+        hFeatureMin = {}
+        for ExpTerm in lExpTerm:
+            for feature in ExpTerm.hFeature:
+                if ExpTerm.hFeature[feature] == 0:
+                    continue
+                if not feature in hFeatureMin:
+                    hFeatureMin[feature] = ExpTerm.hFeature[feature]
+                    continue
+                hFeatureMin[feature] = min(hFeatureMin[feature],ExpTerm.hFaeture[feature])
+        
+        
+        for i in range(len(lExpTerm)):
+            for feature in lExpTerm[i].hFeature:
+                if not feature in hFeatureMin:
+                    continue
+                lExpTerm[i].hFeature[feature] = max(lExpTerm[i].hFeature[feature],hFeatureMin[feature])
+        return True 
     
     def ProtectedLogFeatureValue(self,lExpTerm):
         for i in range(len(lExpTerm)):
