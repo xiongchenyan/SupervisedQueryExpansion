@@ -77,7 +77,7 @@ class FeatureFromSERPC(object):
                 if not feature in hFeatureMin:
                     hFeatureMin[feature] = ExpTerm.hFeature[feature]
                     continue
-                hFeatureMin[feature] = min(hFeatureMin[feature],ExpTerm.hFaeture[feature])
+                hFeatureMin[feature] = min(hFeatureMin[feature],ExpTerm.hFeature[feature])
         
         
         for i in range(len(lExpTerm)):
