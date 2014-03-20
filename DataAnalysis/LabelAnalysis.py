@@ -27,7 +27,7 @@ for line in open(sys.argv[1]):
 
 print "read score:\n%s" %(json.dumps(lScore,indent=1))    
 lBin = BinValue(lScore,BinNum)
-
+print "bin res\n %s" %(json.dumps(lBin,indent=1))
 out = open(sys.argv[2],'w')
 print >> out,json.dumps(lBin,indent=1)
 out.close()
