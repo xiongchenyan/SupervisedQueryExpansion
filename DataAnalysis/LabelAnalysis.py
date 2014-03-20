@@ -7,7 +7,7 @@ check the label distribution "term performance"
 
 import site
 site.addsitedir('/bos/usr0/cx/cxPylib')
-site.addsitedir('/bos/usr0/cx/PyCode/GeekTools')
+site.addsitedir('/bos/usr0/cx/PyCode/Geektools')
 site.addsitedir('/bos/usr0/cx/QueryExpansion')
 from ResultAnalysis.ScoreBin import *
 from base.ExpTerm import *
