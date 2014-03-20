@@ -25,11 +25,10 @@ for line in open(sys.argv[1]):
     ExpTerm = ExpTermC(line)
     lScore.append(ExpTerm.score)
 
-print "read score:\n%s" %(json.dumps(lScore,indent=1))    
 lBin = BinValue(lScore,BinNum)
-print "bin res\n %s" %(json.dumps(lBin,indent=1))
 out = open(sys.argv[2],'w')
-print >> out,json.dumps(lBin,indent=1)
+for res in lBin:
+    print >>out,"%d\t%d" %(res[0],res[1])
 out.close()
 
 
