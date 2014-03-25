@@ -20,7 +20,7 @@ from CrossValidation.RandomSplit import *
 from cxBase.base import *
 from base.ExpTerm import *
 
-class SVMModelTrainC:
+class SVMModelTrainC(object):
     def Init(self):
         return
     
@@ -29,17 +29,11 @@ class SVMModelTrainC:
         self.Init()
         
         
+    @staticmethod
+    def ShowConf():
+        return
     
-    
-    def SplitLabelAndFeature(self,llExpTerm):
-        #generate label (y) and lhFeature (x)
-        lScore = []
-        lhFeature = []
-        for lExpTerm in llExpTerm:
-            for ExpTerm in lExpTerm:
-                lScore.append(ExpTerm.score)
-                lhFeature.append(ExpTerm.hFeature)
-        return lScore,lhFeature
+
     
     
     def OneFoldTrainTest(self,lTrainLabel,lTrainData,lTestLabel,lTestData,lSVMPara):
@@ -58,7 +52,7 @@ class SVMModelTrainC:
         return lPerformance
     
     def SingleTrain(self,llExpTerm,SVMPara):
-        lScore,lhFeature = self.SplitLabelAndFeature(llExpTerm)
+        lScore,lhFeature = SplitLabelAndFeature(llExpTerm)
         SVMModel = svm_train(lScore,lhFeature,SVMPara.dump())
         return SVMModel
     
@@ -75,8 +69,8 @@ class SVMModelTrainC:
         for llTrainExpTerm,llTestExpTerm in llSplit:
             print "start fold [%d]" %(cnt)
             cnt += 1
-            lTrainLabel,lTrainData = self.SplitLabelAndFeature(llTrainExpTerm)
-            lTestLabel,lTestData = self.SplitLabelAndFeature(llTestExpTerm)
+            lTrainLabel,lTrainData = SplitLabelAndFeature(llTrainExpTerm)
+            lTestLabel,lTestData = SplitLabelAndFeature(llTestExpTerm)
             lCurrentFoldPerformance = self.OneFoldTrainTest(lTrainLabel, lTrainData, lTestLabel, lTestData, lSVMPara)
             if [] == lPerformance:
                 lPerformance = lCurrentFoldPerformance
@@ -99,18 +93,22 @@ class SVMModelTrainC:
             
         
 def SVMModelTrainUnitTest(ConfIn):
+    print "in\nparaset\nk\nout"
+    SVMModelTrainC.ShowConf()
     conf = cxConf(ConfIn)
     ExpTermInName = conf.GetConf('in')
-    ParaSetInName = conf.GetConf('parain')
+    ParaSetInName = conf.GetConf('paraset')
     K = int(conf.GetConf('k'))
-    
+    OutName = conf.GetConf('out')
     SVMTrain = SVMModelTrainC()
     
     llExpTerm = ReadQExpTerms(ExpTermInName)
     lSVMPara = ReadSVMParaSet(ParaSetInName)
     
-    SVMTrain.Train(llExpTerm, lSVMPara, K)
+    SVMModel = SVMTrain.Train(llExpTerm, lSVMPara, K)
     
+    svm_save_model(OutName,SVMModel)
+        
     return True
             
         
