@@ -85,4 +85,20 @@ class QExpParaEvaResCollectorC(object):
     
 
 
+def QExpParaEvaResCollectorUnitTest(ConfIn):
+    QExpParaEvaResCollectorC.ShowConf()
+    print "out"
+    conf = cxConf(ConfIn)
+    OutName = conf.GetConf('out')
+    Collector = QExpParaEvaResCollectorC(ConfIn)
+    
+    hDict = Collector.Process()
+    out = open(OutName,'w')
+    json.dump(hDict,out)
+    out.close()
+    
+    print "done"
+    return True
+    
+
  
