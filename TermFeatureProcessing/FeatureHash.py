@@ -31,11 +31,11 @@ def InitizeFeature(lExpTerm,DictPath):
         hName = pickle.load(infile)
         infile.close()
     StartP = 1    
+    p = StartP
     for i in range(len(lExpTerm)):
         hRes = {}
         for feature in lExpTerm[i].hFeature:
             feature = str(feature)
-            p = StartP
             flag = 0
             if feature in hName:
                 p = hName[feature]
