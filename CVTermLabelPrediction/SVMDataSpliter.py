@@ -7,11 +7,12 @@ Created on Mar 25, 2014
 import site
 site.addsitedir('/bos/usr0/cx/PyCode/Geektools')
 site.addsitedir('/bos/usr0/cx/PyCode/QueryExpansion')
-site.addsitedir('/bos/usr0/cx/PyCode/cxPylib')
+site.addsitedir('/bos/usr0/cx/PyCode/cxPyLib')
 
 from CrossValidation.ParameterSet import *
 from base.ExpTerm import *
 from CrossValidation.RandomSplit import *
+from CrossValidation.FoldNameGenerator import *
 class ExpTermDataSpliterC(DataSpliterC):
     
     def LoadData(self):
@@ -39,14 +40,15 @@ def ExpTermDataSpliterUnitRun(ConfIn):
 
 
 def ExpTermDataAndParaSplitRun(ConfIn):
-    ExpTermDataSpliterUnitRun(ConfIn)
     conf = cxConf(ConfIn)
     print "para\nrootdir"
+    ExpTermDataSpliterUnitRun(ConfIn)
     
+    
+    Namer = FoldNameGeneratorC()
+    Namer.RootDir = conf.GetConf('rootdir')    
     ParaSetIn = conf.GetConf('para')
-    OutDir = conf.GetConf('rootdir') + '/para/'
-    
-    SplitParaSetToFolder(ParaSetIn,OutDir)
+    SplitParaSetToFolder(ParaSetIn,Namer.ParaDir())
     return True
     
      
