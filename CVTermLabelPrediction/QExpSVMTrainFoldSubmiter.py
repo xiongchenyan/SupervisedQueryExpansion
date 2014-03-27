@@ -22,7 +22,7 @@ output:
 import site
 site.addsitedir('/bos/usr0/cx/PyCode/Geektools')
 site.addsitedir('/bos/usr0/cx/PyCode/QueryExpansion')
-site.addsitedir('/bos/usr0/cx/PyCode/cxPylib')
+site.addsitedir('/bos/usr0/cx/PyCode/cxPyLib')
 from cxBase.base import *
 import json
 from base.ExpTerm import *
@@ -117,20 +117,31 @@ class QExpSVMTrainFoldSubmiterC(object):
     
     def Process(self):
         
+        print "start submit train folds"
+        
         lParaName = self.FormParaName()
+        print "para name: %s" %(json.dumps(lParaName))
         lTrainName,lDevName = self.FormFileName()
+        print "train name: %s\ndev name:%s" %(json.dumps(lTrainName),json.dumps(lDevName))
+        
+        
+        
         
         JobId = 0
-        lSub = []
-        
+        lSub = []        
         for i in range(len(lParaName)):
             for j in range(len(lTrainName)):
+                print "combination [%d][%d]" %(i,j)
                 conf = self.FormConfForCombination(lTrainName[j], lDevName[j], lParaName[i])
-                lSub.append(self.FormSubForConf(conf, JobId))
+                print "conf:\n %s" %(json.dumps(conf.hConf))                
+                Sub = self.FormSubForConf(conf, JobId)
+                print "sub:\n %s" %(json.dumps(Sub.hConf))                
+                lSub.append(Sub)
                 
         CondorSubmiter = CondorSubmiterC()
         CondorSubmiter.WorkDir = self.NameCenter.SubDir()
-        lJobId = CondorSubmiter.Submit(lSub, self.JobName)
+        lJobId = CondorSubmiter.Submit(lSub, self.JobName)        
+        print "submitted job ids:\n%s" %(json.dumps(lJobId,indent=1))        
         return lJobId
     
     
