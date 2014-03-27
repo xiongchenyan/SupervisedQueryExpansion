@@ -26,7 +26,7 @@ import os
 
 def InitizeFeature(lExpTerm,DictPath):
     hName = {} #keep name
-    if "" != DictPath:
+    if os.path.isfile(DictPath):        
         hName = pickle.load(DictPath)
     StartP = 1
     for i in range(len(lExpTerm)):
