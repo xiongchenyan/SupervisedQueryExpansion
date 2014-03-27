@@ -16,7 +16,7 @@ return jobid
 import site
 site.addsitedir('/bos/usr0/cx/PyCode/Geektools')
 site.addsitedir('/bos/usr0/cx/PyCode/QueryExpansion')
-site.addsitedir('/bos/usr0/cx/PyCode/cxPylib')
+site.addsitedir('/bos/usr0/cx/PyCode/cxPyLib')
 from cxBase.base import *
 import json
 from base.ExpTerm import *

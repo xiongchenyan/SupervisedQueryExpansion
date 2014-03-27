@@ -15,7 +15,7 @@ import site
 import pickle
 
 site.addsitedir('/bos/usr0/cx/PyCode/Geektools')
-site.addsitedir('/bos/usr0/cx/PyCode/cxPylib')
+site.addsitedir('/bos/usr0/cx/PyCode/cxPyLib')
 site.addsitedir('/bos/usr0/cx/PyCode/QueryExpansion')
 
 from base.ExpTerm import *
