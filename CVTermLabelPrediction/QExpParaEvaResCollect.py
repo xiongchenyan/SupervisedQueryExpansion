@@ -59,12 +59,15 @@ class QExpParaEvaResCollectorC(object):
     def ProcessOneFile(self,FName):
         vCol = FName.split('/')
         FoldIndex,ParaIndex = SegFoldParaIndexFromFName(vCol[len(vCol) - 1])
+        print "working fold [%d] para [%d] file [%s]" %(FoldIndex,ParaIndex,FName)
         if -1 == FoldIndex:
             return True
         Acc = self.ReadACC(FName)
+        print "acc [%f]" %(Acc)
         if not FoldIndex in self.hFoldBest:
             self.hFoldBest[FoldIndex] = [0,0]
-        if Acc > self.hFoldBest[FoldIndex]:
+        if Acc > self.hFoldBest[FoldIndex][1]:
+            print "better than old [%d][%f]"%(self.hFoldBest[FoldIndex][0],self.hFoldBest[FoldIndex][1])
             self.hFoldBest[FoldIndex] = [ParaIndex,Acc]
         return True
     
