@@ -32,6 +32,7 @@ class ExpTermDataSpliterC(DataSpliterC):
 
 
 def ExpTermDataSpliterUnitRun(ConfIn):
+    ExpTermDataSpliterC.ShowConf()
     ExpTermDataSpliter = ExpTermDataSpliterC(ConfIn)
     ExpTermDataSpliter.Process()
     return True
@@ -40,6 +41,7 @@ def ExpTermDataSpliterUnitRun(ConfIn):
 def ExpTermDataAndParaSplitRun(ConfIn):
     ExpTermDataSpliterUnitRun(ConfIn)
     conf = cxConf(ConfIn)
+    print "para\nrootdir"
     
     ParaSetIn = conf.GetConf('para')
     OutDir = conf.GetConf('rootdir') + '/para/'

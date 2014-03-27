@@ -15,7 +15,7 @@ from cxBase.base import *
 import json
 from base.ExpTerm import *
 from cxBase.WalkDirectory import *
-
+from CrossValidation.FoldNameGenerator import *
 
 
 def GenerateFoldParaEvaFName(FoldIndex,ParaIndex):
@@ -42,7 +42,9 @@ class QExpParaEvaResCollectorC(object):
         
     def SetConf(self,ConfIn):
         conf = cxConf(ConfIn)
-        self.WorkDir = conf.GetConf('workdir')
+        NameCenter = FoldNameGeneratorC()
+        NameCenter.RootDir = conf.GetConf('workdir')
+        self.WorkDir =  NameCenter.EvaDir()
         return True
     
     def __init__(self,ConfIn = ""):
@@ -50,7 +52,9 @@ class QExpParaEvaResCollectorC(object):
         if "" != ConfIn:
             self.SetConf(ConfIn)           
     
-    
+    @staticmethod
+    def ShowConf():
+        print "workdir"
     
     def ProcessOneFile(self,FName):
         vCol = FName.split('/')
@@ -76,4 +80,9 @@ class QExpParaEvaResCollectorC(object):
         #tbd:notsure
         In = open(FName)
         p_acc = json.load(In)
-        return p_acc[0] 
+        return p_acc[0]
+    
+    
+
+
+ 
