@@ -9,7 +9,7 @@ output: the best para index for each folder
 import site
 site.addsitedir('/bos/usr0/cx/PyCode/Geektools')
 site.addsitedir('/bos/usr0/cx/PyCode/QueryExpansion')
-site.addsitedir('/bos/usr0/cx/PyCode/cxPylib')
+site.addsitedir('/bos/usr0/cx/PyCode/cxPyLib')
 site.addsitedir('/bos/usr0/cx/LibSVM/libsvm/python/')
 from cxBase.base import *
 import json
