@@ -30,21 +30,20 @@ def InitizeFeature(lExpTerm,DictPath):
         infile = open(DictPath)   
         hName = pickle.load(infile)
         infile.close()
-    StartP = 1    
-    p = StartP
+    Index = 1    
     for i in range(len(lExpTerm)):
         hRes = {}
         for feature in lExpTerm[i].hFeature:
             feature = str(feature)
-            flag = 0
+            p = Index 
             if feature in hName:
                 p = hName[feature]
             else:
                 hName[feature] = p                
                 hName[p] = feature #won't make confusion as feature must be string type
-                flag = 1                
+                Index += 1
             hRes[p] = lExpTerm[i].hFeature[feature]
-            p += flag
+            
         lExpTerm[i].hFeature = hRes            
             
     out = open(DictPath,'w')
