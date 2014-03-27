@@ -10,7 +10,7 @@ output: accuracy on dev
 import site
 site.addsitedir('/bos/usr0/cx/PyCode/Geektools')
 site.addsitedir('/bos/usr0/cx/PyCode/QueryExpansion')
-site.addsitedir('/bos/usr0/cx/PyCode/cxPylib')
+site.addsitedir('/bos/usr0/cx/PyCode/cxPyLib')
 site.addsitedir('/bos/usr0/cx/LibSVM/libsvm/python/')
 from LibSVMRelate.SVMBase import *
 from svmutil import *
