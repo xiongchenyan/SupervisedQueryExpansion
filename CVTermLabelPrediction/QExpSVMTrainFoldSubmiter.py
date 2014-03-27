@@ -101,7 +101,7 @@ class QExpSVMTrainFoldSubmiterC(object):
         
         condor = deepcopy(self.CondorBase)
         
-        ConfFName = self.NameCenter.ConfDir() + "_%d" %(ConfIndex)
+        ConfFName = self.NameCenter.ConfDir() + "/%d" %(ConfIndex)
         conf.dump(ConfFName)
         oldargu = list(condor.GetCondor('arguments'))
         oldargu[len(oldargu) - 1] = ConfFName
@@ -135,13 +135,14 @@ class QExpSVMTrainFoldSubmiterC(object):
                 conf = self.FormConfForCombination(lTrainName[j], lDevName[j], lParaName[i])
                 print "conf:\n %s" %(json.dumps(conf.hConf))                
                 Sub = self.FormSubForConf(conf, JobId)
-                print "sub:\n %s" %(json.dumps(Sub.hConf))                
+                print "sub:\n %s" %(json.dumps(Sub.hConf))
+                JobId += 1                
                 lSub.append(Sub)
                 
         CondorSubmiter = CondorSubmiterC()
         CondorSubmiter.WorkDir = self.NameCenter.SubDir()
         lJobId = CondorSubmiter.Submit(lSub, self.JobName)        
-        print "submitted job ids:\n%s" %(json.dumps(lJobId,indent=1))        
+        print "submitted job ids:\n%s" %(json.dumps(lJobId))        
         return lJobId
     
     
