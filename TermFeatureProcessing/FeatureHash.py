@@ -24,7 +24,7 @@ from cxBase.base import *
 import os
 
 
-def InitizeFeature(lExpTerm,DictPath = ""):
+def InitizeFeature(lExpTerm,DictPath):
     hName = {} #keep name
     if "" != DictPath:
         hName = pickle.load(DictPath)
