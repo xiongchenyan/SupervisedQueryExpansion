@@ -24,7 +24,7 @@ from FeatureHash import *
 import sys
 
 
-if 1 > len(sys.argv):
+if 2 > len(sys.argv):
     print "1 para: conf file"
     print "in\nout\nfeaturenamedict\npositivebar"
     sys.exit()
