@@ -26,8 +26,10 @@ import os
 
 def InitizeFeature(lExpTerm,DictPath):
     hName = {} #keep name
-    if os.path.isfile(DictPath):        
-        hName = pickle.load(DictPath)
+    if os.path.isfile(DictPath):     
+        infile = open(DictPath)   
+        hName = pickle.load(infile)
+        infile.close()
     StartP = 1    
     for i in range(len(lExpTerm)):
         hRes = {}
@@ -51,7 +53,9 @@ def InitizeFeature(lExpTerm,DictPath):
 
 
 def ReverseInitFeature(lExpTerm,DictPath):
-    hName = pickle.load(DictPath)
+    infile = open(DictPath)
+    hName = pickle.load(infile)
+    infile.close()
     for i in range(len(lExpTerm)):
         hRes= {}
         for feature in lExpTerm[i].hFeature:
