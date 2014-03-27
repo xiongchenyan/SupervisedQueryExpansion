@@ -26,7 +26,24 @@ import sys
 
 if 1 > len(sys.argv):
     print "1 para: conf file"
-    print "in\nout\nfeaturenamedict"
+    print "in\nout\nfeaturenamedict\npositivebar"
     sys.exit()
     
-conf = cxConf()
+conf = cxConf(sys.argv[1])
+
+InName = conf.GetConf('in')
+OutName = conf.GetConf('out')
+DictName = conf.GetConf('featurenamedict')
+PosBar = float(conf.GetConf('positivebar'))
+llExpTerm = ReadQExpTerms(InName,)
+lExpTerm = []
+for mid in llExpTerm:
+    lExpTerm.extend(mid)
+
+lExpTerm = InitizeFeature(lExpTerm,DictName)
+lExpTerm = BinarizeScore(lExpTerm,PosBar)
+out = open(OutName,'w')
+for ExpTerm in lExpTerm:
+    print >> out,ExpTerm.dump()
+    
+out.close()

@@ -44,7 +44,7 @@ def InitizeFeature(lExpTerm,DictPath):
             
     out = open(DictPath,'w')
     pickle.dump(hName,out)
-    return True
+    return lExpTerm
 
 
 def ReverseInitFeature(lExpTerm,DictPath):
