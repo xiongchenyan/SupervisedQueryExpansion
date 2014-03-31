@@ -71,9 +71,9 @@ class QExpSVMTestFoldSubmiterC(object):
     
     
     def LookUpFoldParaFName(self,TestName):
-        FoldIndex = FoldNameGeneratorC.SplitFoldId(TestName)
+        FoldIndex = int(FoldNameGeneratorC.SplitFoldId(TestName))
         if not FoldIndex in self.hFoldBestP:
-            print "fold [%s] best parameter not loaded"
+            print "fold [%d] best parameter not loaded" %(FoldIndex)
             return False
         ParaP = self.hFoldBestP[FoldIndex]
         ParaFName = self.NameCenter.ParaDir() + "/%d"%(ParaP)
@@ -123,14 +123,13 @@ class QExpSVMTestFoldSubmiterC(object):
         
         #collect result
         self.hFoldBestP = self.EvaResCollector.Process()
-        
+        print "best per fold res:\n" %(json.dumps(self.hFoldBestP,indent=1))
         lTrain,lTest = self.LoadFName()
         lSub = []        
         for i in range(len(lTrain)):
             conf = self.FormConfForFold(lTrain[i], lTest[i])
             condor = self.FormSubForConf(conf, i)
-            lSub.append(condor)
-            
+            lSub.append(condor)            
         Submitter = CondorSubmiterC()
         Submitter.WorkDir = self.NameCenter.SubDir()
         return Submitter.Submit(lSub, self.JobName)
