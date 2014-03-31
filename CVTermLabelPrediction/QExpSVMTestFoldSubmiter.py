@@ -111,10 +111,10 @@ class QExpSVMTestFoldSubmiterC(object):
         oldargu = list(condor.GetCondor('arguments'))
         oldargu[len(oldargu) - 1] = ConfFName
         
-        condor.SetField('arguments',oldargu)
-        condor.SetField('output',condor.GetCondor('output') + self.JobName + "_%d"%(ConfIndex))
-        condor.SetField('error',condor.GetCondor('error') + self.JobName + "_%d"%(ConfIndex))
-        condor.SetField('log',condor.GetCondor('log') + self.JobName + "_%d"%(ConfIndex))
+        condor.SetCondor('arguments',oldargu)
+        condor.SetCondor('output',condor.GetCondor('output') + self.JobName + "_%d"%(ConfIndex))
+        condor.SetCondor('error',condor.GetCondor('error') + self.JobName + "_%d"%(ConfIndex))
+        condor.SetCondor('log',condor.GetCondor('log') + self.JobName + "_%d"%(ConfIndex))
         return condor
     
     
