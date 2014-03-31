@@ -75,7 +75,7 @@ class QExpSVMTestFoldSubmiterC(object):
         if not FoldIndex in self.hFoldBestP:
             print "fold [%d] best parameter not loaded" %(FoldIndex)
             return False
-        ParaP = self.hFoldBestP[FoldIndex]
+        ParaP = self.hFoldBestP[FoldIndex][0]
         ParaFName = self.NameCenter.ParaDir() + "/%d"%(ParaP)
         return ParaFName
     
