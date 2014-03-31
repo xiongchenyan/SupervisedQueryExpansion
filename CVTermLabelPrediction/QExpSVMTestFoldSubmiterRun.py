@@ -17,4 +17,4 @@ Submiter = QExpSVMTestFoldSubmiterC(sys.argv[1])
 
 lJob = Submiter.Process()
 
-print "finished, submit jobs:\n%s" %(['\n'].join(lJob))
+print "finished, submit jobs:\n%s" %('\n'.join(lJob))
