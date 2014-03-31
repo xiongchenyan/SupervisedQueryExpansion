@@ -123,7 +123,7 @@ class QExpSVMTestFoldSubmiterC(object):
         
         #collect result
         self.hFoldBestP = self.EvaResCollector.Process()
-        print "best per fold res:\n" %(json.dumps(self.hFoldBestP,indent=1))
+        print "best per fold res:\n%s" %(json.dumps(self.hFoldBestP,indent=1))
         lTrain,lTest = self.LoadFName()
         lSub = []        
         for i in range(len(lTrain)):
