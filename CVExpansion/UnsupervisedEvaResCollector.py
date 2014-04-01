@@ -26,8 +26,9 @@ class UnsupervisedEvaResCollectorC(CVParaResCollectorC):
         EvaMetric = 0
         for line in open(EvaName):  
             line = line.strip()          
-            Measure = AdhocMeasureC(line)
-            EvaMetric = Measure.err
+            vCol = line.split('\t')
+            mid = vCol[1]            
+            EvaMetric = float(mid.split()[2])
         return EvaMetric    
 
     def FilterEvaResFName(self,EvaName):
