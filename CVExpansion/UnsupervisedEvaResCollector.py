@@ -14,9 +14,8 @@ from AdhocEva.AdhocMeasure import *
 class UnsupervisedEvaResCollectorC(CVParaResCollectorC):
     
     def SplitFoldParaId(self,EvaName):
-        print "to be implemented in sub classes"
         vCol = EvaName.split('/')
-        Target = vCol[len(vCol) - 1]
+        Target = vCol[len(vCol) - 2]
         lMid = Target.split('_')
         FoldId = int(lMid[0])
         ParaId = int(lMid[1])               
@@ -32,7 +31,6 @@ class UnsupervisedEvaResCollectorC(CVParaResCollectorC):
         return EvaMetric    
 
     def FilterEvaResFName(self,EvaName):
-        print 'to be implemented, leave the targets'
         if 'MeanVsPara' in EvaName:       
             return True
         return False
