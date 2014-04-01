@@ -49,7 +49,7 @@ class UnsupervisedTestFoldSubmiterC(CVJobSubmiterC):
         #using information in self.hxxx
         
         #get the fold id and para id from FName and ParaName
-        FoldId = int(FoldNameGeneratorC.SplitFoldId(FName))
+        FoldId = int(FoldNameGeneratorC.SplitFoldId(FName[1]))
         ParaId = int(ntpath.basename(ParaName))
         if not FoldId in self.hFoldPara:
             print "fold [%d]'s best para not load" %(FoldId)
