@@ -61,7 +61,6 @@ class ExpansionSingleRunCenterC(cxBaseC):
         if not os.path.exists(self.EvaOutDir):
             os.makedirs(self.EvaOutDir)
         self.ParaSet = ReadParaSet(conf.GetConf('paraset'))[0]
-        print "load conf finished, going to test [%d] para sets" %(len(self.lParaSet))
         return True
     
     
