@@ -55,7 +55,7 @@ def ResultCollect(ConfIn):
     MeanMeasure = AdhocMeasureC()
     out = open(OutName,'w')
     for Eva in lPerQEva:
-        print >> out,Eva[0] + "\t" + Eva[1].dumps()
+        print >> out,str(Eva[0]) + "\t" + Eva[1].dumps()
         MeanMeasure += Eva[1]
     MeanMeasure /= float(len(lPerQEva))
     print >>out, 'mean\t%s' %(MeanMeasure.dumps())
