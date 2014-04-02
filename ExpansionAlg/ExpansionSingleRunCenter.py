@@ -101,7 +101,7 @@ class ExpansionSingleRunCenterC(cxBaseC):
         ExpansionCenter.NumOfExpTerm = self.MaxExpTermToKeep
         #expand
         lExpTerm = ExpansionCenter.Process(qid, query, lDoc)
-        print "exp done"
+        print "exp done get [%d] exp term" %(len(lExpTerm))
         #reranking
         lReRankedDoc = WeightedReRanker.ReRank(lDoc, lExpTerm[:self.NumOfExpTerm])
         print "re ranking done"
