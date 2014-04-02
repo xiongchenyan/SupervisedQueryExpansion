@@ -68,6 +68,9 @@ class ScoreMergeExpansionC(cxBaseC):
         llInExpTerm = ReadQExpTerms(self.ExpTermIn)
         for lInExpTerm in llInExpTerm:
             for ExpTerm in lInExpTerm:
+                if ExpTerm.score < 0.5:
+                    #discard those with p<0.5
+                    continue
                 ExpTerm = self.MergeScore(ExpTerm)
                 lExpTerm.append(ExpTerm)
         lExpTerm = NormalizeExpTermWeight(lExpTerm)
