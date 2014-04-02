@@ -57,6 +57,7 @@ class ScoreMergeExpansionC(cxBaseC):
         BaseScore = self.DefaultMinScore
         if key in self.hBaseTerm:
                 BaseScore = self.lBaseTerm[self.hBaseTerm[key]].score
+        BaseScore = max(self.DefaultMinScore,BaseScore)
         ThisScore = BaseScore * (1 + self.Alpha * ExpTerm.score)    
         ExpTerm.score = ThisScore
         return ExpTerm
