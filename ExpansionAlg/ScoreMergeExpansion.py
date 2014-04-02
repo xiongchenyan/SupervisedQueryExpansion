@@ -32,7 +32,7 @@ class ScoreMergeExpansionC(cxBaseC):
     def SetConf(self,ConfIn):
         conf = cxConf(ConfIn)
         self.Alpha = float(conf.GetConf('alpha'))
-        self.lBaseTerm = self.LoadBaseTerm(conf.GetConf('baseterm'))
+        self.LoadBaseTerm(conf.GetConf('baseterm'))
         self.NumOfTerm = int(conf.GetConf('numofexpterm'))
         self.ExpTermIn = conf.GetConf('in')
         return True
