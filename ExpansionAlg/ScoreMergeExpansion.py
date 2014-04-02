@@ -63,10 +63,15 @@ class ScoreMergeExpansionC(cxBaseC):
     
     
     
-    def Process(self):
+    def Process(self,qid='',query='',lDoc=[]):
+        #qid, query, lDoc are used to keep consistency with 
         lExpTerm = []
         llInExpTerm = ReadQExpTerms(self.ExpTermIn)
         for lInExpTerm in llInExpTerm:
+            if qid != '':
+                if lInExpTerm[0].qid != qid:
+                    #only deal with current qid
+                    continue
             for ExpTerm in lInExpTerm:
                 if ExpTerm.score < 0.5:
                     #discard those with p<0.5
