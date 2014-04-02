@@ -45,7 +45,7 @@ class ScoreMergeExpansionC(cxBaseC):
         llExpTerm = ReadQExpTerms(Path)
         for lExpTerm in llExpTerm:
             self.lBaseTerm.extend(lExpTerm)
-            
+        print "load [%d] base exp term" %(len(self.lBaseTerm))
         for i in range(len(self.lBaseTerm)):
             self.hBaseTerm[self.lBaseTerm[i].Key()] = i
         return True
@@ -55,8 +55,8 @@ class ScoreMergeExpansionC(cxBaseC):
         
         key = ExpTerm.Key()    
         BaseScore = self.DefaultMinScore
-        if key in self.hBaseExpTerm:
-                BaseScore = self.lBaseExpTerm[self.hBaseExpTerm[key]].score
+        if key in self.hBaseTerm:
+                BaseScore = self.lBaseTerm[self.hBaseTerm[key]].score
         ThisScore = BaseScore * (1 + self.Alpha * ExpTerm.score)    
         ExpTerm.score = ThisScore
         return ExpTerm
