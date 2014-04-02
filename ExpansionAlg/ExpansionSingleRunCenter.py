@@ -125,7 +125,7 @@ class ExpansionSingleRunCenterC(cxBaseC):
         if self.InputType == 'query':
             for line in open(self.QueryIn):
                 qid,query = line.strip().split('\t')
-                lQidQuery.append[[qid,query]]      
+                lQidQuery.append([qid,query])      
         return lQidQuery
     
     
