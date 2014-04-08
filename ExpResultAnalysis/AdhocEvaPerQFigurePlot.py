@@ -1,9 +1,8 @@
 '''
-Created on Apr 2, 2014
-make adhoc evaluation result table
+Created on Apr 3, 2014
+plot per q vs baseline figures
 @author: cx
 '''
-
 
 
 
@@ -16,22 +15,21 @@ from ResultAnalysis.AdhocResAnalysis import AdhocResAnalysisC
 
 
 import sys
-
+import json
 
 if 2 != len(sys.argv):
-    print "1 conf\nout\ncaption"
+    print "1 conf\nout"
     AdhocResAnalysisC().ShowConf()
     sys.exit()
     
+    
+    
 Analysiser = AdhocResAnalysisC(sys.argv[1])
 
+
 conf = cxConf(sys.argv[1])
-caption = conf.GetConf('caption')
 OutName = conf.GetConf('out')
-out = open(OutName,'w')
-
-print >>out,Analysiser.FormResTable(caption)
-
-out.close()
+Analysiser.DrawPerQGainFigure(OutName)
 print "finished"
     
+
