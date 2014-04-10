@@ -43,8 +43,8 @@ out = open(sys.argv[2],'w')
 lFeature = []
 for feature in hFeatureCnt:
     value = hFeatureCnt[feature]
-    value[0] = math.log(value[0] / float(TotalPos))
-    value[1] = math.log(value[1]/ float(TotalNeg))
+    value[0] = (value[0] / float(TotalPos)) * 1000
+    value[1] = (value[1]/ float(TotalNeg)) * 1000
     lFeature.append([feature] + value + [value[0] - value[1]])
     print >>out, feature + "\t%f\t%f\t%f" %(value[0],value[1],value[0]-value[1])
     
