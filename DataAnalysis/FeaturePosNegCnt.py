@@ -52,7 +52,7 @@ out.close()
 
 out = open(sys.argv[2] + "_TopPos",'w')
 lFeature.sort(key=itemgetter(1), reverse=True)
-lTop = lFeature[0:1000]
+lTop = lFeature
 for top in lTop:
     print >>out, "%s\t%f\t%f\t%f" %(top[0],top[1],top[2],top[3])
     
@@ -60,7 +60,7 @@ out.close()
 
 out = open(sys.argv[2] + "_TopNeg",'w')
 lFeature.sort(key=itemgetter(2), reverse=True)
-lTop = lFeature[0:1000]
+lTop = lFeature
 for top in lTop:
     print >>out, "%s\t%f\t%f\t%f" %(top[0],top[1],top[2],top[3])
     
@@ -69,7 +69,7 @@ out.close()
 
 out = open(sys.argv[2] + "_TopDiff",'w')
 lFeature.sort(key=itemgetter(3), reverse=True)
-lTop = lFeature[0:1000]
+lTop = lFeature
 for top in lTop:
     print >>out, "%s\t%f\t%f\t%f" %(top[0],top[1],top[2],top[3])
     
