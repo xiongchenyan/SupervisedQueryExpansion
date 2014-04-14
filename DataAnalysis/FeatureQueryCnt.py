@@ -19,33 +19,19 @@ site.addsitedir('/bos/usr0/cx/PyCode/QueryExpansion')
 
 from base.ExpTerm import *
 from operator import itemgetter
-
+from CalcFeatureQueryCnt import *
 
 if 3 != len(sys.argv):
     print "2 para: exp term feature + output feature query cnt"
     sys.exit()
 
-
-hFeatureQid = {}
-
-for line in open(sys.argv[1]):
-    ExpTerm = ExpTermC(line.strip())
-    for feature in ExpTerm.hFeature:
-        if not feature in hFeatureQid:
-            hFeatureQid[feature] = []
-        if not ExpTerm.qid in hFeatureQid[feature]:
-            hFeatureQid[feature].append(ExpTerm.qid)
-
-
-lFeatureCnt = []
-for feature in hFeatureQid:
-    lFeatureCnt.append([feature,len(hFeatureQid[feature])])
+hFeatureCnt =  CalcFeatureQueryCnt(sys.argv[1])
+lFeatureCnt = hFeatureCnt.items()
     
 lFeatureCnt.sort(key=itemgetter(1),reverse=True)
 out = open(sys.argv[2],'w')
 for item in lFeatureCnt:
     print >>out, item[0] + "\t%d" %(item[1])
-
 out.close()
                         
 
