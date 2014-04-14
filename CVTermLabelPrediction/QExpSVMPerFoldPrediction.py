@@ -20,6 +20,7 @@ site.addsitedir('/bos/usr0/cx/PyCode/QueryExpansion')
 site.addsitedir('/bos/usr0/cx/PyCode/cxPyLib')
 site.addsitedir('/bos/usr0/cx/LibSVM/libsvm/python/')
 from cxBase.base import *
+from cxBase.ContingencyTable import *
 import json
 from base.ExpTerm import *
 from svmutil import *
@@ -47,6 +48,15 @@ class QExpSVMPerFoldPredictorC(QExpSVMParaEvaC):
                 print >>out,ExpTerm.dump()
         out.close()
         
+        
+        #also output to confusion matrix
+        lTestY,lTestX = self.LoadData(TestInName)
+        lConfusionMtx = ContingencyTable(p_label,lTestY)
+        
+        OutConfMtx = open(OutName + "_ConfusionMtx",'w')
+        json.dump(lConfusionMtx,OutConfMtx,indent=1)
+        OutConfMtx.close()        
+        return True
         
         
         
