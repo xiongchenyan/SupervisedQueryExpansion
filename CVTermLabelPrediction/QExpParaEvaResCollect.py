@@ -92,6 +92,7 @@ class QExpParaEvaResCollectorC(object):
             
         if (lContTable[0][1] + lContTable[1][1]) != 0:
             Recall = float(lContTable[1][1]) / float(lContTable[0][1] + lContTable[1][1])
+        print "[%s] p [%f] r [%f]" %(FName,Precision, Recall    )
         FMeasure = 2 * Precision * Recall / (Precision + Recall)
         if self.MainEvaMethod == 'precision':
             return Precision
