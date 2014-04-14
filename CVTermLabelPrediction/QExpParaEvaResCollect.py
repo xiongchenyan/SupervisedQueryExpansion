@@ -38,13 +38,14 @@ class QExpParaEvaResCollectorC(object):
     def Init(self):
         self.WorkDir = ""
         self.hFoldBest = {} #Fold Index -> [para p, best acc]
-        
+        self.MainEvaMethod = 'precision'
         
     def SetConf(self,ConfIn):
         conf = cxConf(ConfIn)
         NameCenter = FoldNameGeneratorC()
         NameCenter.RootDir = conf.GetConf('workdir')
         self.WorkDir =  NameCenter.EvaDir()
+        self.MainEvaMethod = conf.GetConf('mainevamethod')
         return True
     
     def __init__(self,ConfIn = ""):
@@ -54,7 +55,7 @@ class QExpParaEvaResCollectorC(object):
     
     @staticmethod
     def ShowConf():
-        print "workdir"
+        print "workdir\nmainevamethod"
     
     def ProcessOneFile(self,FName):
         vCol = FName.split('/')
@@ -62,13 +63,14 @@ class QExpParaEvaResCollectorC(object):
         print "working fold [%d] para [%d] file [%s]" %(FoldIndex,ParaIndex,FName)
         if -1 == FoldIndex:
             return True
-        Acc = self.ReadACC(FName)
-        print "acc [%f]" %(Acc)
+        Mea = self.ReadMeasure(FName)
+        print "Eva Mea [%f]" %(Mea)
         if not FoldIndex in self.hFoldBest:
             self.hFoldBest[FoldIndex] = [0,0]
-        if Acc > self.hFoldBest[FoldIndex][1]:
-            print "better than old [%d][%f]"%(self.hFoldBest[FoldIndex][0],self.hFoldBest[FoldIndex][1])
-            self.hFoldBest[FoldIndex] = [ParaIndex,Acc]
+        if Mea > self.hFoldBest[FoldIndex][1]:
+            print "better than old [%d][%f]"%(self.hFoldBest[FoldIndex][0],
+                                              self.hFoldBest[FoldIndex][1])
+            self.hFoldBest[FoldIndex] = [ParaIndex,Mea]
         return True
     
     def Process(self):
@@ -79,11 +81,18 @@ class QExpParaEvaResCollectorC(object):
     
     
     
-    def ReadACC(self,FName):
+    def ReadMeasure(self,FName):
         #tbd:notsure
         In = open(FName)
-        p_acc = json.load(In)
-        return p_acc[0]
+        lContTable = json.load(In)
+        Precision = float(lContTable[1][1]) / float(lContTable[1][0])
+        Recall = float(lContTable[1][1]) / float(lContTable[0][1])
+        FMeasure = 2 * Precision * Recall / (Precision + Recall)
+        if self.MainEvaMethod == 'precision':
+            return Precision
+        if self.MainEvaMethod == "recall":
+            return Recall
+        return FMeasure
     
     
 
