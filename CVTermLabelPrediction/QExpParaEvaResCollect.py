@@ -85,8 +85,13 @@ class QExpParaEvaResCollectorC(object):
         #tbd:notsure
         In = open(FName)
         lContTable = json.load(In)
-        Precision = float(lContTable[1][1]) / float(lContTable[1][0])
-        Recall = float(lContTable[1][1]) / float(lContTable[0][1])
+        Precision = 0
+        Recall = 0
+        if (lContTable[1][0] + lContTable[1][1]) != 0:
+            Precision = float(lContTable[1][1]) / float((lContTable[1][0] + lContTable[1][1]))
+            
+        if (lContTable[0][1] + lContTable[1][1]) != 0:
+            Recall = float(lContTable[1][1]) / float(lContTable[0][1] + lContTable[1][1])
         FMeasure = 2 * Precision * Recall / (Precision + Recall)
         if self.MainEvaMethod == 'precision':
             return Precision
