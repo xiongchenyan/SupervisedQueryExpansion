@@ -38,6 +38,9 @@ def FetchPerQEvaName(Namer):
 
 
 
+
+
+
 def ResultCollect(ConfIn):
     Namer = FoldNameGeneratorC(ConfIn)
     conf = cxConf(ConfIn)
@@ -50,6 +53,8 @@ def ResultCollect(ConfIn):
     lPerQEva = []
     for FName in lPerQEvaName:
         lPerQEva.extend(ReadPerQEva(FName))
+    
+    
         
     lPerQEva.sort(key=itemgetter(0))
     MeanMeasure = AdhocMeasureC()
