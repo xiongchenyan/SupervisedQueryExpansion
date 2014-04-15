@@ -32,7 +32,8 @@ lNew = []
 for item in lBase:
     if item[0] in lTargetQid:
         lNew.append(item)
-    
+
+lNew.sort(key=itemgetter(0))    
 Mean = AdhocMeasureMean([measure for qid,measure in lNew])
 
 out = open(sys.argv[3],'w')
