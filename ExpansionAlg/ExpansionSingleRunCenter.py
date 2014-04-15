@@ -50,6 +50,7 @@ class ExpansionSingleRunCenterC(cxBaseC):
         conf = cxConf(ConfIn)
         self.ConfIn = ConfIn
         self.CashDir = conf.GetConf("cashdir")
+        self.ExpDocCashDir = conf.GetConf('expcashdir',self.CashDir)
         self.QueryIn = conf.GetConf('in')
         self.EvaOutDir = conf.GetConf('evaoutdir')
         self.CtfPath = conf.GetConf('ctfpath')
@@ -82,14 +83,17 @@ class ExpansionSingleRunCenterC(cxBaseC):
             #call process for one para
             #record performance
         #return llEvaRes, the performance of this qid at all paras                
-        lDoc = ReadPackedIndriRes(self.CashDir + '/' + query,self.NumOfReRankDoc)        
+        lDoc = ReadPackedIndriRes(self.CashDir + '/' + query,self.NumOfReRankDoc)    
+        lExpDoc = ReadPackedIndriRes(self.ExpDocCashDir + '/' + query,self.NumOfReRankDoc)     
         ExpansionCenter = QueryExpansionC()
         if self.ExpansionMethod == 'rm':
             ExpansionCenter = IndriExpansionC(self.ConfIn)
         if self.ExpansionMethod == 'mix':
             ExpansionCenter = MixtureModelExpansionC(self.ConfIn)  
         if self.ExpansionMethod == 'merge':
-            ExpansionCenter = ScoreMergeExpansionC(self.ConfIn)        
+            ExpansionCenter = ScoreMergeExpansionC(self.ConfIn)   
+            
+             
         WeightedReRanker = WeightedReRankerC(self.ConfIn)
         AdhocEva = AdhocEvaC(self.ConfIn)
         
@@ -100,7 +104,7 @@ class ExpansionSingleRunCenterC(cxBaseC):
         print "start run [%s][%s]" %(qid,query)
         ExpansionCenter.NumOfExpTerm = self.MaxExpTermToKeep
         #expand
-        lExpTerm = ExpansionCenter.Process(qid, query, lDoc)
+        lExpTerm = ExpansionCenter.Process(qid, query, lExpDoc)
         print "exp done get [%d] exp term" %(len(lExpTerm))
         #reranking
         lReRankedDoc = WeightedReRanker.ReRank(lDoc, lExpTerm[:self.NumOfExpTerm])
