@@ -26,7 +26,7 @@ class ScoreMergeExpansionC(cxBaseC):
         self.Alpha = 0.5
         self.NumOfTerm = 10
         self.ExpTermIn = ""
-        self.DefaultMinScore = 0.001
+        self.DefaultMinScore = 0.000001
         return
     
     def SetConf(self,ConfIn):
@@ -52,12 +52,14 @@ class ScoreMergeExpansionC(cxBaseC):
     
     
     def MergeScore(self,ExpTerm):
-        
+        #if alpha > 10000, then do no merge
+        if self.Alpha >= 10000:
+            return ExpTerm        
         key = ExpTerm.Key()    
         BaseScore = self.DefaultMinScore
         if key in self.hBaseTerm:
                 BaseScore = self.lBaseTerm[self.hBaseTerm[key]].score
-        BaseScore = max(self.DefaultMinScore,BaseScore)
+        BaseScore = max(self.DefaultMinScore,BaseScore)        
         ThisScore = BaseScore * (1 + self.Alpha * ExpTerm.score)    
         ExpTerm.score = ThisScore
         return ExpTerm
