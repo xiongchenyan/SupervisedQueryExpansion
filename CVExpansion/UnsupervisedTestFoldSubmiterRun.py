@@ -13,7 +13,7 @@ from UnsupervisedTestFoldSubmiter import *
 from condor.CondorJobMonitor import CondorJobMonitorC
 import sys
 
-if 2 < len(sys.argv):
+if 2 > len(sys.argv):
     print "1 para conf (2 para then the second one is 1:wait for condor job 0:direct submit"
     UnsupervisedTestFoldSubmiterC.ShowConf()
     sys.exit()
