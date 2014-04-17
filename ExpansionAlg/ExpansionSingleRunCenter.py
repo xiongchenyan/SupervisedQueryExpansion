@@ -107,7 +107,7 @@ class ExpansionSingleRunCenterC(cxBaseC):
         lExpTerm = ExpansionCenter.Process(qid, query, lExpDoc)
         print "exp done get [%d] exp term" %(len(lExpTerm))
         #reranking
-        lReRankedDoc = WeightedReRanker.ReRank(lDoc, lExpTerm[:self.NumOfExpTerm])
+        lReRankedDoc = WeightedReRanker.ReRank(lDoc, list(lExpTerm[:self.NumOfExpTerm]))
         print "re ranking done"
         #evaluation
         EvaMeasure = AdhocEva.EvaluatePerQ(qid, AdhocEva.SegDocNoFromDocs(lReRankedDoc))

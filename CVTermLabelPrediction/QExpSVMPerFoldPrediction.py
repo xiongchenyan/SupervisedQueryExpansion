@@ -39,11 +39,11 @@ class QExpSVMPerFoldPredictorC(QExpSVMParaEvaC):
         out = open(OutName,'w')
         index = 0
         
-        
+        LableProbPosition = FetchLabelProbIndex(1,p_label,p_val)
         for lExpTerm in llExpTerm:
             for ExpTerm in lExpTerm:
-                ExpTerm.score = p_val[index][1] #tbd: check p_val output format
-                print "[%s] label [%d] prob[%f]" %(ExpTerm.dump(),int(p_label[index]),p_val[index][1])
+                ExpTerm.score = p_val[index][LableProbPosition] #tbd: check p_val output format
+                print "[%s] label [%d] prob[%f]" %(ExpTerm.dump(),int(p_label[index]),p_val[index][LableProbPosition])
                 index += 1
                 print >>out,ExpTerm.dump()
         out.close()
