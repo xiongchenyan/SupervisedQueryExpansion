@@ -168,6 +168,8 @@ def SingleTermPerformanceUnitTest(ConfIn):
     for line in open(InName):
         line = line.strip()
         vCol = line.split('\t')
+        if len(vCol) < 3:
+            continue
         qid = vCol[0]
         query = vCol[1]
         term = vCol[2]
@@ -176,9 +178,9 @@ def SingleTermPerformanceUnitTest(ConfIn):
             CurrentQid = qid
         if CurrentQ != query:
             print "working query [%s]" %(CurrentQ)
-            InitScore,lTermScore = SingleTermPerformance.EvaluatePerQ(CurrentQid, CurrentQ, lTerm)
+            lTermScore = SingleTermPerformance.EvaluatePerQ(CurrentQid, CurrentQ, lTerm)
             for i in range(len(lTerm)):
-                print >>out, qid + '\t' + query + '\t' + lTerm[i] + '\t%f\t%f' %(InitScore,lTermScore[i])
+                print >>out, qid + '\t' + query + '\t' + lTerm[i] + '\t%f' %(lTermScore[i])
             CurrentQ = query
             CurrentQid = qid
             lTerm = []
