@@ -38,12 +38,12 @@ class SingleTermPerformanceC(object):
         self.IndriResDir = ""
         self.LinearReranker = QExpLinearCombinerC()
         self.Evaluator = AdhocEvaC()
-        self.NewTermW = 0.01
+        self.NewTermW = 0.1
         self.UseMeasure = 'map'
-        self.ReRankDocDepth = 50
+        self.ReRankDocDepth = 100
         self.EvaDepth = self.Evaluator.Depth    
-        self.BinaryScore = True
-        self.GoodScoreThreshold = 0.005 
+        self.UseBinaryScore = True
+        self.GoodScoreThreshold = 0
     
     def __init__(self,ConfIn = ""):
         self.Init()
@@ -57,9 +57,9 @@ class SingleTermPerformanceC(object):
         
         conf = cxConf(ConfIn)
         self.IndriResDir = conf.GetConf('cashdir')
-        self.NewTermW = float(conf.GetConf('newtermweight'))
+        self.NewTermW = float(conf.GetConf('newtermweight',self.NewTermW))
         self.EvaDepth = self.Evaluator.Depth 
-        self.UseBinaryScore = bool(int(conf.GetConf('usebinaryscore')))
+        self.UseBinaryScore = bool(int(conf.GetConf('usebinaryscore',0)))
         
         
     def EvaluaterPerTerm(self,qid,query,term,lDoc):
