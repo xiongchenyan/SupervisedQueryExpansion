@@ -42,7 +42,7 @@ def InitizeFeature(lExpTerm,DictPath):
                 hName[feature] = p                
                 hName[p] = feature #won't make confusion as feature must be string type
                 Index += 1
-            hRes[p] = lExpTerm[i].hFeature[feature]
+            hRes[str(p)] = lExpTerm[i].hFeature[feature]
             
         lExpTerm[i].hFeature = hRes            
             
