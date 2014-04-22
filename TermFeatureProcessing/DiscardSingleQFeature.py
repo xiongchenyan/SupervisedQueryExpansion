@@ -8,7 +8,7 @@ discard feature the only appear in one query
 import sys
 import site
 site.addsitedir('/bos/usr0/cx/PyCode/QueryExpansion')
-
+site.addsitedir('/bos/usr0/cx/PyCode/SupervisedQueryExpansion')
 from DataAnalysis.CalcFeatureQueryCnt import *
 
 if 3 != len(sys.argv):
