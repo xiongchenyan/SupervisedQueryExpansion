@@ -19,16 +19,16 @@ hQT = {}
 
 for line in open(sys.argv[1]):
     vCol = line.strip().split('\t')
-    score = float(vCol[4]) - float(vCol[3])
+    score = float(vCol[3])
     qid = vCol[0]
     query = vCol[1]
     key = qid + "_" + query
     if not (key) in hQT:
         hQT[key] = [0,0,0]
-    if score > 0.001:
+    if score > 0:
         hQT[key][0] += 1
         continue
-    if score < -0.001:
+    if score < 0:
         hQT[key][2] += 1
         continue
     hQT[key][1] += 1
