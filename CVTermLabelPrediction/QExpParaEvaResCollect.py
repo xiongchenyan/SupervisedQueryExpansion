@@ -11,12 +11,12 @@ site.addsitedir('/bos/usr0/cx/PyCode/Geektools')
 site.addsitedir('/bos/usr0/cx/PyCode/QueryExpansion')
 site.addsitedir('/bos/usr0/cx/PyCode/cxPyLib')
 site.addsitedir('/bos/usr0/cx/LibSVM/libsvm/python/')
-from cxBase.base import *
+from cxBase.base import cxConf
 import json
-from base.ExpTerm import *
-from cxBase.WalkDirectory import *
-from CrossValidation.FoldNameGenerator import *
-
+from base.ExpTerm import ExpTermC
+from cxBase.WalkDirectory import WalkDir
+from CrossValidation.FoldNameGenerator import FoldNameGeneratorC
+from CrossValidation.CVParaResCollector import CVParaResCollectorC
 
 def GenerateFoldParaEvaFName(FoldIndex,ParaIndex):
     return "%d_%d_eval" %(FoldIndex,ParaIndex)
@@ -33,57 +33,40 @@ def SegFoldParaIndexFromFName(FName):
 
 
 
-class QExpParaEvaResCollectorC(object):
+class QExpParaEvaResCollectorC(CVParaResCollectorC):
     #get the best performance for each fold
     def Init(self):
-        self.WorkDir = ""
-        self.hFoldBest = {} #Fold Index -> [para p, best acc]
-        self.MainEvaMethod = 'precision'
+        super(QExpParaEvaResCollectorC,self).Init()
+#         self.WorkDir = ""
+#         self.hFoldBest = {} #Fold Index -> [para p, best acc]
+        self.MainEvaMethod = 'fmeasure'
         
     def SetConf(self,ConfIn):
+        super(QExpParaEvaResCollectorC,self).SetConf(ConfIn)
         conf = cxConf(ConfIn)
-        NameCenter = FoldNameGeneratorC()
-        NameCenter.RootDir = conf.GetConf('workdir')
-        self.WorkDir =  NameCenter.EvaDir()
         self.MainEvaMethod = conf.GetConf('mainevamethod')
         return True
     
-    def __init__(self,ConfIn = ""):
-        self.Init()
-        if "" != ConfIn:
-            self.SetConf(ConfIn)           
     
     @staticmethod
     def ShowConf():
-        print "workdir\nmainevamethod"
+        CVParaResCollectorC.ShowConf()
+        print "mainevamethod"
     
-    def ProcessOneFile(self,FName):
-        vCol = FName.split('/')
-        FoldIndex,ParaIndex = SegFoldParaIndexFromFName(vCol[len(vCol) - 1])
-        print "working fold [%d] para [%d] file [%s]" %(FoldIndex,ParaIndex,FName)
-        if -1 == FoldIndex:
-            return True
-        Mea = self.ReadMeasure(FName)
-        print "Eva Mea [%f]" %(Mea)
-        if not FoldIndex in self.hFoldBest:
-            self.hFoldBest[FoldIndex] = [0,0]
-        if Mea > self.hFoldBest[FoldIndex][1]:
-            print "better than old [%d][%f]"%(self.hFoldBest[FoldIndex][0],
-                                              self.hFoldBest[FoldIndex][1])
-            self.hFoldBest[FoldIndex] = [ParaIndex,Mea]
-        return True
+
     
-    def Process(self):
-        lFName = WalkDir(self.WorkDir)
-        for FName in lFName:
-            self.ProcessOneFile(FName)
-        return dict(self.hFoldBest)
+    def SplitFoldParaId(self,EvaName):
+        vCol = EvaName.split('_')
+        FoldIndex = -1
+        ParaIndex = -1
+        if len(vCol) == 3:
+            if vCol[2] == 'eval':
+                FoldIndex = int(vCol[0])
+                ParaIndex = int(vCol[1])
+        return FoldIndex,ParaIndex
     
-    
-    
-    def ReadMeasure(self,FName):
-        #tbd:notsure
-        In = open(FName)
+    def LoadEvaMetric(self,EvaName):
+        In = open(EvaName)
         lContTable = json.load(In)
         Precision = 0
         Recall = 0
@@ -103,7 +86,77 @@ class QExpParaEvaResCollectorC(object):
         return FMeasure
     
     
-
+# 
+# class QExpParaEvaResCollectorC(CVParaResCollectorC):
+#     #get the best performance for each fold
+#     def Init(self):
+#         super(QExpParaEvaResCollectorC,self).Init()
+# #         self.WorkDir = ""
+# #         self.hFoldBest = {} #Fold Index -> [para p, best acc]
+#         self.MainEvaMethod = 'fmeasure'
+#         
+#     def SetConf(self,ConfIn):
+#         conf = cxConf(ConfIn)
+#         NameCenter = FoldNameGeneratorC()
+#         NameCenter.RootDir = conf.GetConf('workdir')
+#         self.WorkDir =  NameCenter.EvaDir()
+#         self.MainEvaMethod = conf.GetConf('mainevamethod')
+#         return True
+#     
+#     def __init__(self,ConfIn = ""):
+#         self.Init()
+#         if "" != ConfIn:
+#             self.SetConf(ConfIn)           
+#     
+#     @staticmethod
+#     def ShowConf():
+#         print "workdir\nmainevamethod"
+#     
+#     def ProcessOneFile(self,FName):
+#         vCol = FName.split('/')
+#         FoldIndex,ParaIndex = SegFoldParaIndexFromFName(vCol[len(vCol) - 1])
+#         print "working fold [%d] para [%d] file [%s]" %(FoldIndex,ParaIndex,FName)
+#         if -1 == FoldIndex:
+#             return True
+#         Mea = self.ReadMeasure(FName)
+#         print "Eva Mea [%f]" %(Mea)
+#         if not FoldIndex in self.hFoldBest:
+#             self.hFoldBest[FoldIndex] = [0,0]
+#         if Mea > self.hFoldBest[FoldIndex][1]:
+#             print "better than old [%d][%f]"%(self.hFoldBest[FoldIndex][0],
+#                                               self.hFoldBest[FoldIndex][1])
+#             self.hFoldBest[FoldIndex] = [ParaIndex,Mea]
+#         return True
+#     
+#     def Process(self):
+#         lFName = WalkDir(self.WorkDir)
+#         for FName in lFName:
+#             self.ProcessOneFile(FName)
+#         return dict(self.hFoldBest)
+#     
+#     
+#     
+#     def ReadMeasure(self,FName):
+#         #tbd:notsure
+#         In = open(FName)
+#         lContTable = json.load(In)
+#         Precision = 0
+#         Recall = 0
+#         if (lContTable[1][0] + lContTable[1][1]) != 0:
+#             Precision = float(lContTable[1][1]) / float((lContTable[1][0] + lContTable[1][1]))
+#             
+#         if (lContTable[0][1] + lContTable[1][1]) != 0:
+#             Recall = float(lContTable[1][1]) / float(lContTable[0][1] + lContTable[1][1])
+#         if (Precision + Recall) == 0:
+#             FMeasure = 0
+#         else:
+#             FMeasure = 2 * Precision * Recall / (Precision + Recall)
+#         if self.MainEvaMethod == 'precision':
+#             return Precision
+#         if self.MainEvaMethod == "recall":
+#             return Recall
+#         return FMeasure
+#     
 
 def QExpParaEvaResCollectorUnitTest(ConfIn):
     QExpParaEvaResCollectorC.ShowConf()
