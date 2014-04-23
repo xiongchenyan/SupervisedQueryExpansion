@@ -13,6 +13,14 @@ return jobid
 @author: cx
 '''
 
+
+
+
+'''
+TBD:
+inherite from CVJobSubmiter, and discard duplicated implementation
+'''
+
 import site
 site.addsitedir('/bos/usr0/cx/PyCode/Geektools')
 site.addsitedir('/bos/usr0/cx/PyCode/QueryExpansion')
