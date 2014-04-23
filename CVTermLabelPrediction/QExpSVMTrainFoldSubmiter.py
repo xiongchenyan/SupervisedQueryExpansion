@@ -158,7 +158,7 @@ class QExpSVMTrainFoldSubmiterC(CVJobSubmiterC):
         
         FoldId = FoldNameGeneratorC.SplitFoldId(FName[0])
         ParaId = ntpath.basename(ParaName)
-        OutName = self.NameCenter.EvaDir() + "/%s_%s_eval" %(FoldId,ParaId)        
+        OutName = self.Namer.EvaDir() + "/%s_%s_eval" %(FoldId,ParaId)        
         conf.SetConf('out',OutName)
         return conf
         
