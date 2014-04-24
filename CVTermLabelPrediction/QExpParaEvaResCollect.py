@@ -47,7 +47,7 @@ class QExpParaEvaResCollectorC(CVParaResCollectorC):
         self.MainEvaMethod = conf.GetConf('mainevamethod')
         return True
     def FilterEvaResFName(self,FName):
-        vCol = ntpath.basename(EvaName).split('_')
+        vCol = ntpath.basename(FName).split('_')
         if len(vCol) != 3:
             return False
         if vCol[2] != 'eval':
