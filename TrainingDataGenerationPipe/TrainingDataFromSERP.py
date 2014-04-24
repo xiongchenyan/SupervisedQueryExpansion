@@ -67,6 +67,7 @@ class TrainingDataFromSERPC(cxBaseC):
     def ProcessOneQuery(self,qid,query,lExpTerm):
         lDoc = ReadPackedIndriRes(self.CashDir + '/' + query,self.TotalDocToRead)
         
+        lTerm = []
         if (lExpTerm == []) | (self.GenerateTerm):
             lTerm = self.CandidateTermGetter.Process(query, lDoc)
             print "q [%s] get [%d] candidate term" %(query,len(lTerm))
@@ -78,6 +79,8 @@ class TrainingDataFromSERPC(cxBaseC):
                 ExpTerm.query = query
                 ExpTerm.term = term
                 lExpTerm.append(ExpTerm)
+        else:
+            lTerm = [ExpTerm.term for ExpTerm in lExpTerm]
             
         if self.LabelTerm:    
             lScore = self.TermLabelGetter.EvaluatePerQ(qid, query, lTerm, lDoc)
