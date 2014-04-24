@@ -17,7 +17,7 @@ from base.ExpTerm import ExpTermC
 from cxBase.WalkDirectory import WalkDir
 from CrossValidation.FoldNameGenerator import FoldNameGeneratorC
 from CrossValidation.CVParaResCollector import CVParaResCollectorC
-
+import ntpath
 def GenerateFoldParaEvaFName(FoldIndex,ParaIndex):
     return "%d_%d_eval" %(FoldIndex,ParaIndex)
 
@@ -46,7 +46,13 @@ class QExpParaEvaResCollectorC(CVParaResCollectorC):
         conf = cxConf(ConfIn)
         self.MainEvaMethod = conf.GetConf('mainevamethod')
         return True
-    
+    def FilterEvaResFName(self,FName):
+        vCol = ntpath.basename(EvaName).split('_')
+        if len(vCol) != 3:
+            return False
+        if vCol[2] != 'eval':
+            return False
+        return True
     
     @staticmethod
     def ShowConf():
@@ -56,7 +62,7 @@ class QExpParaEvaResCollectorC(CVParaResCollectorC):
 
     
     def SplitFoldParaId(self,EvaName):
-        vCol = EvaName.split('_')
+        vCol = ntpath.basename(EvaName).split('_')
         FoldIndex = -1
         ParaIndex = -1
         if len(vCol) == 3:
@@ -79,11 +85,14 @@ class QExpParaEvaResCollectorC(CVParaResCollectorC):
             FMeasure = 0
         else:
             FMeasure = 2 * Precision * Recall / (Precision + Recall)
+            
+        score = FMeasure
         if self.MainEvaMethod == 'precision':
-            return Precision
+            score =  Precision
         if self.MainEvaMethod == "recall":
-            return Recall
-        return FMeasure
+            score = Recall
+        print "load eva metric [%f] from [%s]" %(score,EvaName)
+        return score
     
     
 # 
