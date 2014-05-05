@@ -44,7 +44,6 @@ def ExpTermDataAndParaSplitRun(ConfIn):
     print "para\nrootdir"
     ExpTermDataSpliterUnitRun(ConfIn)
     
-    
     Namer = FoldNameGeneratorC()
     Namer.RootDir = conf.GetConf('rootdir')    
     ParaSetIn = conf.GetConf('para')
