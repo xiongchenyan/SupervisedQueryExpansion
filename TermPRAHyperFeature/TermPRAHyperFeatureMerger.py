@@ -83,7 +83,7 @@ class TermPRAHyperFeatureMergerC(cxBaseC):
         
         for feature in ExpTerm.hFeature:
             value = ExpTerm.hFeature[feature]
-            if not self.KeepFeature(feature):
+            if self.KeepFeature(feature):
                 hNewFeature[feature] = value
             
             FeatureType = ExpTermC().PRAFeatureType(feature,self.EdgeTypeGrouping)
