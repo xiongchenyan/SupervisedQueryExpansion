@@ -124,7 +124,7 @@ class TermPRAHyperFeatureMergerC(cxBaseC):
     
     def KeepFeature(self,feature):
         FeatureType = ExpTermC().PRAFeatureType(feature)
-        
+        print "type [%s]" %(FeatureType)
         if FeatureType == 'prf':
             return  self.KeepPRFFeature
         vCol = FeatureType.split('-')
