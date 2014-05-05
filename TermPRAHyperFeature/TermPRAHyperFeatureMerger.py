@@ -85,12 +85,26 @@ class TermPRAHyperFeatureMergerC(cxBaseC):
             
             self.MergeHyperFeature(lhThisHyperFeature,hMergeHyperFeature,FeatureType)              
         
+        hToAddFeature = self.TransferFeatureStatToFeature(hMergeHyperFeature)
         
-        
-        ExpTerm.AddFeature(hMergeHyperFeature)        
+        ExpTerm.AddFeature(hToAddFeature)        
         
         return ExpTerm
     
+    
+    def TransferFeatureStatToFeature(self,hMergeHyperFeature):
+        hToAddFeature = {}
+        
+        for item in hMergeHyperFeature:
+            l = hMergeHyperFeature[item]
+            hToAddFeature[item + 'Max'] = l[0]
+            hToAddFeature[item + 'Min'] = l[1]
+            hToAddFeature[item + 'Mean'] = l[2]
+            hToAddFeature[item + 'Cnt'] = l[3]
+            
+        return hToAddFeature
+        
+        
     
     def KeepFeature(self,feature):
         FeatureType = ExpTermC().PRAFeatureType(feature)
