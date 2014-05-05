@@ -37,6 +37,14 @@ class TermPRAHyperFeatureMergerC(cxBaseC):
         self.KeepPRALvl1Feature = True
         self.KeepPRALvl2Feature = True
         
+        self.EdgeTypeGrouping = 'lvltype' 
+        #how to group edge type:
+            #lvl: only lvl
+            #lvltype: lvl+type
+            #type: type only
+            #one: everything in one group
+            #lvl-type-domain: add domain as path type 
+        
         
     def SetConf(self,ConfIn):
         conf = cxConf(ConfIn)
@@ -46,6 +54,7 @@ class TermPRAHyperFeatureMergerC(cxBaseC):
         self.KeepPRALvl2Feature = bool(int(conf.GetConf('keeplvl2',0)))
         self.OutName = conf.GetConf('out')
         self.TermIn = conf.GetConf('in')
+        self.EdgeTypeGrouping = conf.GetConf('edgetypegrouping',self.EdgeTypeGrouping)
         
     @staticmethod
     def ShowConf():
@@ -77,7 +86,7 @@ class TermPRAHyperFeatureMergerC(cxBaseC):
             if not self.KeepFeature(feature):
                 hNewFeature[feature] = value
             
-            FeatureType = ExpTermC().PRAFeatureType(feature)
+            FeatureType = ExpTermC().PRAFeatureType(feature,self.EdgeTypeGrouping)
             if FeatureType == 'prf':
                 continue
             
