@@ -15,10 +15,10 @@ import pickle
 site.addsitedir('/bos/usr0/cx/PyCode/Geektools')
 site.addsitedir('/bos/usr0/cx/PyCode/cxPyLib')
 site.addsitedir('/bos/usr0/cx/PyCode/QueryExpansion')
-
+site.addsitedir('/bos/usr0/cx/PyCode/SupervisedQueryExpansion')
 from base.ExpTerm import *
 from cxBase.base import *
-from FeatureHash import *
+from TermFeatureProcessing.FeatureHash import *
 from TermFeatureProcessing.DiscardSingleQFeature import DiscardSingleQFeature
 
 import sys
