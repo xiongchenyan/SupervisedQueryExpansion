@@ -55,7 +55,7 @@ class TermPRAHyperFeatureMergerC(cxBaseC):
     def Process(self):
         print "start read edge features"
         for EdgeFeatureIn in self.lEdgeFeature:
-            self.hEdgeFeature.update(EdgeFeatureC().LoadFeatureToDict(EdgeFeatureIn,self.hEdgeFeature))
+            self.hEdgeFeature= EdgeFeatureC().LoadFeatureToDict(EdgeFeatureIn,self.hEdgeFeature)
         print "read edge feature finished"
         
         out = open(self.OutName,'w')
