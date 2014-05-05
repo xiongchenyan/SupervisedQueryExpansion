@@ -11,24 +11,26 @@ site.addsitedir('/bos/usr0/cx/PyCode/QueryExpansion')
 site.addsitedir('/bos/usr0/cx/PyCode/SupervisedQueryExpansion')
 from DataAnalysis.CalcFeatureQueryCnt import *
 
-if 3 != len(sys.argv):
-    print "2 para: input exp term + output term with filered feature"
-    sys.exit()
-    
-    
-hFeatureCnt = CalcFeatureQueryCnt(sys.argv[1])
-print "calc query feature cnt done"
-out = open(sys.argv[2],'w')
 
-for line in open(sys.argv[1]):
-    ExpTerm = ExpTermC(line.strip())
-    hNewFeature = {}
-    for feature in ExpTerm.hFeature:
-        if hFeatureCnt[feature] > 1:
-            hNewFeature[feature] = ExpTerm.hFeature[feature]
-    ExpTerm.hFeature = dict(hNewFeature)
-    print >>out, ExpTerm.dump()
-    
-out.close()
 
-print "finished"
+
+
+
+def DiscardSingleQFeature(llExpTerm):
+    hFeatureCnt = CalcFeatureQueryCnt(llExpTerm)
+    llRes = []
+    for lExpTerm in llExpTerm:
+        lNewExpTerm = []
+        for ExpTerm in lExpTerm:
+            hNewFeature = {}
+            for feature in ExpTerm.hFeature:
+                if hFeatureCnt[feature] > 1:
+                    hNewFeature[feature] = ExpTerm.hFeature[feature]
+            ExpTerm.hFeature = dict(hNewFeature)
+            lNewExpTerm.append(ExpTerm)
+        llRes.append(lNewExpTerm)
+    return llRes
+
+
+
+

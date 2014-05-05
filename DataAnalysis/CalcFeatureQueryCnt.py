@@ -9,21 +9,28 @@ count the number of query each feature appears
 import site
 site.addsitedir('/bos/usr0/cx/PyCode/QueryExpansion')
 
-from base.ExpTerm import ExpTermC
+from base.ExpTerm import ExpTermC,ReadQExpTerms
 
-def CalcFeatureQueryCnt(InName):
+def CalcFeatureQueryCnt(InData):
 
     hFeatureQid = {}
-    for line in open(InName):
-        ExpTerm = ExpTermC(line.strip())
-        for feature in ExpTerm.hFeature:
-            if not feature in hFeatureQid:
-                hFeatureQid[feature] = []
-            if not ExpTerm.qid in hFeatureQid[feature]:
-                hFeatureQid[feature].append(ExpTerm.qid)
+    
+    if type(InData) == str:
+        llExpTerm = ReadQExpTerms(InData)
+    else:
+        llExpTerm = InData
+    for lExpTerm in llExpTerm:
+        for ExpTerm in lExpTerm:
+            for feature in ExpTerm.hFeature:
+                if not feature in hFeatureQid:
+                    hFeatureQid[feature] = []
+                    if not ExpTerm.qid in hFeatureQid[feature]:
+                        hFeatureQid[feature].append(ExpTerm.qid)
     
     hFeatureCnt = {}
     for feature in hFeatureQid:
         hFeatureCnt[feature] = len(hFeatureQid[feature])
         
     return hFeatureCnt
+
+

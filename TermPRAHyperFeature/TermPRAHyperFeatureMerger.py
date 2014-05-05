@@ -58,7 +58,7 @@ class TermPRAHyperFeatureMergerC(cxBaseC):
         
     @staticmethod
     def ShowConf():
-        print "edgefeature\nkeepprf\nkeeplvl1\nkeeplvl2\nin\nout"   
+        print "edgefeature\nkeepprf\nkeeplvl1\nkeeplvl2\nin\nout\nedgetypegrouping lvltype"   
         
         
     def Process(self):
