@@ -84,7 +84,10 @@ class TermPRAHyperFeatureMergerC(cxBaseC):
         for feature in ExpTerm.hFeature:
             value = ExpTerm.hFeature[feature]
             if self.KeepFeature(feature):
+                print "keep feature [%s]" %(feature)
                 hNewFeature[feature] = value
+            else:
+                print "discard feature [%s]" %(feature)
             
             FeatureType = ExpTermC().PRAFeatureType(feature,self.EdgeTypeGrouping)
             if FeatureType == 'prf':
