@@ -130,9 +130,10 @@ class TermPRAHyperFeatureMergerC(cxBaseC):
         #for each edges, load the hyper features
         #
         lEdge = SegEdgeFromPRAFeature(feature,True)
-        
+        print "fetching hyper feature for [%s]" %(feature)
         for edge in lEdge:
             if edge in self.hEdgeFeature:
+                print "edge [%s] has [%s]" %(edge,self.hEdgeFeature[edge].dumps())
                 lhFeature.append(self.hEdgeFeature[edge].hFeature)
         
         return lhFeature    
