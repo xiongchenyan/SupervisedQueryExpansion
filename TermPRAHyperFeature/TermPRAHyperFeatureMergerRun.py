@@ -15,7 +15,7 @@ from TermPRAHyperFeature.TermPRAHyperFeatureMerger import TermPRAHyperFeatureMer
 
 import sys
 
-if 2 != len(sys.argv[1]):
+if 2 != len(sys.argv):
     print "conf:"
     TermPRAHyperFeatureMergerC().ShowConf()
     sys.exit()
