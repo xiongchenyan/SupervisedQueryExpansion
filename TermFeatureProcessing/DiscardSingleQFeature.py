@@ -13,11 +13,12 @@ from DataAnalysis.CalcFeatureQueryCnt import *
 
 
 
-
+import json
 
 
 def DiscardSingleQFeature(llExpTerm):
     hFeatureCnt = CalcFeatureQueryCnt(llExpTerm)
+    print "feature query cnt:\n%s" %(json.dumps(hFeatureCnt,indent=1))
     llRes = []
     for lExpTerm in llExpTerm:
         lNewExpTerm = []
