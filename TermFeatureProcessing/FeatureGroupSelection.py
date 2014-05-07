@@ -68,3 +68,18 @@ if not os.path.isdir(OutDir):
 lGroup = conf.GetConf('group')
 
 llSubGroup = EnumrateGroup(lGroup)
+
+llExpTerm = ReadQExpTerms(InName)
+
+for lSubGroup  in llSubGroup:
+    OutName = OutDir + "/QExpTerm" + ''.join(lSubGroup)
+    print "working on [%s]" %(OutName)
+    llRes = KeepFeatureGroup(llExpTerm,lSubGroup)
+    DumpQExpTerms(llRes,OutName)
+    
+print "finished"
+    
+    
+    
+    
+    

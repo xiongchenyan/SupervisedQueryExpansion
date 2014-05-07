@@ -58,7 +58,7 @@ class TermPRAHyperFeatureMergerC(cxBaseC):
         
     @staticmethod
     def ShowConf():
-        print "edgefeature\nkeepprf\nkeeplvl1\nkeeplvl2\nin\nout\nedgetypegrouping lvltype"   
+        print "edgefeature\nin\nout\nedgetypegrouping lvltype"   
         
         
     def Process(self):
@@ -77,29 +77,25 @@ class TermPRAHyperFeatureMergerC(cxBaseC):
         return True
     
     def ProcessOneTerm(self,ExpTerm):
-        
-        hNewFeature = {}
         hMergeHyperFeature = {} #type+dim->value
-        
         for feature in ExpTerm.hFeature:
             value = ExpTerm.hFeature[feature]
-            if self.KeepFeature(feature):
-                print "keep feature [%s]" %(feature)
-                hNewFeature[feature] = value
-            else:
-                print "discard feature [%s]" %(feature)
+#             if self.KeepFeature(feature):
+#                 print "keep feature [%s]" %(feature)
+#                 hNewFeature[feature] = value
+#             else:
+#                 print "discard feature [%s]" %(feature)
             
             FeatureType = ExpTermC().PRAFeatureType(feature,self.EdgeTypeGrouping)
-            if FeatureType == 'prf':
+            if not 'pra' in FeatureType:
                 continue
-            
+            if 'praLvl0' == FeatureType:
+                continue
+            print "start fetching for [%s]" %(feature)
             lhThisHyperFeature = self.FetchHyperFeature(feature)
             
             self.MergeHyperFeature(lhThisHyperFeature,hMergeHyperFeature,FeatureType)              
         
-        
-        #filter feature
-        ExpTerm.hFeature = hNewFeature
         
         hToAddFeature = self.TransferFeatureStatToFeature(hMergeHyperFeature)
         
@@ -123,6 +119,7 @@ class TermPRAHyperFeatureMergerC(cxBaseC):
         
     
     def KeepFeature(self,feature):
+        #function not used, just do merge here
         FeatureType = ExpTermC().PRAFeatureType(feature)
         print "type [%s]" %(FeatureType)
         if FeatureType == 'prf':
