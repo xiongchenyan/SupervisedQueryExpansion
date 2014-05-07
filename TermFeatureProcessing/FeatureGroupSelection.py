@@ -48,7 +48,7 @@ def KeepFeatureGroup(llExpTerm,lGroup):
 def EnumrateGroup(lGroup):
     llSubGroup = []
     for i in range(1,len(lGroup)):
-        lSubGroup = [list(item) for item in itertools.combinations()]
+        lSubGroup = [list(item) for item in itertools.combinations(lGroup,i)]
         llSubGroup.append(lSubGroup)
     return llSubGroup
 
