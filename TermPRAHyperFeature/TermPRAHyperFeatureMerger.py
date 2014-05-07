@@ -79,7 +79,6 @@ class TermPRAHyperFeatureMergerC(cxBaseC):
     def ProcessOneTerm(self,ExpTerm):
         hMergeHyperFeature = {} #type+dim->value
         for feature in ExpTerm.hFeature:
-            value = ExpTerm.hFeature[feature]
 #             if self.KeepFeature(feature):
 #                 print "keep feature [%s]" %(feature)
 #                 hNewFeature[feature] = value
@@ -87,6 +86,7 @@ class TermPRAHyperFeatureMergerC(cxBaseC):
 #                 print "discard feature [%s]" %(feature)
             
             FeatureType = ExpTermC().PRAFeatureType(feature,self.EdgeTypeGrouping)
+            print "Feature [%s] [%s]" %(feature,FeatureType)
             if not 'pra' in FeatureType:
                 continue
             if 'praLvl0' == FeatureType:
