@@ -47,7 +47,7 @@ def KeepFeatureGroup(llExpTerm,lGroup):
 
 def EnumrateGroup(lGroup):
     llSubGroup = []
-    for i in range(1,len(lGroup)):
+    for i in range(1,len(lGroup)+1):
         lSubGroup = [list(item) for item in itertools.combinations(lGroup,i)]
         llSubGroup.extend(lSubGroup)
     return llSubGroup
@@ -66,6 +66,8 @@ if not os.path.isdir(OutDir):
     os.makedirs(OutDir)
     
 lGroup = conf.GetConf('group')
+
+
 
 llSubGroup = EnumrateGroup(lGroup)
 
