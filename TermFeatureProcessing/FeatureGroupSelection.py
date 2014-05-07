@@ -61,7 +61,7 @@ if 2 != (len(sys.argv)):
     
 conf = cxConf(sys.argv[1])
 InName = conf.GetConf('in')
-OutDir = conf.GetConf('out')
+OutDir = conf.GetConf('outdir')
 if not os.path.isdir(OutDir):
     os.makedirs(OutDir)
     
