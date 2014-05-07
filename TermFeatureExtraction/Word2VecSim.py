@@ -14,7 +14,7 @@ import site
 site.addsitedir('/bos/usr0/cx/PyCode/cxPyLib')
 site.addsitedir('/bos/usr0/cx/PyCode/GoogleAPI')
 site.addsitedir('/bos/usr0/cx/PyCode/TermFeatureExtraction')
-
+site.addsitedir('/bos/usr0/cx/PyCode/QueryExpansion')
 from cxBase.base import *
 from word2vec.WordVecBase import *
 from cxBase.Vector import VectorC
