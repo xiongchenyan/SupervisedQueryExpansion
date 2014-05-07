@@ -23,7 +23,7 @@ class ScoreMergeExpansionC(cxBaseC):
     def Init(self):
         self.lBaseTerm = []
         self.hBaseTerm = {}
-        self.Alpha = 0.5
+        self.Alpha = 10000
         self.NumOfTerm = 10
         self.ExpTermIn = ""
         self.DefaultMinScore = 0.000001
@@ -31,9 +31,9 @@ class ScoreMergeExpansionC(cxBaseC):
     
     def SetConf(self,ConfIn):
         conf = cxConf(ConfIn)
-        self.Alpha = float(conf.GetConf('alpha'))
+        self.Alpha = float(conf.GetConf('alpha',self.Alpha))
         self.LoadBaseTerm(conf.GetConf('baseterm'))
-        self.NumOfTerm = int(conf.GetConf('numofexpterm'))
+        self.NumOfTerm = int(conf.GetConf('numofexpterm',self.NumOfTerm))
         self.ExpTermIn = conf.GetConf('in')
         return True
     
@@ -42,6 +42,9 @@ class ScoreMergeExpansionC(cxBaseC):
         print "alpha\nbaseterm\nnumofexpterm\nin"
     
     def LoadBaseTerm(self,Path):
+        if "" == Path:
+            print "not merging"
+            return False
         llExpTerm = ReadQExpTerms(Path)
         for lExpTerm in llExpTerm:
             self.lBaseTerm.extend(lExpTerm)
@@ -53,7 +56,7 @@ class ScoreMergeExpansionC(cxBaseC):
     
     def MergeScore(self,ExpTerm):
         #if alpha > 10000, then do no merge
-        if self.Alpha >= 10000:
+        if (self.Alpha >= 10000) | len(self.hBaseTerm) == 0:
             return ExpTerm        
         key = ExpTerm.Key()    
         BaseScore = self.DefaultMinScore

@@ -38,7 +38,7 @@ class ExpansionSingleRunCenterC(cxBaseC):
         self.ConfIn = ""
         self.ParaSet = ParameterSetC()
         self.NumOfReRankDoc = 100
-        self.ExpansionMethod = 'rm'
+        self.ExpansionMethod = 'merge'
         self.InputType = 'qterm'
         self.OutExpTerm = False
         self.MaxExpTermToKeep = 1000
@@ -54,11 +54,11 @@ class ExpansionSingleRunCenterC(cxBaseC):
         self.QueryIn = conf.GetConf('in')
         self.EvaOutDir = conf.GetConf('evaoutdir')
         self.CtfPath = conf.GetConf('ctfpath')
-        self.NumOfReRankDoc = int(conf.GetConf('rerankdepth'))        
-        self.ExpansionMethod = conf.GetConf('expmethod')
+        self.NumOfReRankDoc = int(conf.GetConf('rerankdepth',self.NumOfReRankDoc))        
+        self.ExpansionMethod = conf.GetConf('expmethod',self.ExpansionMethod)
         self.InputType = conf.GetConf('inputtype')
-        self.OutExpTerm  = bool(conf.GetConf('outexpterm'))
-        self.NumOfExpTerm = int(conf.GetConf('numofexpterm'))
+        self.OutExpTerm  = bool(int(conf.GetConf('outexpterm'),0))
+        self.NumOfExpTerm = int(conf.GetConf('numofexpterm'),self.NumOfExpTerm)
         if not os.path.exists(self.EvaOutDir):
             os.makedirs(self.EvaOutDir)
         self.ParaSet = ReadParaSet(conf.GetConf('paraset'))[0]
