@@ -18,12 +18,14 @@ import json
 
 
 if 2 != len(sys.argv):
-    print "conf:"
-    FoldNameGeneratorC.ShowConf()
+    print "1 para: workdir"
     sys.exit()
     
     
-Namer = FoldNameGeneratorC(sys.argv[1])
+Namer = FoldNameGeneratorC()
+Namer.RootDir = sys.argv[1]
+Namer.K = 5
+
 
 OutExpTerm = open(Namer.OutDir() + "/QExpTermPredict",'w')
 OutEva = open(Namer.OutDir() + "/predicteve",'w')
