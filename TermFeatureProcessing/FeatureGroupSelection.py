@@ -46,8 +46,10 @@ def KeepFeatureGroup(llExpTerm,lGroup):
 
 
 def EnumrateGroup(lGroup):
+    global MinGroup
+    global MaxGroup
     llSubGroup = []
-    for i in range(1,len(lGroup)+1):
+    for i in range(MinGroup,min(MaxGroup,len(lGroup))+1):
         lSubGroup = [list(item) for item in itertools.combinations(lGroup,i)]
         llSubGroup.extend(lSubGroup)
     return llSubGroup
@@ -56,7 +58,7 @@ def EnumrateGroup(lGroup):
 
 
 if 2 != (len(sys.argv)):
-    print "conf:\nin\noutdir\ngroup prf#pralvl0#pralvl1#word2vec#hyper"
+    print "conf:\nin\noutdir\ngroup prf#pralvl0#pralvl1#word2vec#hyper\nmingroup\nmaxgroup"
     sys.exit()
     
 conf = cxConf(sys.argv[1])
@@ -66,7 +68,8 @@ if not os.path.isdir(OutDir):
     os.makedirs(OutDir)
     
 lGroup = conf.GetConf('group')
-
+MinGroup = int(conf.GetConf('mingroup'))
+MaxGroup = int(conf.GetConf('maxgroup'))
 
 
 llSubGroup = EnumrateGroup(lGroup)
