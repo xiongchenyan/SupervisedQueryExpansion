@@ -105,7 +105,7 @@ class QueryExpTermWord2VecSimFeatureExtractorC(cxBaseC):
     def ExtractFeature(self):
         out = open(self.OutName,'w')
         for i in range(len(self.llExpTerm)):
-            for j in range(len(self.llExpterm[i])):
+            for j in range(len(self.llExpTerm[i])):
                 hFeature = self.ExtractForOne(self.llExpTerm[i][j])
                 self.llExpTerm[i][j].AddFeature(hFeature)
                 print >>out, self.llExpTerm[i][j].dump()
