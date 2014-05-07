@@ -96,6 +96,8 @@ class QueryExpTermWord2VecSimFeatureExtractorC(cxBaseC):
                 continue  
             QTermCnt += 1
             QVector += self.lVector[self.hTargetTerm[qterm]]
+        if QTermCnt == 0:
+            return hFeature
         QVector /= float(QTermCnt)
         
         score = VectorC.cosine(QVector,TermVector)
