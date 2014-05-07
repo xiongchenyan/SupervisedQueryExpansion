@@ -85,13 +85,14 @@ class TermPRAHyperFeatureMergerC(cxBaseC):
 #             else:
 #                 print "discard feature [%s]" %(feature)
             
-            FeatureType = ExpTermC().PRAFeatureType(feature,self.EdgeTypeGrouping)
-            print "Feature [%s] [%s]" %(feature,FeatureType)
-            if not 'pra' in FeatureType:
+            FeatureGroup = ExpTermC().FeatureGroup(feature)
+            print "Feature [%s] group [%s]" %(feature,FeatureGroup)
+            if not 'pra' in FeatureGroup:
                 continue
-            if 'praLvl0' == FeatureType:
+            if 'praLvl0' == FeatureGroup:
                 continue
-            print "start fetching for [%s]" %(feature)
+            FeatureType = ExpTermC().PRAFeatureType(feature, self.EdgeTypeGrouping)
+            print "start fetching for [%s] to [%s]" %(feature,FeatureType)
             lhThisHyperFeature = self.FetchHyperFeature(feature)
             
             self.MergeHyperFeature(lhThisHyperFeature,hMergeHyperFeature,FeatureType)              
