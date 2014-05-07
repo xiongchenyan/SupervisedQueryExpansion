@@ -49,7 +49,7 @@ def EnumrateGroup(lGroup):
     llSubGroup = []
     for i in range(1,len(lGroup)):
         lSubGroup = [list(item) for item in itertools.combinations(lGroup,i)]
-        llSubGroup.append(lSubGroup)
+        llSubGroup.extend(lSubGroup)
     return llSubGroup
 
 
@@ -72,8 +72,9 @@ llSubGroup = EnumrateGroup(lGroup)
 llExpTerm = ReadQExpTerms(InName)
 
 for lSubGroup  in llSubGroup:
+    print "working on subgroup %s" %(json.dumps(lSubGroup))
     OutName = OutDir + "/QExpTerm" + ''.join(lSubGroup)
-    print "working on [%s]" %(OutName)
+    print "out to [%s]" %(OutName)
     llRes = KeepFeatureGroup(llExpTerm,lSubGroup)
     DumpQExpTerms(llRes,OutName)
     
