@@ -24,8 +24,8 @@ def CalcFeatureQueryCnt(InData):
             for feature in ExpTerm.hFeature:
                 if not feature in hFeatureQid:
                     hFeatureQid[feature] = []
-                    if not ExpTerm.qid in hFeatureQid[feature]:
-                        hFeatureQid[feature].append(ExpTerm.qid)
+                if not ExpTerm.qid in hFeatureQid[feature]:
+                    hFeatureQid[feature].append(ExpTerm.qid)
     
     hFeatureCnt = {}
     for feature in hFeatureQid:
