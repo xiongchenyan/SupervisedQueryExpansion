@@ -56,7 +56,7 @@ def EnumrateGroup(lGroup):
 
 
 if 2 != (len(sys.argv)):
-    print "conf:\nin\noutdir\ngroup prf#pralvl1#word2vec"
+    print "conf:\nin\noutdir\ngroup prf#pralvl0#pralvl1#word2vec#hyper"
     sys.exit()
     
 conf = cxConf(sys.argv[1])
