@@ -28,7 +28,7 @@ Namer.K = 5
 
 
 OutExpTerm = open(Namer.OutDir() + "/QExpTermPredict",'w')
-OutEva = open(Namer.OutDir() + "/predicteve",'w')
+OutEva = open(Namer.OutDir() + "/predicteva",'w')
 lConfMtx = [[0,0],[0,0]]
 for i in range(Namer.K):
     InName = Namer.PredictDir() + "/%d_pre" %(i)
