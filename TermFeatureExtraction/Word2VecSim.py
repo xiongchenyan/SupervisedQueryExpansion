@@ -114,7 +114,7 @@ class QueryExpTermWord2VecSimFeatureExtractorC(cxBaseC):
     
     def Process(self):
         print "start load and set expterm"
-        self.LoadAndSetExpterms()
+        self.LoadAndSetExpTerms()
         print "laod vector from data"
         self.LoadVectorForTerm()
         print "all information get, extracting"
