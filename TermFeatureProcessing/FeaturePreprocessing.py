@@ -20,12 +20,12 @@ from base.ExpTerm import *
 from cxBase.base import *
 from TermFeatureProcessing.FeatureHash import *
 from TermFeatureProcessing.DiscardSingleQFeature import DiscardSingleQFeature
-
+from cxBase.FeatureBase import cxFeatureC
 import sys
 
 
 if 3 > len(sys.argv):
-    print "2 para: input + outname + (positivebar default 0)"
+    print "2 para: input + outname + (positivebar default 0) + filter fraction min (default 0.01)"
     sys.exit()
     
 
@@ -35,7 +35,9 @@ DictName = OutName + "_initdict"
 PosBar = 0
 if len(sys.argv) >= 4:
     PosBar = float(sys.argv[3])
-
+MinFilterFrac = 0.01
+if len(sys.argv) >= 5:
+    MinFilterFrac = float(sys.argv[4])
 
 
 
@@ -47,6 +49,9 @@ print "discard feature that only appear in one q done"
 lExpTerm = []
 for mid in llExpTerm:
     lExpTerm.extend(mid)
+
+lExpTerm = cxFeatureC.FilterByFraction(lExpTerm, MinFilterFrac)
+print "filter dim by min frac [%f] done" %(MinFilterFrac)
 
 lExpTerm = InitizeFeature(lExpTerm,DictName)
 print "initize feature done"

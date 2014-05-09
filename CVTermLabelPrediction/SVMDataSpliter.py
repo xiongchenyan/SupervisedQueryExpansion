@@ -1,6 +1,9 @@
 '''
 Created on Mar 25, 2014
 
+May 9, 2014 modify:
+add function to filter out feature that hit 0 positive training insitence in training data
+
 @author: cx
 '''
 
@@ -15,6 +18,24 @@ from CrossValidation.RandomSplit import *
 from CrossValidation.FoldNameGenerator import *
 class ExpTermDataSpliterC(DataSpliterC):
     
+    def Init(self):
+        super(ExpTermDataSpliterC,self).Init()
+        self.FilterNoPosFeatureInTrain = False
+        
+    def SetConf(self,ConfIn):
+        super(ExpTermDataSpliterC,self).SetConf(ConfIn)
+        conf =cxConf(ConfIn)
+        self.FilterNoPosFeatureInTrain = conf.GetConf('filternonpos')
+        return True
+    
+    @staticmethod
+    def ShowConf():
+        DataSpliterC.ShowConf()
+        print "filternonpos"
+    
+    
+    
+    
     def LoadData(self):
         llExpTerm = ReadQExpTerms(self.InName)
         print "load to split query [%d]" %(len(llExpTerm))
@@ -22,6 +43,14 @@ class ExpTermDataSpliterC(DataSpliterC):
     
     def OutData(self,llExpTerm,OutName):
         out = open(OutName,'w')
+        
+        if self.FilterNoPosFeatureInTrain & ('train' in OutName):
+            lAllTerm = []
+            for lExpTerm in llExpTerm:
+                lAllTerm.extend(lExpTerm)
+            lFilterTerm = ExpTermC.FilterNonPosFeature(lAllTerm)
+            llExpTerm = ExpTermC.SplitByQid(lFilterTerm)        
+        
         for lExpTerm in llExpTerm:
             for ExpTerm in lExpTerm:
                 print >>out, ExpTerm.dump()
