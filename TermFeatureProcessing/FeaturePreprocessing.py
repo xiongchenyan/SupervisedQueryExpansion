@@ -44,8 +44,8 @@ if len(sys.argv) >= 5:
 
 llExpTerm = ReadQExpTerms(InName)
 print "read term from [%s] done" %(InName)
-llExpTerm = DiscardSingleQFeature(llExpTerm)
-print "discard feature that only appear in one q done"
+# llExpTerm = DiscardSingleQFeature(llExpTerm)
+# print "discard feature that only appear in one q done"
 lExpTerm = []
 for mid in llExpTerm:
     lExpTerm.extend(mid)
