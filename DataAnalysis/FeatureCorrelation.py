@@ -7,8 +7,9 @@ pearson of feature and label
 
 import site
 site.addsitedir('/bos/usr0/cx/PyCode/QueryExpansion')
-
+site.addsitedir('/bos/usr0/cx/PyCode/Geektools')
 from base.ExpTerm import *
+from ResultAnalysis.PearsonCoefficient import pearson
 import json
 
 import sys
