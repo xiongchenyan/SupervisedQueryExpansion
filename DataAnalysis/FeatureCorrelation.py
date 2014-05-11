@@ -59,7 +59,7 @@ hFeatureCoor = FeatureCorrelationAnalysis(lExpTerm)
 out = open(sys.argv[2],'w')
 
 lRes = hFeatureCoor.items()
-lRes.sort(key = math.fabs(itemgetter(1)),reverse = True)
+lRes.sort(key = lambda item: math.fabs(item[1]),reverse = True)
 for res in lRes:
     print >>out,'%s\t%f'%(res[0],res[1])
 out.close()
