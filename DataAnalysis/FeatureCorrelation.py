@@ -71,5 +71,5 @@ hFeatureCnt = cxFeatureC().CountFeatureDataAppearance(lExpTerm)
 lRes = hFeatureCoor.items()
 lRes.sort(key = lambda item: math.fabs(item[1]),reverse = True)
 for res in lRes:
-    print >>out,'%s\t%f'%(res[0],res[1])
+    print >>out,'%s\t%f'%(res[0],res[1],hFeatureCnt[res[0]])
 out.close()
