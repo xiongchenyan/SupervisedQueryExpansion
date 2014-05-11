@@ -26,10 +26,11 @@ def FeatureCorrelationAnalysis(lExpTerm,RandomInfluenceBound):
     
     hFeatureValue = {}
     lScore = []
-    
+    InCnt = 0
     for ExpTerm in lExpTerm:
         if math.fabs(ExpTerm.score) <= RandomInfluenceBound:
             continue
+        InCnt += 1
         lScore.append(ExpTerm.score)
         for feature in ExpTerm.hFeature:
             hFeatureValue[feature] = []
@@ -46,7 +47,7 @@ def FeatureCorrelationAnalysis(lExpTerm,RandomInfluenceBound):
     hFeaturePearson = {}
     for feature in hFeatureValue:
         hFeaturePearson[feature] = pearson(lScore,hFeatureValue[feature])
-        
+    print "total [%d] expterm, keep [%d]" %(len(lExpTerm),InCnt)
     return hFeaturePearson
 
 if 3 > len(sys.argv):
