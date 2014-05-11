@@ -6,12 +6,13 @@ pearson of feature and label
 
 
 import site
+site.addsitedir('/bos/usr0/cx/PyCode/cxPyLib')
 site.addsitedir('/bos/usr0/cx/PyCode/QueryExpansion')
 site.addsitedir('/bos/usr0/cx/PyCode/Geektools')
 from base.ExpTerm import *
 from ResultAnalysis.PearsonCoefficient import pearson
 import json
-
+from cxBase.FeatureBase import cxFeatureC
 import sys
 from operator import itemgetter
 import math
@@ -64,6 +65,8 @@ for line in open(sys.argv[1]):
     
 hFeatureCoor = FeatureCorrelationAnalysis(lExpTerm,RandomInfluenceBound)
 out = open(sys.argv[2],'w')
+
+hFeatureCnt = cxFeatureC().CountFeatureDataAppearance(lExpTerm)
 
 lRes = hFeatureCoor.items()
 lRes.sort(key = lambda item: math.fabs(item[1]),reverse = True)
