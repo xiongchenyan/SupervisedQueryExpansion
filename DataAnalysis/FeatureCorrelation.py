@@ -13,7 +13,8 @@ from ResultAnalysis.PearsonCoefficient import pearson
 import json
 
 import sys
-
+from operator import itemgetter
+import math
 
   
 def FeatureCorrelationAnalysis(lExpTerm):
@@ -56,5 +57,9 @@ for line in open(sys.argv[1]):
     
 hFeatureCoor = FeatureCorrelationAnalysis(lExpTerm)
 out = open(sys.argv[2],'w')
-print >>out,json.dumps(hFeatureCoor,indent=1)
+
+lRes = hFeatureCoor.items()
+lRes.sort(key = math.fabs(itemgetter(1)),reverse = True)
+for res in lRes:
+    print >>out,'%s\t%f'%(res[0],res[1])
 out.close()
