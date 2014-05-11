@@ -25,7 +25,7 @@ class ExpTermDataSpliterC(DataSpliterC):
     def SetConf(self,ConfIn):
         super(ExpTermDataSpliterC,self).SetConf(ConfIn)
         conf =cxConf(ConfIn)
-        self.FilterNoPosFeatureInTrain = bool(int(conf.GetConf('filternonpos'),1))
+        self.FilterNoPosFeatureInTrain = bool(int(conf.GetConf('filternonpos',1)))
         return True
     
     @staticmethod
