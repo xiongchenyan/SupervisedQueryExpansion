@@ -17,7 +17,7 @@ from operator import itemgetter
 import math
 
   
-def FeatureCorrelationAnalysis(lExpTerm):
+def FeatureCorrelationAnalysis(lExpTerm,RandomInfluenceBound):
     #get all feature name
         #record all score
     #for each feature  get all its value's, in order, if not exist, add 0
@@ -28,11 +28,15 @@ def FeatureCorrelationAnalysis(lExpTerm):
     lScore = []
     
     for ExpTerm in lExpTerm:
+        if math.fabs(ExpTerm.score) <= RandomInfluenceBound:
+            continue
         lScore.append(ExpTerm.score)
         for feature in ExpTerm.hFeature:
             hFeatureValue[feature] = []
     
     for ExpTerm in lExpTerm:
+        if math.fabs(ExpTerm.score) <= RandomInfluenceBound:
+            continue
         for feature in hFeatureValue:
             value = 0
             if feature in ExpTerm.hFeature:
@@ -45,17 +49,19 @@ def FeatureCorrelationAnalysis(lExpTerm):
         
     return hFeaturePearson
 
-if 3 != len(sys.argv):
-    print "term features in + out"
+if 3 > len(sys.argv):
+    print "term features in + out + discard to small influence bound (default 0)"
     sys.exit()
-    
+
+RandomInfluenceBound = 0
+
 lExpTerm = []
 for line in open(sys.argv[1]):
     line = line.strip()
     ExpTerm = ExpTermC(line)
     lExpTerm.append(ExpTerm)
     
-hFeatureCoor = FeatureCorrelationAnalysis(lExpTerm)
+hFeatureCoor = FeatureCorrelationAnalysis(lExpTerm,RandomInfluenceBound)
 out = open(sys.argv[2],'w')
 
 lRes = hFeatureCoor.items()
