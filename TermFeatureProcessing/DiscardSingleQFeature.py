@@ -18,6 +18,7 @@ import json
 
 def DiscardSingleQFeature(llExpTerm):
     hFeatureCnt = CalcFeatureQueryCnt(llExpTerm)
+    print "discard single q feature,before filtering [%d]" %(len(hFeatureCnt))
 #     print "feature query cnt:\n%s" %(json.dumps(hFeatureCnt,indent=1))
     llRes = []
     for lExpTerm in llExpTerm:
@@ -30,6 +31,9 @@ def DiscardSingleQFeature(llExpTerm):
             ExpTerm.hFeature = dict(hNewFeature)
             lNewExpTerm.append(ExpTerm)
         llRes.append(lNewExpTerm)
+        
+    hResCnt = CalcFeatureQueryCnt(llRes)
+    print "after [%d] feature" %(len(hResCnt))
     return llRes
 
 
