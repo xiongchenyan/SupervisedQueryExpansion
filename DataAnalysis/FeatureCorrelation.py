@@ -56,6 +56,8 @@ if 3 > len(sys.argv):
     sys.exit()
 
 RandomInfluenceBound = 0
+if len(sys.argv) >= 4:
+    RandomInfluenceBound = float(sys.argv[3])
 
 lExpTerm = []
 for line in open(sys.argv[1]):
