@@ -21,7 +21,7 @@ hFeatureCnt = CalcFeatureQueryCnt(sys.argv[1])
 
 
 l = hFeatureCnt.items()
-l.sort(Key=lambda item:item[1],reverse=True)
+l.sort(key=lambda item:item[1],reverse=True)
 out = open(sys.argv[2],'w')
 for item in l:
     print >> out,item[0] + "\t%d" %(item[1])
