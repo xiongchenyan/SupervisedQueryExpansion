@@ -28,7 +28,7 @@ for line in open(sys.argv[1]):
 lBin = BinValue(lScore,BinNum,0.1)
 out = open(sys.argv[2],'w')
 for res in lBin:
-    print >>out,"%d\t%d" %(res[0],res[1])
+    print >>out,"%s\t%d" %(json.dumps(res[0]),res[1])
 out.close()
 
 
