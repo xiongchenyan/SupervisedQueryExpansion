@@ -39,7 +39,7 @@ for i in range(Namer.K):
     lMidConfMtx = json.load(AccIn)
     for i in range(len(lConfMtx)):
         for j in range(len(lConfMtx[i])):
-            lConfMtx[i][j] += lMidConfMtx
+            lConfMtx[i][j] += lMidConfMtx[i][j]
 Precision = float(lConfMtx[1][1]) / (lConfMtx[1][1] + lConfMtx[1][0])
 Recall = float(lConfMtx[1][1]) / (lConfMtx[1][1] + lConfMtx[0][1])
 print >>OutEva,"%f\n%f" %(Precision,Recall)
