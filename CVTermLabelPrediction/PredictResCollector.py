@@ -24,6 +24,7 @@ if 2 != len(sys.argv):
     
 Namer = FoldNameGeneratorC()
 Namer.RootDir = sys.argv[1]
+Namer.CreateDir()
 Namer.K = 5
 
 
