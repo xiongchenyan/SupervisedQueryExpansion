@@ -35,7 +35,7 @@ for i in range(Namer.K):
     InName = Namer.PredictDir() + "/%d_pre" %(i)
     for line in open(InName):
         print >>OutExpTerm,line
-    AccIn = open(InName.replace('_pre",'),'r')
+    AccIn = open(InName.replace('_pre',''),'r')
     lMidConfMtx = json.load(AccIn)
     for i in range(len(lConfMtx)):
         for j in range(len(lConfMtx[i])):
