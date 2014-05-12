@@ -42,6 +42,7 @@ class ExpansionSingleRunCenterC(cxBaseC):
         self.InputType = 'qterm'
         self.OutExpTerm = False
         self.MaxExpTermToKeep = 1000
+        self.NumOfExpTerm = 10
         
         return
     
@@ -58,7 +59,7 @@ class ExpansionSingleRunCenterC(cxBaseC):
         self.ExpansionMethod = conf.GetConf('expmethod',self.ExpansionMethod)
         self.InputType = conf.GetConf('inputtype',self.InputType)
         self.OutExpTerm  = bool(int(conf.GetConf('outexpterm',0)))
-#         self.NumOfExpTerm = int(conf.GetConf('numofexpterm',self.NumOfExpTerm))
+        self.NumOfExpTerm = int(conf.GetConf('numofexpterm',self.NumOfExpTerm))
         if not os.path.exists(self.EvaOutDir):
             os.makedirs(self.EvaOutDir)
         self.ParaSet = ReadParaSet(conf.GetConf('paraset'))[0]
@@ -100,7 +101,7 @@ class ExpansionSingleRunCenterC(cxBaseC):
         ExpansionCenter.SetParameter(self.ParaSet)
         WeightedReRanker.SetParameter(self.ParaSet)
         #AdhocEva not parameter to switch
-        
+        self.SetParameter(self.ParaSet)
         print "start run [%s][%s]" %(qid,query)
         ExpansionCenter.NumOfExpTerm = self.MaxExpTermToKeep
         #expand
@@ -115,7 +116,10 @@ class ExpansionSingleRunCenterC(cxBaseC):
         return EvaMeasure,lExpTerm      
     
     
-    
+    def SetParameter(self,ParaSet):
+        if "numofexpterm" in ParaSet.hPara:
+            self.NumOfExpTerm = int(ParaSet.hPara['numofexpterm'])
+        return True 
     
     def LoadData(self):
         lQidQuery = []
