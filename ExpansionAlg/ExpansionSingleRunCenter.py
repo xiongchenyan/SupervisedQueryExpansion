@@ -56,7 +56,7 @@ class ExpansionSingleRunCenterC(cxBaseC):
         self.CtfPath = conf.GetConf('ctfpath')
         self.NumOfReRankDoc = int(conf.GetConf('rerankdepth',self.NumOfReRankDoc))        
         self.ExpansionMethod = conf.GetConf('expmethod',self.ExpansionMethod)
-        self.InputType = conf.GetConf('inputtype')
+        self.InputType = conf.GetConf('inputtype',self.InputType)
         self.OutExpTerm  = bool(int(conf.GetConf('outexpterm',0)))
 #         self.NumOfExpTerm = int(conf.GetConf('numofexpterm',self.NumOfExpTerm))
         if not os.path.exists(self.EvaOutDir):
@@ -125,12 +125,15 @@ class ExpansionSingleRunCenterC(cxBaseC):
                 lQidQuery.append(QTerm.qid +"_"+QTerm.query)
                 lQidQuery = list(set(lQidQuery)) 
             for i in range(len(lQidQuery)):
-                lQidQuery[i] = lQidQuery[i].split('_')           
+                lQidQuery[i] = lQidQuery[i].split('_')
+            return lQidQuery           
         if self.InputType == 'query':
             for line in open(self.QueryIn):
                 qid,query = line.strip().split('\t')
                 lQidQuery.append([qid,query])      
-        return lQidQuery
+            return lQidQuery
+        print "input type [%s] not recognized" %(self.InputType)
+        return []
     
     
     def Process(self):
@@ -172,6 +175,7 @@ class ExpansionSingleRunCenterC(cxBaseC):
             EvaRes = lEvaRes[QIndex]
             qid = lQid[QIndex]            
             print >> out,"%s\t%s" %(qid,EvaRes.dumps())
+        
         EvaMean = AdhocMeasureMean(lEvaRes)
         print >> out,"mean\t%s" %(EvaMean.dumps())
         out.close()              
