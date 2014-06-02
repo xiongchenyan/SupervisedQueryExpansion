@@ -26,6 +26,7 @@ from IndriExpansionBaseline.IndriExpansion import *
 from ExpansionReranker.WeightedReRanker import *
 from MixtureModelExpansion.MixtureModelExpansion import *
 from ScoreMergeExpansion import *
+from PrfFreebaseExpansion.FreebaseObjRankExpansion import *
 import os,json
 
 class ExpansionSingleRunCenterC(cxBaseC):
@@ -69,7 +70,7 @@ class ExpansionSingleRunCenterC(cxBaseC):
     @staticmethod
     def ShowConf():
         print "cashdir\nin\nevaoutdir\nctfpath"
-        print "rerankdepth\nparaset\nexpmethod rm|mix|merge"
+        print "rerankdepth\nparaset\nexpmethod rm|mix|merge|fbprf"
         print "inputtype qterm|query\noutexpterm 0"        
         ScoreMergeExpansionC.ShowConf()
         IndriExpansionC.ShowConf()
@@ -93,6 +94,8 @@ class ExpansionSingleRunCenterC(cxBaseC):
             ExpansionCenter = MixtureModelExpansionC(self.ConfIn)  
         if self.ExpansionMethod == 'merge':
             ExpansionCenter = ScoreMergeExpansionC(self.ConfIn)   
+        if self.ExpansionMethod == 'fbprf':
+            ExpansionCenter = FreebaseObjRankExpansionC(self.ConfIn)
             
              
         WeightedReRanker = WeightedReRankerC(self.ConfIn)
