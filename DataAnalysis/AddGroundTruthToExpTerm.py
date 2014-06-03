@@ -37,7 +37,7 @@ hTermScore = BuildTermScoreDict(sys.argv[2])
 
 llExpTerm = ReadQExpTerms(sys.argv[1])
 NumOfExp = 50
-if 5 >= len(sys.argv):
+if 5 <= len(sys.argv):
     NumOfExp = int(sys.argv[4])
 
 for i in range(len(llExpTerm)):
