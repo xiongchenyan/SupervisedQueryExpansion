@@ -21,7 +21,7 @@ lBasePerQEva = AdhocMeasureC().ReadPerQEva(sys.argv[2],True)
 lThisPerQEva = AdhocMeasureC().ReadPerQEva(sys.argv[1],True)
 
 
-hBaseRes = dict(zip(lBasePerQEva))
+hBaseRes = dict(lBasePerQEva)
 
 out = open(sys.argv[3],'w')
 
