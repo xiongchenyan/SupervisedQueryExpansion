@@ -28,6 +28,6 @@ out = open(sys.argv[3],'w')
 for qid,Measure in lThisPerQEva:
     BlMeasure = hBaseRes[qid]
     Measure -= BlMeasure
-    print >> out, qid + "\t" + Measure.dumps()
+    print >> out, "%d\t%s" %(qid,Measure.dumps())
     
 out.close()
