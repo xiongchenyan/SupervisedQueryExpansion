@@ -95,7 +95,7 @@ class TermLabelViaDocRankingScoreC(cxBaseC):
                 print "term [%s] df [%d] filtered" %(ExpTerm.term, DF)
                 return 0.0
             else:
-                print "DF [%d]" %(DF)
+                print "term [%s] df [%d] keep" %(ExpTerm.term, DF)
         
         
         ExpTerm.score = self.NewTermW
