@@ -17,7 +17,19 @@ for each q
 done
 @author: cx
 '''
+'''
+Key problem:
+1: gap between: individual effectiveness -> group effectiveness
+2: gap between: ranking score change -> evaluation measure change
+3: random influence of terms
+'''
 
+'''
+for p3:
+    set all term that df < 2's score to zero? 
+        cause it is highly random and bring noise to label?
+
+'''
 
 
 import site
@@ -44,10 +56,11 @@ class TermLabelViaDocRankingScoreC(cxBaseC):
         self.NewTermW = 0.1
         self.ReRankDepth = 100
         self.ReRanker = WeightedReRankerC()
+        self.DFMin = 0
         
     @staticmethod
     def ShowConf():
-        print "in\nout\ncashdir\nnewtermweight\nrerankdepth\nqrel"
+        print "in\nout\ncashdir\nnewtermweight\nrerankdepth\nqrel\ndfmin"
         WeightedReRankerC.ShowConf()
 
     def SetConf(self,ConfIn):
@@ -59,11 +72,28 @@ class TermLabelViaDocRankingScoreC(cxBaseC):
         self.ReRanker.SetConf(ConfIn)
         self.NewTermW = float(conf.GetConf('newtermweight',self.NewTermW))
         self.ReRankDepth = int(conf.GetConf('rerankdepth',self.ReRankDepth))
+        self.DFMin = int(conf.GetConf('dfmin',self.DFMin))
         
-        
+    
+    
+    
+    def CalcTermDF(self,term,lDoc):
+        DF = 0
+        for doc in lDoc:
+            if doc.ContainTerm(term):
+                DF += 1
+        return DF
+    
+    
         
     def EvaluatePerTerm(self,ExpTerm,lDoc):
         #lDoc contains raw document score already
+        
+        if self.DFMin > 0:
+            if self.CalcTermDF(ExpTerm.term, lDoc) < self.DFMin:
+                return 0.0
+        
+        
         ExpTerm.score = self.NewTermW
         
         lExpTerm = [ExpTerm]
