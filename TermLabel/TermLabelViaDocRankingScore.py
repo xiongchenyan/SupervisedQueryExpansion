@@ -105,7 +105,7 @@ class TermLabelViaDocRankingScoreC(cxBaseC):
         for lExpTerm in llExpTerm:
             query= lExpTerm[0].query
             print "working query [%s]" %(query)
-            lDoc = ReadPackedIndriRes(self.CashDir + "/" + query)
+            lDoc = ReadPackedIndriRes(self.CashDir + "/" + query,self.ReRankDepth)
             
             for ExpTerm in lExpTerm:
                 ExpTerm.score = self.EvaluatePerTerm(ExpTerm, lDoc)
