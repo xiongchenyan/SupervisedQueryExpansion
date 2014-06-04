@@ -81,7 +81,7 @@ class TermLabelViaDocRankingScoreC(cxBaseC):
         NoiseCnt = 0
         
         for doc in lReRankDoc:
-            ScoreChange = doc.score - hBaseDocScore[doc.Docno]
+            ScoreChange = doc.score - hBaseDocScore[doc.DocNo]
             Rel = self.RelCenter.GetScore(ExpTerm.qid, doc.DocNo)
             if Rel > 0:
                 RelGain += ScoreChange
