@@ -90,8 +90,12 @@ class TermLabelViaDocRankingScoreC(cxBaseC):
         #lDoc contains raw document score already
         
         if self.DFMin > 0:
-            if self.CalcTermDF(ExpTerm.term, lDoc) < self.DFMin:
+            DF = self.CalcTermDF(ExpTerm.term, lDoc) 
+            if DF < self.DFMin:
+                print "term [%s] df [%d] filtered" %(ExpTerm.term, DF)
                 return 0.0
+            else:
+                print "DF [%d]" %(DF)
         
         
         ExpTerm.score = self.NewTermW
