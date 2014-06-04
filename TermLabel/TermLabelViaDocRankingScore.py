@@ -85,9 +85,17 @@ class TermLabelViaDocRankingScoreC(cxBaseC):
         return DF
     
     
+    
+    def FilterByLength(self,term):
+        return len(term) < 3
+        
+    
         
     def EvaluatePerTerm(self,ExpTerm,lDoc):
         #lDoc contains raw document score already
+
+        if self.FilterByLength(ExpTerm.Term):
+            return 0.0
         
         if self.DFMin > 0:
             DF = self.CalcTermDF(ExpTerm.term, lDoc) 
