@@ -46,7 +46,7 @@ class TermLabelViaDocRankingScoreC(cxBaseC):
         self.ReRanker = WeightedReRankerC()
         
     @staticmethod
-    def ShowConf(self):
+    def ShowConf():
         print "in\nout\ncashdir\nnewtermweight\nrerankdepth\nqrel"
         WeightedReRankerC.ShowConf()
 
