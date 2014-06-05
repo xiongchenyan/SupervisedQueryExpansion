@@ -33,7 +33,7 @@ for p3:
 
 
 import site
-site.addsitedir('/bos/usr0/cx/cxPylib')
+site.addsitedir('/bos/usr0/cx/PyCode/cxPyLib')
 site.addsitedir('/bos/usr0/cx/PyCode/QueryExpansion')
 site.addsitedir('/bos/usr0/cx/PyCode/SupervisedQueryExpansion')
 from cxBase.base import cxBaseC
@@ -90,20 +90,24 @@ class TermLabelViaDocRankingScoreC(cxBaseC):
         return len(term) < 3
         
     
-        
-    def EvaluatePerTerm(self,ExpTerm,lDoc):
-        #lDoc contains raw document score already
-
+    
+    def FilterTerm(self,ExpTerm,lDoc):
         if self.FilterByLength(ExpTerm.term):
-            return 0.0
+            return True
         
         if self.DFMin > 0:
             DF = self.CalcTermDF(ExpTerm.term, lDoc) 
             if DF < self.DFMin:
                 print "term [%s] df [%d] filtered" %(ExpTerm.term, DF)
-                return 0.0
+                return True
             else:
                 print "term [%s] df [%d] keep" %(ExpTerm.term, DF)
+        return False
+    
+    def EvaluatePerTerm(self,ExpTerm,lDoc):
+        #lDoc contains raw document score already
+
+        
         
         
         ExpTerm.score = self.NewTermW
@@ -150,6 +154,8 @@ class TermLabelViaDocRankingScoreC(cxBaseC):
             lDoc = ReadPackedIndriRes(self.CashDir + "/" + query,self.ReRankDepth)
             
             for ExpTerm in lExpTerm:
+                if self.FilterTerm(ExpTerm, lDoc):
+                    continue
                 ExpTerm.score = self.EvaluatePerTerm(ExpTerm, lDoc)
                 print >>out, ExpTerm.dumps()
         out.close()
