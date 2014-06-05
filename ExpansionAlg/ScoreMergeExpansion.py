@@ -84,6 +84,7 @@ class ScoreMergeExpansionC(cxBaseC):
                     continue
                 ExpTerm = self.MergeScore(ExpTerm)
                 lExpTerm.append(ExpTerm)
+        lExpTerm.sort(key = lambda item: item.score,reverse = True)
         lExpTerm = NormalizeExpTermWeight(lExpTerm)
         return lExpTerm[:self.NumOfTerm]
     
