@@ -103,6 +103,14 @@ class FreebasePrfFeatureExtractionC(FreebaseFeatureExtractionC):
         
         
 
-
+    
+import sys
+if 2 != len(sys.argv):
+    print "conf"
+    FreebasePrfFeatureExtractionC.ShowConf()
+    sys.exit()
+    
+Extractor = FreebasePrfFeatureExtractionC(sys.argv[1])
+Extractor.Process()
 
 

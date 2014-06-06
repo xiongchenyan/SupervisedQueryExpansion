@@ -108,15 +108,7 @@ class FreebaseFeatureExtractionC(cxBaseC):
         return
     
     
-    
-import sys
-if 2 != len(sys.argv):
-    print "conf"
-    FreebaseFeatureExtractionC.ShowConf()
-    sys.exit()
-    
-Extractor = FreebaseFeatureExtractionC(sys.argv[1])
-Extractor.Process()
+
 
         
         
