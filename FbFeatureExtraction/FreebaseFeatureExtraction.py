@@ -34,7 +34,7 @@ class FreebaseFeatureExtractionC(cxBaseC):
         
     @staticmethod
     def ShowConf():
-        print "termctf\nqobjrank\nin\nout"
+        print "termctf\nobjrank\nin\nout"
         FbObjCacheCenterC.ShowConf()
         
         
@@ -73,7 +73,7 @@ class FreebaseFeatureExtractionC(cxBaseC):
                 lQObj.append(FbObj)
             qid = lvCol[0][0]
             lQObj = FbApiObjectC.NormalizeObjRankScore(lQObj)
-            print "qid [%s]'s obj loaded"
+            print "qid [%s]'s obj loaded" %(qid)
             self.hQObj[qid] = lQObj
         reader.close()
         return True
