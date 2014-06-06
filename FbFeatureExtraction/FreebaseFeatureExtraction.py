@@ -99,8 +99,8 @@ class FreebaseFeatureExtractionC(cxBaseC):
         
         out = open(self.OutName,'w')
         for lExpTerm in llExpTerm:
-            self.ExtractForOneQ(lExpTerm)
-            for ExpTerm in llExpTerm:
+            lExpTerm = self.ExtractForOneQ(lExpTerm)
+            for ExpTerm in lExpTerm:
                 print >>out, ExpTerm.dumps()
                 
         out.close()
