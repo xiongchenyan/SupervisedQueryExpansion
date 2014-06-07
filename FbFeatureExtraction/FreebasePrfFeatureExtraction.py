@@ -5,21 +5,14 @@ Created on Jun 6, 2014
 '''
 
 import site
-site.addsitedir('/bos/usr0/cx/cxPyLib')
+site.addsitedir('/bos/usr0/cx/PyCode/cxPyLib')
 site.addsitedir('/bos/usr0/cx/PyCode/QueryExpansion')
 site.addsitedir('/bos/usr0/cx/PyCode/SupervisedQueryExpansion')
 site.addsitedir('/bos/usr0/cx/PyCode/GoogleAPI')
 
 from FbFeatureExtraction.FreebaseFeatureExtraction import *
 
-from cxBase.base import cxBaseC
-from cxBase.Conf import cxConfC
-from IndriRelate.CtfLoader import TermCtfC
-from IndriRelate.IndriInferencer import *
-from cxBase.KeyFileReader import KeyFileReaderC
-from base.ExpTerm import *
-from FbObjCenter.FbObjCacheCenter import *
-from GoogleFreebaseAPI.APIBase import *
+from cxBase.TextBase import *
 
 class FreebasePrfFeatureExtractionC(FreebaseFeatureExtractionC):
     
