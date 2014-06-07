@@ -26,6 +26,7 @@ class FreebasePrfFeatureExtractionC(FreebaseFeatureExtractionC):
             #FbPrfTfUwBiQDesp
             #FbPrfDfCorName
             #FbPrfDfCorDesp
+        print "extracting [%s][%s]-[%s]" %(ExpTerm.qid,ExpTerm.query,ExpTerm.term)
         if not ExpTerm.qid in self.hQObj:
             return    
             
@@ -45,6 +46,7 @@ class FreebasePrfFeatureExtractionC(FreebaseFeatureExtractionC):
             text = Obj.GetName()
         else:
             text = Obj.GetDesp()
+        text = TextBaseC.RawClean(text)
         return text
     
     def ExtractTfIdf(self,ExpTerm,field):
