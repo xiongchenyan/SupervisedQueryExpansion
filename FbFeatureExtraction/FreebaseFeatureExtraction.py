@@ -6,7 +6,7 @@ to define the API's
 '''
 
 import site
-site.addsitedir('/bos/usr0/cx/cxPylib')
+site.addsitedir('/bos/usr0/cx/cxPyLib')
 site.addsitedir('/bos/usr0/cx/PyCode/QueryExpansion')
 site.addsitedir('/bos/usr0/cx/PyCode/SupervisedQueryExpansion')
 site.addsitedir('/bos/usr0/cx/PyCode/GoogleAPI')
