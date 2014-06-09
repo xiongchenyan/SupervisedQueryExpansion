@@ -51,8 +51,8 @@ for lExpTerm in llExpTerm:
         if ExpTerm.Key() in hTermScore:
             GroundTruth = hTermScore[ExpTerm.Key()]
         ExpTerm.hFeature.clear()
-        ExpTerm.hFeature['gt'] = GroundTruth
-        print >>out, ExpTerm.dumps()
+#         ExpTerm.hFeature['gt'] = GroundTruth
+        print >>out, ExpTerm.dumps() + "\t%f" %(GroundTruth)
         
         
 out.close()
