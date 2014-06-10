@@ -27,6 +27,7 @@ class ScoreMergeExpansionC(cxBaseC):
         self.NumOfTerm = 10
         self.ExpTermIn = ""
         self.DefaultMinScore = 0.000001
+        self.FilterNeg = False
         return
     
     def SetConf(self,ConfIn):
@@ -35,11 +36,12 @@ class ScoreMergeExpansionC(cxBaseC):
         self.LoadBaseTerm(conf.GetConf('baseterm'))
         self.NumOfTerm = int(conf.GetConf('numofexpterm',self.NumOfTerm))
         self.ExpTermIn = conf.GetConf('in')
+        self.FilterNeg = bool(conf.GetConf('filterneg', self.FilterNeg))
         return True
     
     @staticmethod
     def ShowConf():
-        print "alpha\nbaseterm\nnumofexpterm\nin"
+        print "alpha\nbaseterm\nnumofexpterm\nin\nfilterneg"
     
     def LoadBaseTerm(self,Path):
         if "" == Path:
@@ -78,8 +80,8 @@ class ScoreMergeExpansionC(cxBaseC):
                 if lInExpTerm[0].qid != qid:
                     #only deal with current qid
                     continue
-            for ExpTerm in lInExpTerm:
-                if ExpTerm.score < 0.5:
+            for ExpTerm in lInExpTerm:                
+                if (self.FilterNeg) | (ExpTerm.score < 0.5):
                     #discard those with p<0.5
                     continue
                 ExpTerm = self.MergeScore(ExpTerm)
