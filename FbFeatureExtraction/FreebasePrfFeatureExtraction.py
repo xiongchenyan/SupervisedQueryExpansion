@@ -53,7 +53,6 @@ class FreebasePrfFeatureExtractionC(FreebaseFeatureExtractionC):
         lObj = self.hQObj[ExpTerm.qid]
         Feature = 'FbPrfTfIdf' + field
         value = 0
-        
         for Obj in lObj:
             text = self.GetObjField(Obj, field)
             Lm = LmBaseC(text)

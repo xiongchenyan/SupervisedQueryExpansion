@@ -69,7 +69,7 @@ class FreebaseFeatureExtractionC(cxBaseC):
                 name = lQObj[i].GetName()
                 lQObj[i] = self.ObjCenter.FetchObj(lQObj[i].GetId())
                 lQObj[i].SetScore(score)
-                lQObj[i].name = name
+                lQObj[i].SetName(name.lower())
             
             self.hQObj[qid] = lQObj
           

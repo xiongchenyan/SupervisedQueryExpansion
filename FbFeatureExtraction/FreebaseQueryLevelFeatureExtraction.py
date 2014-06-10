@@ -58,11 +58,8 @@ class FreebaseQueryLevelFeatureExtractionC(FreebaseFeatureExtractionC):
     def ExtractQFeature(self,qid,query):
         if qid == self.CurrentQid:
             return self.hCurrentQFeature
-        
         print "start extracting q level [%s][%s]" %(qid,query)
-        
         self.CurrentQid = qid
-        
         hFeature = {}
         lObj = []
         hFeature.update(self.ExtractQLength(qid,query,lObj))
