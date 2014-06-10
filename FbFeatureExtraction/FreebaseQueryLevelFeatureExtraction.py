@@ -35,7 +35,7 @@ from FbFeatureExtraction.FreebaseFeatureExtraction import *
 class FreebaseQueryLevelFeatureExtractionC(FreebaseFeatureExtractionC):
     
     def Init(self):
-        self.DropFraction = 0.5
+        self.DropFraction = 3.0/2.0
         self.CurrentQid = -1
         self.hCurrentQFeature = {}
         

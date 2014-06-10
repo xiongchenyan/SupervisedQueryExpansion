@@ -89,7 +89,7 @@ class FreebaseFeatureExtractionC(cxBaseC):
     
     
     def ExtractForOneQ(self,lExpTerm):
-        self.Prepare(lExpTerm.qid)        
+        self.Prepare(lExpTerm[0].qid)        
         for ExpTerm in lExpTerm:
             ExpTerm = self.ExtractForOneTerm(ExpTerm)
         return lExpTerm
