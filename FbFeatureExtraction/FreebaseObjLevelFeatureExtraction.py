@@ -109,7 +109,7 @@ class FreebaseObjLevelFeatureExtractionC(FreebaseFeatureExtractionC):
 
     def ExtractForOneObj(self,qid,query,obj):
         FeatureVector = VectorC()
-        print "extracting obj feature for [%s][%s][%s]" %(qid,query.obj.GetName())
+        print "extracting obj feature for [%s][%s][%s]" %(qid,query,obj.GetName())
         FeatureVector.hDim.update(self.ExtractFaccScore(qid,query,obj))
         FeatureVector.hDim.update(self.ExtractLmScore(qid,query,obj))
         FeatureVector.hDim.update(self.ExtractNameEqual(qid,query,obj))
