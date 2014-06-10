@@ -100,7 +100,7 @@ class FreebaseQueryLevelFeatureExtractionC(FreebaseFeatureExtractionC):
     def ExtractFaccObjScoreFraction(self,qid,query,lObj):
         hFeature = {}
         if len(lObj) > 1:
-            hFeature['QLvlFaccScoreTopSecond'] = lObj[0].score / lObj[1].score
+            hFeature['QLvlFaccScoreTopSecond'] = lObj[0].GetScore() / lObj[1].GetScore()
             
         #the first > self.DropFraction position
         for i in range(len(lObj) - 1):
