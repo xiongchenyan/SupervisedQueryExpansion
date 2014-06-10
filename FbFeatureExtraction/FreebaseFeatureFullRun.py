@@ -51,6 +51,5 @@ for lExpTerm in llExpTerm:
         
 out.close()
 print "finished"
-return
 
 
