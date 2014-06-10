@@ -62,7 +62,15 @@ class FreebaseFeatureExtractionC(cxBaseC):
         if qid in self.hQObj:
             #fill a qid's obj only when needed
             lQObj = self.hQObj[qid]
-            lQObj = [self.ObjCenter.FetchObj(obj.GetId()) for obj in lQObj]
+            
+            #score must be manually kept....
+            for i in range(len(lQObj)):
+                score = lQObj[i].GetScore()
+                name = lQObj[i].GetName()
+                lQObj[i] = self.ObjCenter.FetchObj(lQObj[i].GetId())
+                lQObj[i].SetScore(score)
+                lQObj[i].name = name
+            
             self.hQObj[qid] = lQObj
           
 #         self.Prepared = True
