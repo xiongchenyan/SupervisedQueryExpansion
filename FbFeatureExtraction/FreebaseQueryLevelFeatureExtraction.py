@@ -59,7 +59,7 @@ class FreebaseQueryLevelFeatureExtractionC(FreebaseFeatureExtractionC):
         if qid == self.CurrentQid:
             return self.hCurrentQFeature
         
-        print "start extracting [%s][%s]" %(qid,query)
+        print "start extracting q level [%s][%s]" %(qid,query)
         
         self.CurrentQid = qid
         
@@ -79,6 +79,7 @@ class FreebaseQueryLevelFeatureExtractionC(FreebaseFeatureExtractionC):
     
     def ExtractForOneTerm(self,ExpTerm):
         hFeature = self.ExtractQFeature(ExpTerm.qid, ExpTerm.query)
+        print "extractin q level for [%s][%s][%s]" %(ExpTerm.qid,ExpTerm.query,ExpTerm.GetName())
         ExpTerm.AddFeature(hFeature)
         return ExpTerm
         

@@ -26,7 +26,7 @@ class FreebasePrfFeatureExtractionC(FreebaseFeatureExtractionC):
             #FbPrfTfUwBiQDesp
             #FbPrfDfCorName
             #FbPrfDfCorDesp
-        print "extracting [%s][%s]-[%s]" %(ExpTerm.qid,ExpTerm.query,ExpTerm.term)
+        print "extracting FbPrf [%s][%s]-[%s]" %(ExpTerm.qid,ExpTerm.query,ExpTerm.term)
         if not ExpTerm.qid in self.hQObj:
             return    
             

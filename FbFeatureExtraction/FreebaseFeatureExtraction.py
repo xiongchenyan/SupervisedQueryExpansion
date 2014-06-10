@@ -88,8 +88,9 @@ class FreebaseFeatureExtractionC(cxBaseC):
                 lQObj.append(FbObj)
             qid = lvCol[0][0]
             lQObj = FbApiObjectC.NormalizeObjRankScore(lQObj)
-            print "qid [%s]'s obj loaded" %(qid)
+#             print "qid [%s]'s obj loaded" %(qid)
             self.hQObj[qid] = lQObj
+        print "q rank obj loaded"
         reader.close()
         return True
     

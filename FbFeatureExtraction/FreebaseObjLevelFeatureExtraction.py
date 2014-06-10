@@ -35,7 +35,7 @@ site.addsitedir('/bos/usr0/cx/PyCode/cxPyLib')
 site.addsitedir('/bos/usr0/cx/PyCode/QueryExpansion')
 site.addsitedir('/bos/usr0/cx/PyCode/SupervisedQueryExpansion')
 site.addsitedir('/bos/usr0/cx/PyCode/GoogleAPI')
-
+import json
 from FbFeatureExtraction.FreebaseFeatureExtraction import *
 from cxBase.TextBase import *
 from cxBase.Conf import cxConfC
@@ -78,8 +78,9 @@ class FreebaseObjLevelFeatureExtractionC(FreebaseFeatureExtractionC):
         lObj = self.hQObj[ExpTerm.qid]
         self.ExtractObjFeatureAndCalcObjLm(ExpTerm.qid, ExpTerm.query, lObj)
         
+        print "extracting ObjLvl for [%s][%s][%s]" %(ExpTerm.qid,ExpTerm.query,ExpTerm.term)
         lObjScore = self.CalcTermObjScore(ExpTerm.term)
-        
+        print "term obj p:%s" %(json.dumps(lObjScore))
         FeatureVector = VectorC()
         for i in range(len(lObjScore)):
             FeatureVector += self.lObjFeature[i] * lObjScore[i]
@@ -95,7 +96,7 @@ class FreebaseObjLevelFeatureExtractionC(FreebaseFeatureExtractionC):
         
         if qid == self.ThisQid:
             return
-        
+        print "preparing obj feature for query [%s][%s]" %(qid,query)
         self.CalcObjLm(lObj)
         
         del self.lObjFeature[:]
@@ -108,7 +109,7 @@ class FreebaseObjLevelFeatureExtractionC(FreebaseFeatureExtractionC):
 
     def ExtractForOneObj(self,qid,query,obj):
         FeatureVector = VectorC()
-        
+        print "extracting obj feature for [%s][%s][%s]" %(qid,query.obj.GetName())
         FeatureVector.hDim.update(self.ExtractFaccScore(qid,query,obj))
         FeatureVector.hDim.update(self.ExtractLmScore(qid,query,obj))
         FeatureVector.hDim.update(self.ExtractNameEqual(qid,query,obj))
