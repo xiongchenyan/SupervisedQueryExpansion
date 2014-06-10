@@ -42,7 +42,7 @@ class ExpansionSingleRunCenterC(cxBaseC):
         self.ExpansionMethod = 'merge'
         self.InputType = 'qterm'
         self.OutExpTerm = False
-        self.MaxExpTermToKeep = 1000
+        self.MaxExpTermToKeep = 10000
         self.NumOfExpTerm = 10
         
         return
