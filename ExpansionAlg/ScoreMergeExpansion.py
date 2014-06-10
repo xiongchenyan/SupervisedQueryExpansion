@@ -81,7 +81,7 @@ class ScoreMergeExpansionC(cxBaseC):
                     #only deal with current qid
                     continue
             for ExpTerm in lInExpTerm:                
-                if (self.FilterNeg) | (ExpTerm.score < 0.5):
+                if (self.FilterNeg) & (ExpTerm.score < 0.5):
                     #discard those with p<0.5
                     continue
                 ExpTerm = self.MergeScore(ExpTerm)
