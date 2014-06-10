@@ -55,6 +55,11 @@ print "filter dim by min frac [%f] done" %(MinFilterFrac)
 
 lExpTerm = InitizeFeature(lExpTerm,DictName)
 print "initize feature done"
+
+
+#add normilization
+lExpTerm = MinMaxFeatureNormalize(lExpTerm) 
+
 lExpTerm = BinarizeScore(lExpTerm,PosBar)
 print "binarizescore done"
 out = open(OutName,'w')
