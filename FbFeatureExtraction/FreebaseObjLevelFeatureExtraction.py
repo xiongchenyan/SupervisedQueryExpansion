@@ -122,7 +122,7 @@ class FreebaseObjLevelFeatureExtractionC(FreebaseFeatureExtractionC):
     
     def ExtractFaccScore(self,qid,query,obj):
         hFeature = {}
-        hFeature['ObjLvlFaccScore'] = obj.score
+        hFeature['ObjLvlFaccScore'] = obj.GetScore()
         return hFeature
     
     
