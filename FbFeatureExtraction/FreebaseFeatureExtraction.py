@@ -27,8 +27,8 @@ class FreebaseFeatureExtractionC(cxBaseC):
         self.ObjCenter = FbObjCacheCenterC()
         self.hQObj = {} #qid ->list of FbApiObjectC
         self.QObjRankName = ""
-        self.ObjRankDepth = 50
-        self.Prepared = False
+        self.ObjRankDepth = 10
+#         self.Prepared = False
         self.InName = ""
         self.OutName = ""
         
@@ -52,24 +52,31 @@ class FreebaseFeatureExtractionC(cxBaseC):
         
         
         
-    def Prepare(self):
+    def Prepare(self,qid):
         #inherite class add prepare data here
-        if self.Prepared:
-            return
-        self.LoadQRankObj()  
-        self.Prepared = True
+#         if self.Prepared:
+#             return
+        if {} == self.hQObj:
+            self.LoadQRankObj()
+        
+        if qid in self.hQObj:
+            #fill a qid's obj only when needed
+            lQObj = self.hQObj[qid]
+            lQObj = [self.ObjCenter.FetchObj(obj.GetId()) for obj in lQObj]
+            self.hQObj[qid] = lQObj
+          
+#         self.Prepared = True
         
         
     def LoadQRankObj(self):
         reader = KeyFileReaderC()
         reader.open(self.QObjRankName)
-        
         for lvCol in reader:
             lQObj = []
             for vCol in lvCol[:self.ObjRankDepth]:
-#                 FbObj = FbApiObjectC(vCol[2],vCol[3],float(vCol[4]))
-                FbObj = self.ObjCenter.FetchObj(vCol[2])
-                FbObj.SetScore(float(vCol[4]))
+                FbObj = FbApiObjectC(vCol[2],vCol[3],float(vCol[4]))
+#                 FbObj = self.ObjCenter.FetchObj(vCol[2])
+#                 FbObj.SetScore(float(vCol[4]))
                 lQObj.append(FbObj)
             qid = lvCol[0][0]
             lQObj = FbApiObjectC.NormalizeObjRankScore(lQObj)
@@ -82,8 +89,7 @@ class FreebaseFeatureExtractionC(cxBaseC):
     
     
     def ExtractForOneQ(self,lExpTerm):
-        self.Prepare()
-        
+        self.Prepare(lExpTerm.qid)        
         for ExpTerm in lExpTerm:
             ExpTerm = self.ExtractForOneTerm(ExpTerm)
         return lExpTerm
