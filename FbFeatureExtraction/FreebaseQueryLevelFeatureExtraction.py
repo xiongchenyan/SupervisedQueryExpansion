@@ -104,6 +104,7 @@ class FreebaseQueryLevelFeatureExtractionC(FreebaseFeatureExtractionC):
         for i in range(len(lObj) - 1):
             if lObj[i].GetScore() / lObj[i+1].GetScore() >= self.DropFraction:
                 hFeature['QLvlFaccScoreFirstDrop'] = i
+                break
         if not'QLvlFaccScoreFirstDrop' in hFeature:
             hFeature['QLvlFaccScoreFirstDrop'] = len(lObj)
         return hFeature
