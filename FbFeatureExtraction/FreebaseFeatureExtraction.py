@@ -5,6 +5,15 @@ to define the API's
 @author: cx
 '''
 
+'''
+June 6.11:
+load facc obj rank and google obj rank as the same time, and all features are
+extracted from both ranks
+require change on all sub classes
+'''
+
+
+
 import site
 site.addsitedir('/bos/usr0/cx/PyCode/cxPyLib')
 site.addsitedir('/bos/usr0/cx/PyCode/QueryExpansion')
@@ -25,8 +34,17 @@ class FreebaseFeatureExtractionC(cxBaseC):
     def Init(self):
         self.CtfCenter = TermCtfC()
         self.ObjCenter = FbObjCacheCenterC()
-        self.hQObj = {} #qid ->list of FbApiObjectC
-        self.QObjRankName = ""
+#         self.hQObj = {} #qid ->list of FbApiObjectC
+        
+        self.hQFaccObj = {}
+        self.hQGoogleObj = {}
+        
+        
+#         self.QObjRankName = ""
+        self.QFaccObjRankName = ""
+        self.QGoogleObjRankName = ""
+        
+        
         self.ObjRankDepth = 10
 #         self.Prepared = False
         self.InName = ""
@@ -34,7 +52,7 @@ class FreebaseFeatureExtractionC(cxBaseC):
         
     @staticmethod
     def ShowConf():
-        print "termctf\nobjrank\nin\nout"
+        print "termctf\nfaccrank\ngooglerank\nin\nout"
         FbObjCacheCenterC.ShowConf()
         
         
@@ -43,7 +61,11 @@ class FreebaseFeatureExtractionC(cxBaseC):
         self.CtfCenter.Load(conf.GetConf('termctf'))
         self.ObjCenter.SetConf(ConfIn)
         
-        self.QObjRankName = conf.GetConf('objrank')
+#         self.QObjRankName = conf.GetConf('objrank')
+        
+        self.QFaccObjRankName = conf.GetConf('faccrank')
+        self.QGoogleObjRankName = conf.GetConf('googlerank')
+        
         self.ObjRankDepth = int(conf.GetConf('objrankdepth',self.ObjRankDepth))
         
         
@@ -59,9 +81,16 @@ class FreebaseFeatureExtractionC(cxBaseC):
         if {} == self.hQObj:
             self.LoadQRankObj()
         
-        if qid in self.hQObj:
+        self.hQFaccObj = self.FillForQ(qid, self.hQFaccObj)
+        self.hQGoogleObj = self.FillForQ(qid, self.hQGoogleObj)
+        
+#         self.Prepared = True
+    
+    
+    def FillForQ(self,qid,hQObj):
+        if qid in hQObj:
             #fill a qid's obj only when needed
-            lQObj = self.hQObj[qid]
+            lQObj = hQObj[qid]
             
             #score must be manually kept....
             for i in range(len(lQObj)):
@@ -71,14 +100,19 @@ class FreebaseFeatureExtractionC(cxBaseC):
                 lQObj[i].SetScore(score)
                 lQObj[i].SetName(name.lower())
             
-            self.hQObj[qid] = lQObj
-          
-#         self.Prepared = True
+            hQObj[qid] = lQObj
+        return hQObj
         
         
     def LoadQRankObj(self):
+        self.hQFaccObj = self.LoadQRankObjFromFile(self.QFaccObjRankName)
+        self.hQGoogleObj = self.LoadQRankObjFromFile(self.QGoogleObjRankName)
+    
+    
+    def LoadQRankObjFromFile(self,QObjRankName):
         reader = KeyFileReaderC()
-        reader.open(self.QObjRankName)
+        reader.open(QObjRankName)
+        hQObj = {}
         for lvCol in reader:
             lQObj = []
             for vCol in lvCol[:self.ObjRankDepth]:
@@ -89,11 +123,10 @@ class FreebaseFeatureExtractionC(cxBaseC):
             qid = lvCol[0][0]
             lQObj = FbApiObjectC.NormalizeObjRankScore(lQObj)
 #             print "qid [%s]'s obj loaded" %(qid)
-            self.hQObj[qid] = lQObj
-        print "q rank obj loaded"
+            hQObj[qid] = lQObj
+        print "q rank obj loaded from [%s]" %(QObjRankName)
         reader.close()
-        return True
-    
+        return hQObj
     
     
     

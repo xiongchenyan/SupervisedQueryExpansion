@@ -57,28 +57,41 @@ class FreebaseQueryLevelFeatureExtractionC(FreebaseFeatureExtractionC):
     
     def ExtractQFeature(self,qid,query):
         if qid == self.CurrentQid:
-            return self.hCurrentQFeature
+            self.hCurrentQFeature
         print "start extracting q level [%s][%s]" %(qid,query)
         self.CurrentQid = qid
         hFeature = {}
         lObj = []
         hFeature.update(self.ExtractQLength(qid,query,lObj))
         
-        if qid in self.hQObj:
-            lObj = self.hQObj[qid]
-            hFeature.update(self.ExtractFaccObjScoreFraction(qid,query,lObj))
-            hFeature.update(self.ExtractFaccObjNameAliasMatch(qid,query,lObj))
-            hFeature.update(self.ExtractFaccObjNameDuplicate(qid,query,lObj))
-            hFeature.update(self.ExtractFaccObjCategoryNum(qid,query,lObj))        
+        if qid in self.hQFaccObj:
+            lObj = self.hQFaccObj[qid]
+            hFeature.update(self.ExtractFaccObjScoreFraction(qid,query,lObj,'Facc'))
+            hFeature.update(self.ExtractFaccObjNameAliasMatch(qid,query,lObj,'Facc'))
+            hFeature.update(self.ExtractFaccObjNameDuplicate(qid,query,lObj,'Facc'))
+            hFeature.update(self.ExtractFaccObjCategoryNum(qid,query,lObj,'Facc'))   
+        if qid in self.hQGoogleObj:
+            lObj = self.hQGoogleObj[qid]
+            hFeature.update(self.ExtractFaccObjScoreFraction(qid,query,lObj,'Google'))
+            hFeature.update(self.ExtractFaccObjNameAliasMatch(qid,query,lObj,'Google'))
+            hFeature.update(self.ExtractFaccObjNameDuplicate(qid,query,lObj,'Google'))
+            hFeature.update(self.ExtractFaccObjCategoryNum(qid,query,lObj,'Google'))                  
         self.hCurrentQFeature = hFeature
         return self.hCurrentQFeature
+   
+   
+   
+   
     
     
     def ExtractForOneTerm(self,ExpTerm):
         hFeature = self.ExtractQFeature(ExpTerm.qid, ExpTerm.query)
-        print "extractin q level for [%s][%s][%s]" %(ExpTerm.qid,ExpTerm.query,ExpTerm.term)
+        print "extractin q level] for [%s][%s][%s]" %(ExpTerm.qid,ExpTerm.query,ExpTerm.term)
         ExpTerm.AddFeature(hFeature)
         return ExpTerm
+    
+    
+        
         
 
         
@@ -95,22 +108,22 @@ class FreebaseQueryLevelFeatureExtractionC(FreebaseFeatureExtractionC):
         return hFeature
     
     
-    def ExtractFaccObjScoreFraction(self,qid,query,lObj):
+    def ExtractFaccObjScoreFraction(self,qid,query,lObj,pre):
         hFeature = {}
         if len(lObj) > 1:
-            hFeature['QLvlFaccScoreTopSecond'] = lObj[0].GetScore() / lObj[1].GetScore()
+            hFeature['QLvl%sScoreTopSecond' %(pre)] = lObj[0].GetScore() / lObj[1].GetScore()
             
         #the first > self.DropFraction position
         for i in range(len(lObj) - 1):
             if lObj[i].GetScore() / lObj[i+1].GetScore() >= self.DropFraction:
-                hFeature['QLvlFaccScoreFirstDrop'] = i
+                hFeature['QLvl%sScoreFirstDrop' %(pre)] = i
                 break
-        if not'QLvlFaccScoreFirstDrop' in hFeature:
-            hFeature['QLvlFaccScoreFirstDrop'] = len(lObj)
+        if not ('QLvl%sScoreFirstDrop' %(pre)) in hFeature:
+            hFeature['QLvl%sScoreFirstDrop' %(pre)] = len(lObj)
         return hFeature
     
     
-    def ExtractFaccObjNameAliasMatch(self,qid,query,lObj):
+    def ExtractFaccObjNameAliasMatch(self,qid,query,lObj,pre):
         hFeature = {}
         #The rank 1 obj's max((name,alias) overlap with q)
         #The rank of first obj has exactly same name|alias with q
@@ -123,7 +136,7 @@ class FreebaseQueryLevelFeatureExtractionC(FreebaseFeatureExtractionC):
         for name in lFirstName:
             MaxOverlap = max(MaxOverlap,TextBaseC.TermMatchFrac(name,query))
             
-        hFeature['QLvlFaccFirstObjNameMatch'] = MaxOverlap
+        hFeature['QLvl%sFirstObjNameMatch' %(pre)] = MaxOverlap
         
         
         flag = False
@@ -131,13 +144,13 @@ class FreebaseQueryLevelFeatureExtractionC(FreebaseFeatureExtractionC):
             lName = [lObj[i].GetName()] + lObj[i].GetAlias()
             for name in lName:
                 if TextBaseC.RawClean(name) == TextBaseC.RawClean(query):
-                    hFeature['QLvlFaccFirstSameQueryObjRank'] = i
+                    hFeature['QLvl%sFirstSameQueryObjRank' %(pre)] = i
                     flag = True
                     break
             if flag:
                 break
         if not flag:
-            hFeature['QLvlFaccFirstSameQueryObjRank'] = len(lObj)
+            hFeature['QLvl%sFirstSameQueryObjRank' %(pre)] = len(lObj)
             
             
         flag = False
@@ -145,17 +158,17 @@ class FreebaseQueryLevelFeatureExtractionC(FreebaseFeatureExtractionC):
             lName = [lObj[i].GetName()] + lObj[i].GetAlias()
             for name in lName:
                 if TextBaseC.RawClean(name) in TextBaseC.RawClean(query):
-                    hFeature['QLvlFaccFirstInQueryObjRank'] = i
+                    hFeature['QLvl%sFirstInQueryObjRank' %(pre)] = i
                     flag = True
                     break
             if flag:
                 break
         if not flag:
-            hFeature['QLvlFaccFirstInQueryObjRank'] = len(lObj)                
+            hFeature['QLvl%sFirstInQueryObjRank' %(pre)] = len(lObj)                
 
         return hFeature
     
-    def ExtractFaccObjNameDuplicate(self,qid,query,lObj):
+    def ExtractFaccObjNameDuplicate(self,qid,query,lObj,pre):
         hFeature = {}
         #get all names, sort and count for the most duplicated one.
         #not using alias june 10
@@ -172,11 +185,11 @@ class FreebaseQueryLevelFeatureExtractionC(FreebaseFeatureExtractionC):
                 hName[name] += 1
         
         lCnt = [cnt for name,cnt in hName.items()]
-        hFeature['QLvlFaccNameDuplicate'] = max(lCnt)
+        hFeature['QLvl%sNameDuplicate' %(pre)] = max(lCnt)
         return hFeature
     
     
-    def ExtractFaccObjCategoryNum(self,qid,query,lObj):
+    def ExtractFaccObjCategoryNum(self,qid,query,lObj,pre):
         hFeature = {}
         #get all categories. except common, user, etc
         
@@ -185,7 +198,7 @@ class FreebaseQueryLevelFeatureExtractionC(FreebaseFeatureExtractionC):
             lType = obj.GetType(Filter=True)
             hType.update(zip(lType,[True] * len(lType)))
         
-        hFeature['QLvlFaccObjTypeCnt'] = len(hType)     
+        hFeature['QLvl%sObjTypeCnt' %(pre)] = len(hType)     
         return hFeature
 
         

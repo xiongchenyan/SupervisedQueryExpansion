@@ -43,13 +43,21 @@ from cxBase.Vector import VectorC
 from IndriRelate.IndriInferencer import *
 class FreebaseObjLevelFeatureExtractionC(FreebaseFeatureExtractionC):
     def Init(self):
-        self.lObjLm = []
+        
+#         self.lObjLm = []
         self.ThisQid = -1
-        self.lObjFeature = []
+#         self.lObjFeature = []
+        
+        self.lFaccObjLm = []
+        self.lFaccObjFeature = []
+        self.lGoogleObjLm = []
+        self.lGoogleObjFeature = []
+        
+        
         super(FreebaseObjLevelFeatureExtractionC,self).Init()
     
     def CalcObjLm(self,lObj):
-        del self.lObjLm[:]
+        lObjLm = []
         
         for obj in lObj:
             desp = obj.GetDesp()
@@ -58,14 +66,16 @@ class FreebaseObjLevelFeatureExtractionC(FreebaseFeatureExtractionC):
                 score = Lm.GetTFProb(term) * self.CtfCenter.GetLogIdf(term)
                 Lm.hTermTF[term] = score
             Lm.CalcLen()
-            self.lObjLm.append(Lm)
-        return   
+            lObjLm.append(Lm)
+        return lObjLm   
     
     
-    def CalcTermObjScore(self,term):
-        lObjScore = [1.0/len(self.lObjLm)] * len(self.lObjLm)
+    def CalcTermObjScore(self,term,lObjLm):
+        if [] == lObjLm:
+            return []
+        lObjScore = [1.0/len(lObjLm)] * len(lObjLm)
         
-        lObjProb = [Lm.GetTFProb(term) for Lm in self.lObjLm]
+        lObjProb = [Lm.GetTFProb(term) for Lm in lObjLm]
         Total = float(sum(lObjProb))
         if 0 != Total:
             lObjScore = [pTermObj / Total for pTermObj in lObjProb]
@@ -73,73 +83,99 @@ class FreebaseObjLevelFeatureExtractionC(FreebaseFeatureExtractionC):
     
     
     def ExtractForOneTerm(self,ExpTerm):
-        if not ExpTerm.qid in self.hQObj:
-            return ExpTerm
-        lObj = self.hQObj[ExpTerm.qid]
-        self.ExtractObjFeatureAndCalcObjLm(ExpTerm.qid, ExpTerm.query, lObj)
+#         if not ExpTerm.qid in self.hQObj:
+#             return ExpTerm
+#         lObj = self.hQObj[ExpTerm.qid]
+        self.ExtractObjFeatureAndCalcObjLm(ExpTerm.qid, ExpTerm.query)
         
         print "extracting ObjLvl for [%s][%s][%s]" %(ExpTerm.qid,ExpTerm.query,ExpTerm.term)
-        lObjScore = self.CalcTermObjScore(ExpTerm.term)
-        print "term obj p:%s" %(json.dumps(lObjScore))
-        FeatureVector = VectorC()
-        for i in range(len(lObjScore)):
-            FeatureVector += self.lObjFeature[i] * lObjScore[i]
         
-        ExpTerm.AddFeature(FeatureVector.hDim)
+        ExpTerm = self.MergeObjFeatureToTermFeature(ExpTerm)
         
         return ExpTerm
         
         
+    def MergeObjFeatureToTermFeature(self,ExpTerm):
+        
+        lFaccObjScore = self.CalcTermObjScore(ExpTerm.term, self.lFaccObjLm)
+        lGoogleObjScore = self.CalcTermObjScore(ExpTerm.term, self.lGoogleObjLm)
+        
+        FaccFeature = VectorC()
+        for i in range(len(lFaccObjScore)):
+            FaccFeature += self.lFaccObjFeature[i] * lFaccObjScore[i]
+        
+        GoogleFeature = VectorC()
+        for i in range(len(lGoogleObjScore)):
+            GoogleFeature += self.lGoogleObjFeature[i] * lGoogleObjScore[i]
+        
+        ExpTerm.AddFeature(FaccFeature.hDim)
+        ExpTerm.AddFeature(GoogleFeature.hDim)
+        return ExpTerm
     
         
-    def ExtractObjFeatureAndCalcObjLm(self,qid,query,lObj):
-        
+    def ExtractObjFeatureAndCalcObjLm(self,qid,query):
+    #do the facc + search here    
         if qid == self.ThisQid:
             return
         print "preparing obj feature for query [%s][%s]" %(qid,query)
-        self.CalcObjLm(lObj)
         
-        del self.lObjFeature[:]
+        
+        lFaccObj = []
+        if qid in self.hQFaccObj:
+            lFaccObj = self.hQFaccObj[qid]
+        lGoogleObj = []
+        if qid in self.hQGoogleObj:
+            lGoogleObj = self.hQGoogleObj[qid]
+        
+        self.lFaccObjLm = self.CalcObjLm(lFaccObj)
+        self.lGoogleObjLm = self.CalcObjLm(lGoogleObj)
+        
+        del self.lFaccObjFeature[:]
+        del self.lGoogleObjFeature[:]
+        
         self.ThisQid = qid
         
-        for obj in lObj:
-            FeatureVector = self.ExtractForOneObj(qid,query,obj)
-            self.lObjFeature.append(FeatureVector)        
+        for obj in lFaccObj:
+            FeatureVector = self.ExtractForOneObj(qid,query,obj,'Facc')
+            self.lFaccObjFeature.append(FeatureVector)
+        for obj in lGoogleObj:
+            FeatureVector = self.ExtractForOneObj(qid, query, obj,'Google')
+            self.lGoogleObjFeature.append(FeatureVector)                    
         return 
 
-    def ExtractForOneObj(self,qid,query,obj):
+    def ExtractForOneObj(self,qid,query,obj,pre):
         FeatureVector = VectorC()
-        print "extracting obj feature for [%s][%s][%s]" %(qid,query,obj.GetName())
-        FeatureVector.hDim.update(self.ExtractFaccScore(qid,query,obj))
-        FeatureVector.hDim.update(self.ExtractLmScore(qid,query,obj))
-        FeatureVector.hDim.update(self.ExtractNameEqual(qid,query,obj))
-        FeatureVector.hDim.update(self.ExtractQInDespFrac(qid,query,obj))
-        FeatureVector.hDim.update(self.ExtractNeighborNum(qid,query,obj))
-        FeatureVector.hDim.update(self.ExtractTypeNum(qid,query,obj))
-        FeatureVector.hDim.update(self.ExtractHasNotable(qid,query,obj))
+        print "extracting obj feature [%s] for [%s][%s][%s]" %(pre,qid,query,obj.GetName())
+        FeatureVector.hDim.update(self.ExtractRankScore(qid,query,obj,pre))
+        FeatureVector.hDim.update(self.ExtractLmScore(qid,query,obj,pre))
+        FeatureVector.hDim.update(self.ExtractNameEqual(qid,query,obj,pre))
+        FeatureVector.hDim.update(self.ExtractQInDespFrac(qid,query,obj,pre))
+        FeatureVector.hDim.update(self.ExtractNeighborNum(qid,query,obj,pre))
+        FeatureVector.hDim.update(self.ExtractTypeNum(qid,query,obj,pre))
+        FeatureVector.hDim.update(self.ExtractHasNotable(qid,query,obj,pre))
         
         return FeatureVector
         
     
-    def ExtractFaccScore(self,qid,query,obj):
+    def ExtractRankScore(self,qid,query,obj,pre):
         hFeature = {}
-        hFeature['ObjLvlFaccScore'] = obj.GetScore()
+        hFeature['ObjLvl%sRankScore' %(pre)] = obj.GetScore()
         return hFeature
     
     
     
     
-    def ExtractLmScore(self,qid,query,obj):
+    def ExtractLmScore(self,qid,query,obj,pre):
         hFeature = {}
         NameLm = LmBaseC(obj.GetName())
         DespLm = LmBaseC(obj.GetDesp())
         Inferencer = LmInferencerC()
         score = 0.5 * Inferencer.InferQuery(query, NameLm, self.CtfCenter)
         score += 0.5 * Inferencer.InferQuery(query,DespLm,self.CtfCenter)
-        hFeature['ObjLvlLmScore'] = score
+        hFeature['ObjLvl%sLmScore' %(pre)] = score
         return hFeature
     
-    def ExtractNameEqual(self,qid,query,obj):
+    def ExtractNameEqual(self,qid,query,obj,pre):
         hFeature = {}
         
         lName = [obj.GetName()] + obj.GetAlias()
@@ -148,10 +184,10 @@ class FreebaseObjLevelFeatureExtractionC(FreebaseFeatureExtractionC):
         target = TextBaseC.RawClean(query)
         if target in lName:
             score = 1.0
-        hFeature['ObjLvlNameEqualQuery'] = score
+        hFeature['ObjLvl%sNameEqualQuery' %(pre)] = score
         return hFeature    
     
-    def ExtractQInDespFrac(self,qid,query,obj):
+    def ExtractQInDespFrac(self,qid,query,obj,pre):
         hFeature = {}
         
         desp = TextBaseC.RawClean(obj.GetDesp())
@@ -160,26 +196,26 @@ class FreebaseObjLevelFeatureExtractionC(FreebaseFeatureExtractionC):
         for term in lQTerm:
             if term in desp:
                 score += 1
-        hFeature['ObjLvlQInDespFrac'] = score / len(lQTerm)
+        hFeature['ObjLvl%sQInDespFrac' %(pre)] = score / len(lQTerm)
         return hFeature 
     
-    def ExtractNeighborNum(self,qid,query,obj):
+    def ExtractNeighborNum(self,qid,query,obj,pre):
         hFeature = {}
-        hFeature['ObjLvlNeighborNum'] = len(obj.GetNeighbor())
+        hFeature['ObjLvl%sNeighborNum' %(pre)] = len(obj.GetNeighbor())
         return hFeature
     
-    def ExtractTypeNum(self,qid,query,obj):
+    def ExtractTypeNum(self,qid,query,obj,pre):
         hFeature = {}
-        hFeature['ObjLvlTypeNum'] = len(obj.GetType())
+        hFeature['ObjLvl%sTypeNum' %(pre)] = len(obj.GetType())
         return hFeature 
     
-    def ExtractHasNotable(self,qid,query,obj):
+    def ExtractHasNotable(self,qid,query,obj,pre):
         hFeature = {}
         Notable = obj.GetNotableType()
         score = 0
         if Notable != "":
             score = 1.0
-        hFeature['ObjLvlHasNotable'] = score
+        hFeature['ObjLvl%sHasNotable' %(pre)] = score
         return hFeature
      
          

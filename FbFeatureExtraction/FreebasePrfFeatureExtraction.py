@@ -1,6 +1,14 @@
 '''
 Created on Jun 6, 2014
-
+        #feature to extract:
+            #FbPrfTfIdfName
+            #FbPrfTfIdfDesp
+            #FbPrfTfUwQName
+            #FbPrfTfUwQDesp
+            #FbPrfTfUwBiQName
+            #FbPrfTfUwBiQDesp
+            #FbPrfDfCorName
+            #FbPrfDfCorDesp
 @author: cx
 '''
 
@@ -17,28 +25,29 @@ from cxBase.TextBase import *
 class FreebasePrfFeatureExtractionC(FreebaseFeatureExtractionC):
     
     def ExtractForOneTerm(self,ExpTerm):
-        #feature to extract:
-            #FbPrfTfIdfName
-            #FbPrfTfIdfDesp
-            #FbPrfTfUwQName
-            #FbPrfTfUwQDesp
-            #FbPrfTfUwBiQName
-            #FbPrfTfUwBiQDesp
-            #FbPrfDfCorName
-            #FbPrfDfCorDesp
+
         print "extracting FbPrf [%s][%s]-[%s]" %(ExpTerm.qid,ExpTerm.query,ExpTerm.term)
-        if not ExpTerm.qid in self.hQObj:
-            return    
-            
-        self.ExtractTfIdf(ExpTerm,'Name')
-        self.ExtractTfIdf(ExpTerm,'Desp')        
-        self.ExtractTfUwQ(ExpTerm,'Name')
-        self.ExtractTfUwQ(ExpTerm,'Desp')
-        self.ExtractTfUwBiQ(ExpTerm,'Name')
-        self.ExtractTfUwBiQ(ExpTerm,'Desp')
-        self.ExtractDfCor(ExpTerm,'Name')
-        self.ExtractDfCor(ExpTerm,'Desp')
         
+        lFaccObj = []
+        lGoogleObj = []
+        if ExpTerm.qid in self.hQFaccObj:
+            lFaccObj = self.hQFaccObj
+        if ExpTerm.qid in self.hQGoogleObj:
+            lGoogleObj = self.hQGoogleObj
+        
+        llObj = [lFaccObj,lGoogleObj]
+        lPre = ['Facc','Google']
+        lField = ['Name','Desp']
+        
+        for field in lField:
+            for i in range(len(llObj)):
+                lObj = llObj[i]
+                pre = lPre[i] 
+                self.ExtractTfIdf(ExpTerm,field,lObj,pre)        
+                self.ExtractTfUwQ(ExpTerm,field,lObj,pre)
+                self.ExtractTfUwBiQ(ExpTerm,field,lObj,pre)
+                self.ExtractDfCor(ExpTerm,field,lObj,pre)
+            
         return ExpTerm
     
     def GetObjField(self,Obj,field):
@@ -49,9 +58,8 @@ class FreebasePrfFeatureExtractionC(FreebaseFeatureExtractionC):
         text = TextBaseC.RawClean(text)
         return text
     
-    def ExtractTfIdf(self,ExpTerm,field):
-        lObj = self.hQObj[ExpTerm.qid]
-        Feature = 'FbPrfTfIdf' + field
+    def ExtractTfIdf(self,ExpTerm,field,lObj,pre):
+        Feature = 'Fb%sPrfTfIdf' %(pre) + field
         value = 0
         for Obj in lObj:
             text = self.GetObjField(Obj, field)
@@ -63,9 +71,8 @@ class FreebasePrfFeatureExtractionC(FreebaseFeatureExtractionC):
         
     
         
-    def ExtractTfUwQ(self,ExpTerm,field):
-        lObj = self.hQObj[ExpTerm.qid]
-        Feature = 'FbPrfTfUwQ' + field
+    def ExtractTfUwQ(self,ExpTerm,field,lObj,pre):
+        Feature = 'Fb%sPrfTfUwQ' %(pre) + field
         value = 0
         
         for Obj in lObj:
@@ -75,9 +82,8 @@ class FreebasePrfFeatureExtractionC(FreebaseFeatureExtractionC):
                 value += TextBaseC.UW(text.split(), lTerm)
         ExpTerm.hFeature[Feature] = value
         
-    def ExtractTfUwBiQ(self,ExpTerm,field): 
-        lObj = self.hQObj[ExpTerm.qid]
-        Feature = 'FbPrfTfUwBiQ' + field
+    def ExtractTfUwBiQ(self,ExpTerm,field,lObj,pre): 
+        Feature = 'Fb%sPrfTfUwBiQ'%(pre) + field
         value = 0
         
         for Obj in lObj:
@@ -88,9 +94,8 @@ class FreebasePrfFeatureExtractionC(FreebaseFeatureExtractionC):
                 value += TextBaseC.UW(text.split(), lTerm)
         ExpTerm.hFeature[Feature] = value    
         
-    def ExtractDfCor(self,ExpTerm,field):
-        lObj = self.hQObj[ExpTerm.qid]
-        Feature = 'FbPrfDfCor' + field
+    def ExtractDfCor(self,ExpTerm,field,lObj,pre):
+        Feature = 'Fb%sPrfDfCor' %(pre) + field
         value = 0
         
         for Obj in lObj:
