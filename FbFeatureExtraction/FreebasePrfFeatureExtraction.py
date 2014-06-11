@@ -31,9 +31,9 @@ class FreebasePrfFeatureExtractionC(FreebaseFeatureExtractionC):
         lFaccObj = []
         lGoogleObj = []
         if ExpTerm.qid in self.hQFaccObj:
-            lFaccObj = self.hQFaccObj
+            lFaccObj = self.hQFaccObj[ExpTerm.qid]
         if ExpTerm.qid in self.hQGoogleObj:
-            lGoogleObj = self.hQGoogleObj
+            lGoogleObj = self.hQGoogleObj[ExpTerm.qid]
         
         llObj = [lFaccObj,lGoogleObj]
         lPre = ['Facc','Google']
