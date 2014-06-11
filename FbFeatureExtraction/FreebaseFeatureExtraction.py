@@ -78,7 +78,7 @@ class FreebaseFeatureExtractionC(cxBaseC):
         #inherite class add prepare data here
 #         if self.Prepared:
 #             return
-        if {} == self.hQObj:
+        if ({} == self.hQFaccObj) | ({} == self.hQGoogleObj):
             self.LoadQRankObj()
         
         self.hQFaccObj = self.FillForQ(qid, self.hQFaccObj)
