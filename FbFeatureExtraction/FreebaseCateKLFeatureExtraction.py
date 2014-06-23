@@ -60,6 +60,7 @@ class FreebaseCateKLFeatureExtractionC(FreebaseFeatureExtractionC):
     
     
     def Prepare(self,qid,query):
-        lProb = self.NbCenter.Predict(query)[1]
+        lDomain, lProb = self.NbCenter.Predict(query)
+        print "query Cate Prob:\n %s\n%s" %(json.dumps(lDomain),json.dumps(lProb))
         self.QCateVector = VectorC(lProb)
         return True
