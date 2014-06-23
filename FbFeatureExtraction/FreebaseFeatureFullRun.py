@@ -28,17 +28,17 @@ if 2 != len(sys.argv):
     FreebaseObjLevelFeatureExtractionC.ShowConf()
     FreebaseQueryLevelFeatureExtractionC.ShowConf()
     FreebaseCateKLFeatureExtractionC.ShowConf()
-    print "needprf true\nneedobjlvl false\nneedqlvl false\nneedcatekl true"
+    print "needprf 1\nneedobjlvl 0\nneedqlvl 0\nneedcatekl 1"
     sys.exit()
     
     
 conf = cxConfC(sys.argv[1])
 
 
-NeedPrf = bool(conf.GetConf('needprf'))
-NeedObjLvl = bool(conf.GetConf('needobjlvl'))
-NeedQLvl = bool(conf.GetConf('needqlvl'))
-NeedCateKL = bool(conf.GetConf('needcatekl'))
+NeedPrf = bool(int(conf.GetConf('needprf',1)))
+NeedObjLvl = bool(int(conf.GetConf('needobjlvl',0)))
+NeedQLvl = bool(int(conf.GetConf('needqlvl',0)))
+NeedCateKL = bool(int(conf.GetConf('needcatekl',1)))
 
 
 InName = conf.GetConf('in')

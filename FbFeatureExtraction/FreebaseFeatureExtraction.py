@@ -110,6 +110,8 @@ class FreebaseFeatureExtractionC(cxBaseC):
     
     
     def LoadQRankObjFromFile(self,QObjRankName):
+        if '' == QObjRankName:
+            return {}
         reader = KeyFileReaderC()
         reader.open(QObjRankName)
         hQObj = {}

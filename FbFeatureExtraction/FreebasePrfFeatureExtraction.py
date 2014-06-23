@@ -42,6 +42,8 @@ class FreebasePrfFeatureExtractionC(FreebaseFeatureExtractionC):
         for field in lField:
             for i in range(len(llObj)):
                 lObj = llObj[i]
+                if [] == lObj:
+                    continue
                 pre = lPre[i] 
                 self.ExtractTfIdf(ExpTerm,field,lObj,pre)        
                 self.ExtractTfUwQ(ExpTerm,field,lObj,pre)
