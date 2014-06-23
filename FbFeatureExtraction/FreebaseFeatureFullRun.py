@@ -15,6 +15,8 @@ site.addsitedir('/bos/usr0/cx/PyCode/GoogleAPI')
 from FbFeatureExtraction.FreebasePrfFeatureExtraction import *
 from FbFeatureExtraction.FreebaseObjLevelFeatureExtraction import *
 from FbFeatureExtraction.FreebaseQueryLevelFeatureExtraction import *
+from FreebaseCateKLFeatureExtraction import *
+
 
 import sys
 from cxBase.Conf import cxConfC
@@ -25,27 +27,45 @@ if 2 != len(sys.argv):
     FreebasePrfFeatureExtractionC.ShowConf()
     FreebaseObjLevelFeatureExtractionC.ShowConf()
     FreebaseQueryLevelFeatureExtractionC.ShowConf()
+    FreebaseCateKLFeatureExtractionC.ShowConf()
+    print "needprf true\nneedobjlvl false\nneedqlvl false\nneedcatekl true"
     sys.exit()
     
     
 conf = cxConfC(sys.argv[1])
 
 
+NeedPrf = bool(conf.GetConf('needprf'))
+NeedObjLvl = bool(conf.GetConf('needobjlvl'))
+NeedQLvl = bool(conf.GetConf('needqlvl'))
+NeedCateKL = bool(conf.GetConf('needcatekl'))
+
+
 InName = conf.GetConf('in')
 OutName = conf.GetConf('out')
 
-PrfExtractor = FreebasePrfFeatureExtractionC(sys.argv[1])
-ObjExtractor = FreebaseObjLevelFeatureExtractionC(sys.argv[1])
-QExtractor = FreebaseQueryLevelFeatureExtractionC(sys.argv[1])
+if NeedPrf:
+    PrfExtractor = FreebasePrfFeatureExtractionC(sys.argv[1])
+if NeedObjLvl:
+    ObjExtractor = FreebaseObjLevelFeatureExtractionC(sys.argv[1])
+if NeedQLvl:
+    QExtractor = FreebaseQueryLevelFeatureExtractionC(sys.argv[1])
+if NeedCateKL:
+    CateKLExtractor = FreebaseCateKLFeatureExtractionC(sys.argv[1])
 
 
 llExpTerm = ReadQExpTerms(InName)
 
 out = open(OutName,'w')
 for lExpTerm in llExpTerm:
-    lExpTerm = PrfExtractor.ExtractForOneQ(lExpTerm)
-    lExpTerm = ObjExtractor.ExtractForOneQ(lExpTerm)
-    lExpTerm = QExtractor.ExtractForOneQ(lExpTerm)
+    if NeedPrf:
+        lExpTerm = PrfExtractor.ExtractForOneQ(lExpTerm)
+    if NeedObjLvl:
+        lExpTerm = ObjExtractor.ExtractForOneQ(lExpTerm)
+    if NeedQLvl:
+        lExpTerm = QExtractor.ExtractForOneQ(lExpTerm)
+    if NeedCateKL:
+        lExpTerm = CateKLExtractor.ExtractForOneQ(lExpTerm)
     for ExpTerm in lExpTerm:
         print >>out, ExpTerm.dumps()
         

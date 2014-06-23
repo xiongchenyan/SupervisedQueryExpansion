@@ -3,6 +3,7 @@
 	<name>SupervisedQueryExpansion</name>
 	<comment></comment>
 	<projects>
+		<project>cxMachineLearning</project>
 		<project>cxPyLib</project>
 		<project>Geektools</project>
 		<project>LibSVMReference</project>

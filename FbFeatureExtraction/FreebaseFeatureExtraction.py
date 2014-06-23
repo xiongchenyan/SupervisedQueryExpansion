@@ -74,7 +74,7 @@ class FreebaseFeatureExtractionC(cxBaseC):
         
         
         
-    def Prepare(self,qid):
+    def Prepare(self,qid,query):
         #inherite class add prepare data here
 #         if self.Prepared:
 #             return
@@ -131,7 +131,7 @@ class FreebaseFeatureExtractionC(cxBaseC):
     
     
     def ExtractForOneQ(self,lExpTerm):
-        self.Prepare(lExpTerm[0].qid)        
+        self.Prepare(lExpTerm[0].qid,lExpTerm[1].query)        
         for ExpTerm in lExpTerm:
             ExpTerm = self.ExtractForOneTerm(ExpTerm)
         return lExpTerm
