@@ -15,7 +15,7 @@ site.addsitedir('/bos/usr0/cx/PyCode/QueryExpansion')
 from base.ExpTerm import *
 import sys
 
-if 3 != len(sys.argv):
+if 4 != len(sys.argv):
     print "expterm + feature white list + output"
     sys.exit()
     
