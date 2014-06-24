@@ -49,6 +49,8 @@ class FeatureScoreLinearCombineExpansionC(cxBaseC):
         
         
     def SegFeatureWeightStr(self,FeatureWeightStr):
+        if FeatureWeightStr == '':
+            return []
         lWeight = [float(item) for item in FeatureWeightStr.split('_')]
         lFeatureWeight = [max(0,1 - sum(lWeight))] + lWeight
         return lFeatureWeight
