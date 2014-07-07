@@ -19,7 +19,7 @@ import sys
 
 
 if 2 != len(sys.argv):
-    print "1 conf\nout\ncaption"
+    print "1 conf\nout"
     AdhocResAnalysisC().ShowConf()
     sys.exit()
     
@@ -28,10 +28,10 @@ Analysiser = AdhocResAnalysisC(sys.argv[1])
 conf = cxConf(sys.argv[1])
 caption = conf.GetConf('caption')
 OutName = conf.GetConf('out')
+
+ResStr = Analysiser.FormResTable()
 out = open(OutName,'w')
-
-print >>out,Analysiser.FormResTable(caption)
-
+print >>out,ResStr
 out.close()
 print "finished"
     
