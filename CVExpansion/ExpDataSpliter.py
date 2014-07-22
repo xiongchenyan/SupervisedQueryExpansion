@@ -29,7 +29,19 @@ class ExpTermDataSpliterC(DataSpliterC):
         return True
     
     
-
+class ExpQueryDataSpliterC(DataSpliterC):
+    
+    def LoadData(self):
+        lData = []
+        for line in open(self.InName):
+            lData.append(line.strip())
+        return lData
+    def OutData(self,lData,OutName):
+        out = open(OutName,'w')
+        for line in lData:
+            print >>out, line
+        out.close()
+        return True
 
 
 def ExpTermDataSpliterUnitRun(ConfIn):
@@ -39,10 +51,20 @@ def ExpTermDataSpliterUnitRun(ConfIn):
     return True
 
 
+def ExpQueryDataSpliterUnitRun(ConfIn):
+    ExpQueryDataSpliterC.ShowConf()
+    DataSpliter = ExpQueryDataSpliterC(ConfIn)
+    DataSpliter.Process()
+    return True
+
 def ExpTermDataAndParaSplitRun(ConfIn):
     conf = cxConf(ConfIn)
     print "para\nrootdir"
-    ExpTermDataSpliterUnitRun(ConfIn)
+    InputType = conf.GetConf('inputtype','qterm')
+    if InputType == 'qterm':
+        ExpTermDataSpliterUnitRun(ConfIn)
+    if InputType == 'query':
+        ExpQueryDataSpliterUnitRun(ConfIn)
     
     
     Namer = FoldNameGeneratorC()
