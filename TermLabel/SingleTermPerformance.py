@@ -62,7 +62,7 @@ class SingleTermPerformanceC(object):
         self.UseBinaryScore = bool(int(conf.GetConf('usebinaryscore',0)))
         
         
-    def EvaluaterPerTerm(self,qid,query,term,lDoc):
+    def EvaluatePerTerm(self,qid,query,term,lDoc):
         print "q[%s] term [%s]" %(query, term)
         lTerm = []
         if term != "":
@@ -122,7 +122,7 @@ class SingleTermPerformanceC(object):
             lDoc = ReadPackedIndriRes(self.IndriResDir + "/" + query,self.ReRankDocDepth)
         else:
             lDoc = lDoc[:self.ReRankDocDepth]
-        InitScore = self.EvaluaterPerTerm(qid,query,"",lDoc)
+        InitScore = self.EvaluatePerTerm(qid,query,"",lDoc)
         
         lTermScore = []
         for term in lTerm:

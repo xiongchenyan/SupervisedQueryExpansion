@@ -143,6 +143,23 @@ class TermLabelViaDocRankingScoreC(cxBaseC):
             
         return RelGain - NoiseGain
     
+    def EvaluatePerQ(self,qid,query,lTerm,lDoc):
+        '''
+        lTerm contains raw terms to evaluate
+        return lScore one for each term
+        '''
+        lScore = []
+        for term in lTerm:
+            ExpTerm = ExpTermC()
+            ExpTerm.term = term
+            ExpTerm.qid = qid
+            ExpTerm.query = query
+            lScore.append(self.EvaluatePerTerm(ExpTerm, lDoc))
+        
+        return lScore
+        
+        
+    
     
     def Process(self):
         llExpTerm = ReadQExpTerms(self.InName)
@@ -162,19 +179,7 @@ class TermLabelViaDocRankingScoreC(cxBaseC):
         
         
         
-import sys
 
-if 2 != len(sys.argv):
-    print "conf"
-    TermLabelViaDocRankingScoreC.ShowConf()
-    sys.exit()
-    
-Evaluator = TermLabelViaDocRankingScoreC(sys.argv[1])
-Evaluator.Process()
-print "done"
-            
-            
-        
         
         
         

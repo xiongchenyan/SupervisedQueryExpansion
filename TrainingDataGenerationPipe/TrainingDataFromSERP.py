@@ -21,6 +21,7 @@ site.addsitedir('/bos/usr0/cx/PyCode/SupervisedQueryExpansion')
 
 from CandidateTermGeneration.CandidateTermFromSERP import *
 from TermLabel.SingleTermPerformance import *
+from TermLabel.TermLabelViaDocRankingScore import *
 from TermFeatureExtraction.SERPFeatureExtractFull import *
 from cxBase.KeyFileReader import KeyFileReaderC
 import json
@@ -32,7 +33,7 @@ class TrainingDataFromSERPC(cxBaseC):
         self.CashDir = ""
         self.TotalDocToRead = 1000
         self.CandidateTermGetter = CandidateTermFromSERPC()
-        self.TermLabelGetter = SingleTermPerformanceC()
+        self.TermLabelGetter = TermLabelViaDocRankingScoreC()
         self.FeatureExtractor = SERPFeatureExtractFullC()
         
         self.GenerateTerm = True
@@ -44,8 +45,9 @@ class TrainingDataFromSERPC(cxBaseC):
     @staticmethod
     def ShowConf():
         print "totalserpnum 1000\ncashdir\nminfiltercnt 3"
-        print "newtermweight 0.1\nusebinaryscore 0\nnumofserpdoc 20\nbgdocnum 100\nctf\noutformat normal"
+        print "numofserpdoc 20\nbgdocnum 100\nctf\noutformat normal"
         print "generateterm 1\nlabelterm 1 extractprffeature 1"
+        TermLabelViaDocRankingScoreC.ShowConf()
     def SetConf(self,ConfIn):
        
         
