@@ -52,7 +52,7 @@ if NeedQLvl:
     QExtractor = FreebaseQueryLevelFeatureExtractionC(sys.argv[1])
 if NeedCateKL:
     CateKLExtractor = FreebaseCateKLFeatureExtractionC(sys.argv[1])
-
+                        
 
 llExpTerm = ReadQExpTerms(InName)
 

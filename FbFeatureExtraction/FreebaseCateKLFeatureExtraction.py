@@ -54,7 +54,11 @@ class FreebaseCateKLFeatureExtractionC(FreebaseFeatureExtractionC):
     
     
     def ExtractQTermKL(self,ExpTerm,TermVec):
-        score = (3000.0 -VectorC.TwoWayKL(self.QCateVector, TermVec))/3000.0
+        print "extracting KL for [%s]" %(ExpTerm.term)
+        print "term Cate Prob:\n %s" %(json.dumps(TermVec.hDim))
+        KLScore = VectorC.TwoWayKL(self.QCateVector, TermVec)
+        print "Kl [%f]" %(KLScore)
+        score = (3000.0 - KLScore)/3000.0
         ExpTerm.hFeature['QTermCateKL'] = score
         return ExpTerm
     
