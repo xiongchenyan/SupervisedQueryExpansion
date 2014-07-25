@@ -157,7 +157,7 @@ class ExpansionSingleRunCenterC(cxBaseC):
             lQid.append(qid)
             lQuery.append(query)
             EvaRes,lMidExpTerm = self.ProcessPerQ(qid, query)
-            lExpTerm.extend(lMidExpTerm)
+            lExpTerm.extend(lMidExpTerm[:self.NumOfExpTerm])
             lEvaRes.append(EvaRes)            
         print "runs finished, wrap up evaluation results"
         self.DumpPerQRes(lQid,lEvaRes)
