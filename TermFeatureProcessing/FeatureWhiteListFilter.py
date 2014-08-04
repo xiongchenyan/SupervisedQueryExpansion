@@ -1,40 +1,31 @@
 '''
-Created on Jun 23, 2014
-in: expterm + feature name white list
-out: expterm with only featue with name in white list
-@author: chenyan
+Created on Aug 4, 2014
+filter by white list
+in: expterm + name
+out: expterm result
+@author: cx
 '''
 
 
 import site
+import pickle
 
+site.addsitedir('/bos/usr0/cx/PyCode/Geektools')
 site.addsitedir('/bos/usr0/cx/PyCode/cxPyLib')
 site.addsitedir('/bos/usr0/cx/PyCode/QueryExpansion')
-
+site.addsitedir('/bos/usr0/cx/PyCode/SupervisedQueryExpansion')
 
 from base.ExpTerm import *
-import sys
 
+import sys
 if 4 != len(sys.argv):
-    print "expterm + feature white list + output"
+    print "expterm + feature name + out"
     sys.exit()
     
-    
 llExpTerm = ReadQExpTerms(sys.argv[1])
-
-hFeatureName = {}
+hName = {}
 for line in open(sys.argv[2]):
-    hFeatureName[line.strip()] = True
+    hName[line.strip()] = True
     
-out = open(sys.argv[3],'w')
-
-for lExpTerm in llExpTerm:
-    for ExpTerm in lExpTerm:
-        hNew = {}
-        for dim,value in ExpTerm.hFeature.items():
-            if dim in hFeatureName:
-                hNew[dim] = value
-        ExpTerm.hFeature = hNew
-        print >>out, ExpTerm.dumps()
-        
-out.close()
+llExpTerm = FilterFeatureViaWhiteList(llExpTerm,hName)
+DumpQExpTerms(llExpTerm,sys.argv[3])
