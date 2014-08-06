@@ -72,7 +72,7 @@ class ExpansionSingleRunCenterC(cxBaseC):
     def ShowConf():
         print "cashdir\nin\nevaoutdir\nctfpath"
         print "rerankdepth\nparaset\nexpmethod rm|mix|merge|fbprf|featurelinearcombine"
-        print "inputtype qterm|query\noutexpterm 0"        
+        print "inputtype qterm|query\noutexpterm 0(no)1(out used)2(out all)"        
         ScoreMergeExpansionC.ShowConf()
         IndriExpansionC.ShowConf()
         MixtureModelExpansionC.ShowConf()
@@ -157,12 +157,15 @@ class ExpansionSingleRunCenterC(cxBaseC):
             lQid.append(qid)
             lQuery.append(query)
             EvaRes,lMidExpTerm = self.ProcessPerQ(qid, query)
-            lExpTerm.extend(lMidExpTerm[:self.NumOfExpTerm])
+            if (self.OutExpTerm == 1):
+                lExpTerm.extend(lMidExpTerm[:self.NumOfExpTerm])
+            if (self.OutExpTerm == 2):
+                lExpTerm.extend(lMidExpTerm)
             lEvaRes.append(EvaRes)            
         print "runs finished, wrap up evaluation results"
         self.DumpPerQRes(lQid,lEvaRes)
         self.DumpMean(lEvaRes)
-        if self.OutExpTerm:
+        if self.OutExpTerm != 0:
             self.DumpExpTerm(lExpTerm)       
         print "finished"
         return True
