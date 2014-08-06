@@ -60,7 +60,7 @@ class ExpansionSingleRunCenterC(cxBaseC):
         self.NumOfReRankDoc = int(conf.GetConf('rerankdepth',self.NumOfReRankDoc))        
         self.ExpansionMethod = conf.GetConf('expmethod',self.ExpansionMethod)
         self.InputType = conf.GetConf('inputtype',self.InputType)
-        self.OutExpTerm  = bool(int(conf.GetConf('outexpterm',0)))
+        self.OutExpTerm  = int(conf.GetConf('outexpterm',0))
         self.NumOfExpTerm = int(conf.GetConf('numofexpterm',self.NumOfExpTerm))
         if not os.path.exists(self.EvaOutDir):
             os.makedirs(self.EvaOutDir)
