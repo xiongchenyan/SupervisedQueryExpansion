@@ -108,18 +108,18 @@ class TermLabelViaDocRankingScoreC(cxBaseC):
         #lDoc contains raw document score already
 
         
-        
-        
         ExpTerm.score = self.NewTermW
         
         lExpTerm = [ExpTerm]
-        
         lReRankDoc = self.ReRanker.ReRank(lDoc, lExpTerm)
-        
+        return self.CalcInfluenceScore(ExpTerm.qid, lReRankDoc, lDoc)
+    
+    
+    
+    def CalcInfluenceScore(self,qid, lReRankDoc,lDoc):
         hBaseDocScore = {}
         for doc in lDoc:
             hBaseDocScore[doc.DocNo] = doc.score
-            
             
         RelGain = 0
         RelCnt = 0
@@ -128,7 +128,7 @@ class TermLabelViaDocRankingScoreC(cxBaseC):
         
         for doc in lReRankDoc:
             ScoreChange = doc.score - hBaseDocScore[doc.DocNo]
-            Rel = self.RelCenter.GetScore(ExpTerm.qid, doc.DocNo)
+            Rel = self.RelCenter.GetScore(qid, doc.DocNo)
             if Rel > 0:
                 RelGain += ScoreChange
                 RelCnt += 1
@@ -142,6 +142,7 @@ class TermLabelViaDocRankingScoreC(cxBaseC):
             NoiseGain /= NoiseCnt
             
         return RelGain - NoiseGain
+    
     
     def EvaluatePerQ(self,qid,query,lTerm,lDoc):
         '''
