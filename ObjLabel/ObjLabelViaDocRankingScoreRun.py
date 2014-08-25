@@ -12,7 +12,7 @@ site.addsitedir('/bos/usr0/cx/PyCode/QueryExpansion')
 site.addsitedir('/bos/usr0/cx/PyCode/GoogleAPI')
 site.addsitedir('/bos/usr0/cx/PyCode/SupervisedQueryExpansion')
 
-from TermLabel.ObjLabelViaDocRankingScore import *
+from ObjLabel.ObjLabelViaDocRankingScore import *
 import sys
 
 if len(sys.argv) != 2:
