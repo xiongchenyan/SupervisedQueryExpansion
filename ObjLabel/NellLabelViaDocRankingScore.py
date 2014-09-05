@@ -21,7 +21,7 @@ class NellLabelViaDocRankingScoreC(ObjLabelViaDocRankingScoreC):
         self.Expander = IndriExpansionC()
     
     def SetConf(self,ConfIn):
-        super(NellLabelViaDocRankingScoreC,self).SetConf()    
+        super(NellLabelViaDocRankingScoreC,self).SetConf(ConfIn)    
         conf = cxConfC(ConfIn)
         self.ExpCashDir = conf.GetConf('expcashdir',self.CashDir)
     
