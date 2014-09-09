@@ -63,6 +63,7 @@ def ResultCollect(ConfIn):
         MeanMeasure += Eva[1]
     MeanMeasure /= float(len(lPerQEva))
     print >>out, 'mean\t%s' %(MeanMeasure.dumps())
+    print 'mean\t%s' %(MeanMeasure.dumps())
     out.close()
     return True
 
