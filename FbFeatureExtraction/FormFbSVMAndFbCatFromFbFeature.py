@@ -33,13 +33,17 @@ lTargetFeature = ['FbFaccPrfTfIdfDesp','FbGooglePrfTfIdfDesp','QTermCateKL']
 out = open(sys.argv[2],'w')
 
 if sys.argv[3] == 'fbcat':
+    lRes = []
     for lExpTerm in llExpTerm:
         for ExpTerm in lExpTerm:
             if not lTargetFeature[2] in ExpTerm.hFeature:
                 continue
             ExpTerm.score = ExpTerm.hFeature[lTargetFeature[2]]
             ExpTerm.hFeature = {}
-            print >>out, ExpTerm.dumps()
+            lRes.append(ExpTerm)
+    lRes.sort(key=lambda item:item.score,reverse = True)
+    for ExpTerm in lRes:
+        print >>out, ExpTerm.dumps()
             
 else:
     for lExpTerm in llExpTerm:
